@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+    <style>
+      .block {
+              width: 100px;
+              height: 100px;
+              background-color: red;
+          }
+      .big-btn {
+              width: 200px;
+              height: 200px;
+              margin-left: 320px;
+              background-color: skyblue;
+              border-radius: 10px;
+          }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+        import sc from '/src/main.js'
+        console.log ( sc.getDefaults() )
+        const options = {
+                  onShortcut ( shortcut, context, note ) {
+                          console.log ( '-- RESULTS --->' )
+                          console.log ( 'Shortcut', shortcut )
+                          console.log ( 'Context:', context )
+                          if ( note )   console.log ( 'Note:', note )
+                    } // onShortcut func.
+              }
+        const short = sc ( options );
+        short.load ( { general : {
+                              'q' : [ () => console.log('Q was clicked')   ]   
+                            , 'shift+w' : [
+                                                ({wait, end, ignore, isWaiting, note })  => { 
+                                                          ignore ()
+                                                          if ( isWaiting () ) {
+                                                                      console.log('END')
+                                                                      end ()    
+                                                            } 
+                                                          else {
+                                                                      console.log('WAIT')
+                                                                      wait ()
+                                                            }
+                                                    },
+                                                () => console.log ( 'W' )
+                                          ]
+                          }
+            })
+        short.changeContext ( 'general' )
+        short.setNote ( 'some' )
+    </script>
+    <div class="block" data-click="red-block">
+        <span>hello</span>
+    </div>
+
+    <button class="big-btn" data-click="mega-button" draggable>Mega button</button>
+  </body>
+</html>
