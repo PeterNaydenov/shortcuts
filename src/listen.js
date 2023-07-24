@@ -85,7 +85,6 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                     mouseTimer = null
                     mouseTarget = null
                     mouseDomEvent = null
-                    mouseButton = null
                     count = 0
         } // mouseSequenceEnd func.
 
@@ -94,7 +93,6 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
     function listenMouse () {
                         window.addEventListener ( 'contextmenu', event => {   // Listen for right mouse clicks
                                         clearTimeout ( mouseTimer )
-                                        mouseButton = event.button
                                         event.preventDefault ()
                                         mouseTarget = findTarget (event.target, clickTarget )
                                         mouseDomEvent = event
@@ -104,7 +102,6 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
 
                         document.addEventListener ( 'click', event => {  // Listen for left and middle mouse clicks
                                         clearTimeout ( mouseTimer )
-                                        mouseButton = event.button
                                         mouseTarget = findTarget ( event.target, clickTarget )
                                         mouseDomEvent = event
                                         count++
