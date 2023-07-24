@@ -20,12 +20,11 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                 , listenFor
             } = options
         ;
+    
     let 
           r = []
-        , mouseButton = null // 0 - left, 1 - middle, 2 - right
         , mouseTarget = null // Dom element or null
         , mouseDomEvent = null
-        , timer = null       // Timer for mouse sequence or null
         , keyTimer = null    // Timer for key sequence or null
         , mouseTimer = null  // Timer for mouse sequence or null
         , sequence = true
@@ -94,22 +93,22 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
 
     function listenMouse () {
                         window.addEventListener ( 'contextmenu', event => {   // Listen for right mouse clicks
-                                        clearTimeout ( timer )
+                                        clearTimeout ( mouseTimer )
                                         mouseButton = event.button
                                         event.preventDefault ()
                                         mouseTarget = findTarget (event.target, clickTarget )
                                         mouseDomEvent = event
                                         count++
-                                        timer = setTimeout ( mouseSequenceEnd, mouseWait )
+                                        mouseTimer = setTimeout ( mouseSequenceEnd, mouseWait )
                                 })
 
                         document.addEventListener ( 'click', event => {  // Listen for left and middle mouse clicks
-                                        clearTimeout ( timer )
+                                        clearTimeout ( mouseTimer )
                                         mouseButton = event.button
                                         mouseTarget = findTarget ( event.target, clickTarget )
                                         mouseDomEvent = event
                                         count++
-                                        timer = setTimeout ( mouseSequenceEnd, mouseWait )
+                                        mouseTimer = setTimeout ( mouseSequenceEnd, mouseWait )
                                 })
         } // listenMouse func.
 
