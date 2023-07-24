@@ -70,10 +70,17 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
 
 
     function mouseSequenceEnd () {   // Execute when mouse sequence ends
-                    const mouseEvent = readMouseEvent ( mouseDomEvent, count );
-                    
-                    ev.emit ( mouseEvent.join('+'), { target : mouseTarget })
-                    console.log ( mouseDomEvent )
+                    const 
+                          mouseEvent = readMouseEvent ( mouseDomEvent, count )
+                        , data = { 
+                                  target : mouseTarget
+                                , x : mouseDomEvent.clientX
+                                , y : mouseDomEvent.clientY
+                                , note : currentContext.note
+                                , targetProps : mouseTarget ? mouseTarget.getBoundingClientRect() : null
+                            }
+                        ;
+                    ev.emit ( mouseEvent.join('+'), data )
                     if ( exposeShortcut )   exposeShortcut ( mouseEvent.join('+'), currentContext.name, currentContext.note )
                     // Reset:
                     mouseTimer = null
