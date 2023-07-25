@@ -10,6 +10,7 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
             , findTarget
             , ev
             , exposeShortcut
+            , streamKeys
         } = dependencies
         , { 
                   mouseWait
@@ -116,15 +117,15 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                                         clearTimeout ( keyTimer )
                                         if ( specialChars.hasOwnProperty(event.code) )   r.push ( readKeyEvent ( event, specialChars ))
                                         else return
-                                        // TODO: Stream keyboard ( event.key ) if streaming exists
-                                        if ( sequence )   keyTimer = setTimeout ( keySequenceEnd, keyWait )
+                                        if ( streamKeys )   streamKeys ( event.key, currentContext.name, currentContext.note )
+                                        if ( sequence   )   keyTimer = setTimeout ( keySequenceEnd, keyWait )
                                         else              keySequenceEnd ()
                                 })
 
                         document.addEventListener ( 'keypress', event => {  // Listen for regular keyboard keys
                                         if ( specialChars.hasOwnProperty(event.code) )   return            
                                         clearTimeout ( keyTimer )
-                                        // TODO: Stream keyboard ( event.key ) if streaming exists
+                                        if ( streamKeys )   streamKeys ( event.key, currentContext.name, currentContext.note )
                                         r.push ( readKeyEvent ( event, specialChars ))
                                         if ( sequence )   keyTimer = setTimeout ( keySequenceEnd, keyWait )
                                         else              keySequenceEnd ()

@@ -39,6 +39,7 @@ function main ( options = {} ) {
           ev = notice ()
         , currentContext = { name: null, note: null }
         , exposeShortcut = (options.onShortcut && ( typeof options.onShortcut === 'function')) ? options.onShortcut : false
+        , streamKeys     = (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false
         , dependencies = { 
                               specialChars 
                             , readKeyEvent
@@ -46,6 +47,7 @@ function main ( options = {} ) {
                             , findTarget
                             , ev
                             , exposeShortcut
+                            , streamKeys
                         }
         , listenOptions = {
                               mouseWait     : options.mouseWait ? options.mouseWait : 320   // 320 ms
