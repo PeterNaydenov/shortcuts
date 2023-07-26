@@ -27,7 +27,7 @@
     "mocha": "^10.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "vite": "^4.4.6"
+    "vite": "^4.4.7"
   },
   "author": "Peter Naydenov",
   "license": "MIT"
