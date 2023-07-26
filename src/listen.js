@@ -50,7 +50,7 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
 
                     if ( !sequence ) {
                             let signal = res.at(-1);
-                            ev.emit ( signal, { wait:waitKeys, end:endKeys, ignore:ignoreKeys, isWaiting:waitingKeys, note: currentContext.note })
+                            ev.emit ( signal, { wait:waitKeys, end:endKeys, ignore:ignoreKeys, isWaiting:waitingKeys, note: currentContext.note, context: currentContext.name })
                             // TODO: Stream the signal - call the callback function with the signal as an argument.
                             if ( ignore ) {
                                         res = res.slice ( 0, -1 )
@@ -59,7 +59,7 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                         }
 
                     if ( sequence ) { 
-                            ev.emit ( res.join(','), { wait: waitKeys, end:endKeys, ignore:ignoreKeys, isWaiting:waitingKeys, note: currentContext.note })   
+                            ev.emit ( res.join(','), { wait: waitKeys, end:endKeys, ignore:ignoreKeys, isWaiting:waitingKeys, note: currentContext.note, context: currentContext.name })   
                             if ( exposeShortcut )   exposeShortcut ( res.join(','), currentContext.name, currentContext.note ) // TODO: Add a context information...?
                             // Reset:
                             r = []
@@ -76,6 +76,7 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                                   target : mouseTarget
                                 , x : mouseDomEvent.clientX
                                 , y : mouseDomEvent.clientY
+                                , context : currentContext.name
                                 , note : currentContext.note
                                 , targetProps : mouseTarget ? mouseTarget.getBoundingClientRect() : null
                             }
