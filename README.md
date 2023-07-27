@@ -44,12 +44,12 @@ short.changeContext ()
 
 Shortcuts context has `note` that works like sub-contexts. Every shortcut function receives a context and note as arguments, so you can have fine control over the context.
 
-The idea of `note` is to minimize the number of contexts if they are very simular. You can use same context but stop some of the shortcuts by setting a different `note`.
-
 ```js
 short.setNote ( 'special' ) // set note to 'special'
 short.setNote () // remove note
 ```
+
+The idea of `note` is to minimize the number of contexts if they are very simular. You can use same context but change the `note` and control the shortcut execution from inside of the action function by checking the `note`.
 
 ```js
 {
@@ -63,6 +63,7 @@ short.setNote () // remove note
 }
 ```
 
+Context and notes are available inside action functions but you can check them from outside too.
 Check current context by calling `getContext` method.
 
 ```js
@@ -110,6 +111,8 @@ Multiple clicks are detected automatically by time interval between clicks. The 
 
 
 
+
+
 ## Keyboard Event Descriptions
 Keyboard event description contains a key name and a modifier keys if they are used. The modifier keys `ctrl`, `alt`, and `shift` are supported. They are added to the keyboard event by sign `+`:
 
@@ -141,6 +144,7 @@ Order of describing keyboard event and modifier keys is not important, but seque
 Keyboard sequence is detected automatically by time interval between key presses. The default interval is 480ms but you can change it by setting `keyWait` option. Read more in section `Options`. 
 
 There is a way to disable automatic sequence detection and mark the begining and the end of the sequense by using a keyboard action functions. Read more in section `Keyboard Action Functions`.
+
 
 
 
