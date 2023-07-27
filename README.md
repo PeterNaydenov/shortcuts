@@ -106,19 +106,47 @@ Order of describing mouse event and modifier keys is not important.
  // mouse-click-left-1+shift+ctrl+alt
 ```
 
+Multiple clicks are detected automatically by time interval between clicks. The default interval is 320ms but you can change it by setting `mouseWait` option. Read more in section `Options`.
 
 
 
 ## Keyboard Event Descriptions
+Keyboard event description contains a key name and a modifier keys if they are used. The modifier keys `ctrl`, `alt`, and `shift` are supported. They are added to the keyboard event by sign `+`:
 
+```js
+ // example:
+ // ctrl+alt+shift+key-a -> for key 'a' with ctrl, alt and shift keys pressed
+```
 
+Keyboard event description support a shortcut sequenses. These means that you can press a sequence of keys to trigger a shortcut. The sequence elements are separated by sign `,`:
 
+```js
+ // example:
+ // a,b,c -> for key 'a' then key 'b' then key 'c'
+
+ // g+shift,o,t,o -> for key 'g' with shift, then key 'o', then key 't' then key 'o'
+```
+
+Order of describing keyboard event and modifier keys is not important, but sequence elements are:
+
+```js
+ // example:
+ // a+ctrl,l,o,t -> a with ctrl, then l, then o, then t
+ // this is equal to:
+ // ctrl+a,l,o,t
+ // but not equal to:
+ // ctrl+a,o,t,l
+```
+
+Keyboard sequence is detected automatically by time interval between key presses. The default interval is 480ms but you can change it by setting `keyWait` option. Read more in section `Options`. 
+
+There is a way to disable automatic sequence detection and mark the begining and the end of the sequense by using a keyboard action functions. Read more in section `Keyboard Action Functions`.
 
 
 
 
 ## Action Functions
-Action functions are called when a shortcut is triggered. They are a bit different for keyboard and mouse shortcuts.
+Action functions are called when a shortcut is triggered. They is a difference between keyboard and mouse action functions. Arguments are slightly different.
 
 ### Keyboard Action Functions
 
