@@ -87,16 +87,24 @@ Mouse event name is build from the following parts:
  // mouse-click-left-2 -> for double click with left mouse button
  // mouse-click-right-3 -> for triple click with right mouse button
 ```
-Mouse event functions can be described like:
+
+The modifier keys `ctrl`, `alt`, and `shift` are supported. They are added to the mouse event by sign `+`:
+
 ```js
-function myClickHandler ( event ) {
-    // do something
-}
+ // example:
+ // ctrl+mouse-click-left-1 -> for single click with left mouse button and ctrl key pressed
 ```
+Order of describing mouse event and modifier keys is not important.
 
+```js
+ // example:
+ // mouse-click-left-1+ctrl -> same as above
+
+ // These 3 descriptions are equal:
+ // mouse-click-left-1+ctrl+alt+shift
+ // alt+shift+mouse-click-left-1+ctrl
+ // mouse-click-left-1+shift+ctrl+alt
 ```
-
-
 
 
 
@@ -115,7 +123,12 @@ Action functions are called when a shortcut is triggered. They are a bit differe
 ### Keyboard Action Functions
 
 ### Mouse Action Functions
-
+Mouse action functions can be described like:
+```js
+function myClickHandler ( event ) {
+    // do something
+}
+```
 
 
 
