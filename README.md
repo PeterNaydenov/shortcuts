@@ -145,7 +145,23 @@ Keyboard sequence is detected automatically by time interval between key presses
 
 There is a way to disable automatic sequence detection and mark the begining and the end of the sequense by using a keyboard action functions. Read more in section `Keyboard Action Functions`.
 
-
+Special characters that are available for your shortcut descriptions:
+- 'left' - left arrow key
+- 'right' - right arrow key
+- 'up' - up arrow key
+- 'down' - down arrow key
+- 'enter' - enter key
+- 'space' - space key
+- 'esc' - escape key
+- 'tab' - tab key
+- 'backspace' - backspace key
+- '=' - equal key
+- F1 - F12 - function keys
+- '/' - slash key
+- '\\' - backslash key
+- '[' - open square bracket key
+- ']' - close square bracket key
+- '`' - backtick key
 
 
 
