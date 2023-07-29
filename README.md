@@ -163,6 +163,10 @@ Special characters that are available for your shortcut descriptions:
 - ']' - close square bracket key
 - '`' - backtick key
 
+**Warning**: For keys with two symbols, in shortcut description use the lower one. Examples: Use '=' instead of '+', use '/' instead of '?', etc. Modifier keys are available for special characters too.
+
+**Warining**: Some of the shortcuts are used by OS and the browswer, so they are not available.
+
 
 
 ## Action Functions
@@ -170,8 +174,13 @@ Action functions are called when a shortcut is triggered. They is a difference b
 
 ### Keyboard Action Functions
 
+
+
+
+
 ### Mouse Action Functions
 Mouse action functions can be described like:
+
 ```js
 function myClickHandler ( event ) {
     // do something
