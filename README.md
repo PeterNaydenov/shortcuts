@@ -172,8 +172,15 @@ Special characters that are available for your shortcut descriptions:
 ## Action Functions
 Action functions are called when a shortcut is triggered. They is a difference between keyboard and mouse action functions. Arguments are slightly different.
 
-### Keyboard Action Functions
 
+
+### Keyboard Action Functions
+Description of keyboard action functions is:
+```js
+function myKeyHandler ( {context, note, key, event} ) {
+    // do something
+}
+```
 
 
 
@@ -185,6 +192,24 @@ Mouse action functions can be described like:
 function myClickHandler ( event ) {
     // do something
 }
+```
+
+
+
+## Methods
+
+Description of the methods of shortcut instance:
+
+```js
+  load          : 'Load and extend a shortcut definition.'
+, unload        : ''
+, changeContext : 'Switch to existing shortcut context.'
+, pause         : 'Stop listening for shortcuts.'
+, resume        : 'Resume listening for shortcuts.'
+, listContexts  : 'Return list of available contexts.'
+, getContext    : 'Return a name of current context or null if there is no context selected'
+, getNote       : `Return a name of current note or null if note isn't set`
+, setNote       : 'Set a note to current context.'
 ```
 
 
