@@ -202,7 +202,7 @@ Description of the methods of shortcut instance:
 
 ```js
   load          : 'Load and extend a shortcut definition.'
-, unload        : ''
+, unload        : 'Remove a shortcut context with all its shortcuts.'
 , changeContext : 'Switch to existing shortcut context.'
 , pause         : 'Stop listening for shortcuts.'
 , resume        : 'Resume listening for shortcuts.'
