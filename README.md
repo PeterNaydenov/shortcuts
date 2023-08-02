@@ -234,4 +234,9 @@ You can request default list of options with their default values:
 ```js
 shortcuts.getDefaults ()
 // Note: This method is availalble on the original shortcuts object, not on the shortcuts instance.
+
+// start a shortcuts with default options
+const short = shortcuts ()
+const short = shortcuts ( shortcuts.getDefaults () ) // same as above
+// The idea behind getDefaults is to see what options are available and what are their default values.
 ```
