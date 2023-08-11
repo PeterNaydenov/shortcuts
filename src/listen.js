@@ -146,6 +146,11 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                                                     keyIgnore = setTimeout ( () => keyIgnore=null, keyWait )
                                                     return 
                                             }
+                                        if ( sequence && r.length === maxSequence ) {                                                    
+                                                    keySequenceEnd ()
+                                                    keyIgnore = setTimeout ( () => keyIgnore=null, keyWait )
+                                                    return
+                                            }
                                         if ( sequence   )   keyTimer = setTimeout ( keySequenceEnd, keyWait )
                                         else                keySequenceEnd ()
                                 })

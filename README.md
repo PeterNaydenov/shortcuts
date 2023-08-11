@@ -95,6 +95,8 @@ Mouse event name is build from the following parts:
  // example:
  // mouse-click-left-2 -> for double click with left mouse button
  // mouse-click-right-3 -> for triple click with right mouse button
+
+ // mouse button options: left, right, middle
 ```
 
 The modifier keys `ctrl`, `alt`, and `shift` are supported. They are added to the mouse event by sign `+`:
