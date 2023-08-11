@@ -10,15 +10,23 @@ Tread it as a "**draft**" during `HEAVY DEVELOPMENT` stage. the API will change 
 
 
 ## General Description Rules
-The shortcuts definition includes a context name and a set of rules(object). The rules are a set of key-value pairs. The key is a shortcut name and the value is a function to be executed when the shortcut is triggered (action function).
+The shortcuts definition includes a context name and a set of rules(object). The rules are a set of key-value pairs. The key is a shortcut name and the value is a function or array of functions, to be executed when the shortcut is triggered (action function).
 
 ```js
 // Shortcut definition object:
 {
     contextName : {
                     shortcutName : function () {
-                                        // do something
-                                    }
+                                                // do something
+                                        }
+                    , shortcutName : [ 
+                                              function action1() {
+                                                        // do something
+                                                }
+                                            , function action2() {
+                                                        // do something
+                                                }
+                                    ]
                 }
 }
 ```
@@ -46,7 +54,7 @@ Shortcuts context has `note` that works like sub-contexts. Every shortcut functi
 
 ```js
 short.setNote ( 'special' ) // set note to 'special'
-short.setNote () // remove note
+short.setNote () // remove the note
 ```
 
 The idea of `note` is to minimize the number of contexts if they are very simular. You can use same context but change the `note` and control the shortcut execution from inside of the action function by checking the `note`.

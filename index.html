@@ -34,7 +34,10 @@
               }
         const short = sc ( options );
         short.load ( { general : {
-                              'q' : [ () => console.log('Q was clicked')   ]   
+                              'q' : [ () => console.log('Q was clicked')   ]  
+                            , 'r' : [
+                                        ({isWaiting}) => { isWaiting() ? console.log ('no') : console.log('R was clicked')}
+                                    ] 
                             , 'shift+w' : [
                                                 ({wait, end, ignore, isWaiting, note })  => { 
                                                           ignore ()

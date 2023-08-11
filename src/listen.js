@@ -27,6 +27,7 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
         , mouseTarget = null // Dom element or null
         , mouseDomEvent = null
         , keyTimer = null    // Timer for key sequence or null
+        , keyIgnore = null   // Timer for ignoring key presses or null
         , mouseTimer = null  // Timer for mouse sequence or null
         , mouseIgnore = null // Timer for ignoring mouse clicks or null
         , sequence = true
@@ -52,7 +53,6 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                     if ( !sequence ) {
                             let signal = res.at(-1);
                             ev.emit ( signal, { wait:waitKeys, end:endKeys, ignore:ignoreKeys, isWaiting:waitingKeys, note: currentContext.note, context: currentContext.name })
-                            // TODO: Stream the signal - call the callback function with the signal as an argument.
                             if ( ignore ) {
                                         res = res.slice ( 0, -1 )
                                         ignore = false
@@ -139,16 +139,32 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                         document.addEventListener ( 'keydown', event => {   // Listen for special keyboard keys
                                         clearTimeout ( keyTimer )
                                         if ( specialChars.hasOwnProperty(event.code) )   r.push ( readKeyEvent ( event, specialChars ))
-                                        else return
+                                        else                                             return
                                         if ( streamKeys )   streamKeys ( event.key, currentContext.name, currentContext.note )
+                                        if ( keyIgnore ) {
+                                                    clearTimeout ( keyIgnore )
+                                                    keyIgnore = setTimeout ( () => keyIgnore=null, keyWait )
+                                                    return 
+                                            }
                                         if ( sequence   )   keyTimer = setTimeout ( keySequenceEnd, keyWait )
-                                        else              keySequenceEnd ()
+                                        else                keySequenceEnd ()
                                 })
 
                         document.addEventListener ( 'keypress', event => {  // Listen for regular keyboard keys
                                         if ( specialChars.hasOwnProperty(event.code) )   return            
                                         clearTimeout ( keyTimer )
                                         if ( streamKeys )   streamKeys ( event.key, currentContext.name, currentContext.note )
+                                        if ( keyIgnore ) {
+                                                    clearTimeout ( keyIgnore )
+                                                    keyIgnore = setTimeout ( () => keyIgnore=null, keyWait )
+                                                    return 
+                                            }
+                                        if ( sequence && r.length === maxSequence ) {                                                    
+                                                    keySequenceEnd ()
+                                                    keyIgnore = setTimeout ( () => keyIgnore=null, keyWait )
+                                                    return
+                                            }
+                                        
                                         r.push ( readKeyEvent ( event, specialChars ))
                                         if ( sequence )   keyTimer = setTimeout ( keySequenceEnd, keyWait )
                                         else              keySequenceEnd ()
