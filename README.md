@@ -247,3 +247,14 @@ const short = shortcuts ()
 const short = shortcuts ( shortcuts.getDefaults () ) // same as above
 // The idea behind getDefaults is to see what options are available and what are their default values.
 ```
+
+
+
+
+## Credits
+'@peter.naydenov/shortcuts' was created and supported by Peter Naydenov.
+
+
+
+## License
+'@peter.naydenov/shortcuts' is released under the MIT License.
