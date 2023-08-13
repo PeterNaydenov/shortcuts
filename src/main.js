@@ -40,6 +40,19 @@ function main ( options = {} ) {
         , currentContext = { name: null, note: null }
         , exposeShortcut = (options.onShortcut && ( typeof options.onShortcut === 'function')) ? options.onShortcut : false
         , streamKeys     = (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false
+        , listenOptions = {
+                              mouseWait     : options.mouseWait ? options.mouseWait : 320   // 320 ms
+                            , maxClicks     : 1  // The maximum number of clicks in a sequence. Controlled automatically by 'changeContext' function.
+                            , keyWait       : options.keyWait ? options.keyWait : 480   // 480 ms
+                            , maxSequence   : 1  // How many keys can be pressed in a sequence. Controlled automatically by 'changeContext' function.
+                            , clickTarget   : options.clickTarget ? options.clickTarget :  'click' // Data-attribute name for click target ( data-click )
+                            , listenFor     : (options.listenFor && Array.isArray(options.listenFor)) ? options.listenFor : [ 'mouse', 'keyboard' ] // What to listen for: ['mouse'], ['keyboard'], ['mouse', 'keyboard']
+                            , keyIgnore     : null   // Timer for ignoring key presses after max sequence or null
+                       }
+        , shortcuts = {}   // shortcuts = { contextName : { shortcut :  callback[] } }
+        , getContext = () => currentContext.name
+        , getNote    = () => currentContext.note
+        , setNote    = (note=null) => { if (typeof note === 'string' || note == null )   currentContext.note = note }
         , dependencies = { 
                               specialChars 
                             , readKeyEvent
@@ -48,28 +61,16 @@ function main ( options = {} ) {
                             , ev
                             , exposeShortcut
                             , streamKeys
+                            , shortcuts // ???
                         }
-        , listenOptions = {
-                              mouseWait     : options.mouseWait ? options.mouseWait : 320   // 320 ms
-                            , maxClicks     : options.maxClicks ? options.maxClicks : 5    // The maximum number of clicks in a sequence
-                            , mouseSequence : options.mouseSequence ? options.mouseSequence : true //
-                            , keyWait       : options.keyWait ? options.keyWait : 480   // 480 ms
-                            , maxSequence   : options.maxSequence ? options.maxSequence : 30  // How many keys can be pressed in a sequence
-                            , clickTarget   : options.clickTarget ? options.clickTarget :  'click' // Data-attribute name for click target ( data-click )
-                            , listenFor     : (options.listenFor && Array.isArray(options.listenFor)) ? options.listenFor : [ 'mouse', 'keyboard' ] // What to listen for: mouse, keyboard, both
-                       }
-        , shortcuts = {}   // shortcuts = { contextName : { shortcut :  callback[] } }
-        , getContext = () => currentContext.name
-        , getNote    = () => currentContext.note
-        , setNote    = (note=null) => { if (typeof note === 'string' || note == null )   currentContext.note = note }
         ;
     
     listen ( dependencies, listenOptions, currentContext )
 
     return {  // shortcuts API
-        load          : load ( shortcuts, readShortcut, changeContext( shortcuts, ev, currentContext ), getContext )      
+        load          : load ( shortcuts, readShortcut, changeContext( shortcuts, listenOptions, ev, currentContext ), getContext )      
       , unload        : unload ( shortcuts, ev, currentContext )
-      , changeContext : changeContext ( shortcuts, ev, currentContext )
+      , changeContext : changeContext ( shortcuts, listenOptions, ev, currentContext )
       , pause         : () => ev.stop ()
       , resume        : () => ev.start ()
       , listContexts  : () => Object.keys ( shortcuts )
@@ -83,10 +84,7 @@ function main ( options = {} ) {
 
 main.getDefaults = () => ({
                           mouseWait     : 320     // 320 ms
-                        , maxClicks     : 5       // The maximum number of clicks in a sequence
-                        , mouseSequence : true    //
                         , keyWait       : 480     // 480 ms
-                        , maxSequence   : 30      // How many keys can be pressed in a sequence
                         , clickTarget   : 'click' // Data-attribute name for click target ( data-click )
                         , listenFor     : [ 'mouse', 'keyboard' ]
                     })

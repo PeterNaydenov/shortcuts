@@ -23,7 +23,6 @@
   <body>
     <script type="module">
         import sc from '/src/main.js'
-        console.log ( sc.getDefaults() )
 
         const options = {
                   onShortcut ( shortcut, context, note ) {
@@ -32,12 +31,13 @@
                           console.log ( 'Context:', context )
                           if ( note )   console.log ( 'Note:', note )
                     } // onShortcut func.
-                    , maxSequence : 1
               }
 
         const short = sc ( options );
         short.load ( { general : {
-                              'q' : [ () => console.log('Q was clicked')   ]  
+                              'q' : [ () => console.log('Q was clicked')   ] 
+                            , 'r,o,s' : () => console.log ( 'ROS was clicked' ) 
+                            , 'mouse-click-left-2' : () => console.log ( 'Mouse left click 2' )
                             , 'r' : [
                                         ({isWaiting}) => { 
                                                 if ( !isWaiting() ) {

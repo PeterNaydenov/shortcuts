@@ -8,7 +8,7 @@ let
        a = false
      , b = false
      ;
-const short = shortcuts ();
+const short = shortcuts ({onShortcut : ( shortcut, context, note ) => console.log (shortcut, context, note)});
 short.load ({
                   general : {
                             'shift+a': [ () => a = true ]
@@ -30,7 +30,7 @@ it ( 'Simple shortcut', done => {
             let res = false;
             short.changeContext ( 'general' )
             cy.get('body').type ( '{shift}a' )
-            cy.wait ( 500 )   // Default wait sequence timeout is 480 ms
+            cy.wait ( 100 )   // Default wait sequence timeout is 480 ms
               .then ( () => { 
                                 expect ( a ).to.be.true 
                                 done ()
@@ -42,23 +42,25 @@ it ( 'Simple shortcut', done => {
 it ( 'Check context switching and shortcut sequences', done => {
     expect ( a ).to.be.false
     expect ( b ).to.be.false
-    console.log ( `CONTEXT:  -----> ${short.getContext ()}` )
+    
     short.changeContext ( 'extra' )
     cy.get('body').type ( '{shift}a' )
-    cy.wait ( 500 )   // Default wait sequence timeout is 480 ms
+    cy.wait ( 500 )   // Default wait sequence timeout is 480 ms. Context 'extra' has a sequence of 7 keys. Need to wait for timeout
       .then ( () => {
                         expect ( a ).to.be.false
+                        
                         cy.get('body')
                                 .type ( '{shift}a' )
                                 .type('proba')
                                 .type('{ctrl}M')
-                        return cy.wait ( 500 )
+                        return cy.wait ( 1 )   // Shortuct sequence is 7 keys - the maximum number of keys for this context. Don't need to wait for timeout
             })
-        .then ( () => {
+      .then ( () => {
                         expect ( b ).to.be.true
+
                         short.changeContext ( 'general' )
                         cy.get('body').type ( '{shift}a' )
-                        return cy.wait ( 500 )
+                        return cy.wait ( 2 )  // Context 'general' has a sequence of 1 key. Don't need to wait for timeout
                 })
         .then ( () => {
                         expect ( a ).to.be.true
@@ -89,12 +91,16 @@ it ( 'Single mouse click', done => {
 it ( 'Double mouse click', done => {
     expect ( a ).to.be.false
     expect ( b ).to.be.false
+    
     short.changeContext ( 'extra' )
-    short.load ({ 'extra' : { 
-                                'mouse-click-left-2' : () => a = true
-                            } 
+    
+    short.load ({   
+                    'extra' : {   // load will overwrite existing 'extra' context definition
+                                  'mouse-click-left-2' : () => a = true
+                              } 
                 }) // load will restart the selected context
-    cy.get('#rspan').dblclick ()
+                   
+    cy.get('#rspan').click().click ().click () // Third click is ignored. Max clicks according definition is 2.
     cy.wait ( 350 ) // Default wait mouse timeout is 320 ms
       .then ( () => {
                     expect ( a ).to.be.true

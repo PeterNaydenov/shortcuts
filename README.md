@@ -230,11 +230,8 @@ Description of the methods of shortcut instance:
 By `options` you can customize the behavior of the shortcuts. Here is the list of available options:
 
 ```js
-  mouseWait     : 'Timeout for entering multiple mouse events. Default value - 320.'     
-, maxClicks     : 'The maximum number of clicks in a sequence. Default value - 5.'
-, mouseSequence : 'Waiting for mouse sequence. Default value - true'    
+  mouseWait     : 'Timeout for entering multiple mouse events. Default value - 320.'
 , keyWait       : 'Timeout for entering shortcut sequence in ms. Default value - 480'
-, maxSequence   : 'How many keys can be pressed in a sequence. Default value - 30'
 , clickTarget   : 'Data attribute name to recognize click items in HTML. Default value - click' // data attribute 'click' means attribute ( data-click='someName' )
 , listenFor     : `List input signal sources. Default value - [ 'mouse', 'keyboard' ]`
 ```
