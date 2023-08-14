@@ -1,6 +1,6 @@
 {
   "name": "@peter.naydenov/shortcuts",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Create shortcuts for your web application based on keyboard and mouse events",
   "keywords": [
     "shortcut",
