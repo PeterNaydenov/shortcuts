@@ -16,9 +16,13 @@
     "build": "vite build",
     "test": "cypress open --component --browser chrome test"
   },
+  "repository": {
+            "type": "git",
+            "url": "git+https://github.com/PeterNaydenov/shortcuts"
+    },
   "dependencies": {
-    "@peter.naydenov/notice": "^2.1.0"
-  },
+            "@peter.naydenov/notice": "^2.1.0"
+    },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.4",
     "chai": "^4.3.7",
