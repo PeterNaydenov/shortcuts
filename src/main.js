@@ -4,12 +4,16 @@
  *  Shortcuts
  *  ========
  *  Create shortcuts for your web application based on keyboard and mouse events.
+ *  Repository: https://github.com/PeterNaydenov/shortcuts
  * 
  *  History notes:
  *  - Development was started on June 21st, 2023
+ *  - First version was published on August 14th, 2023
  */
 
-import notice from '@peter.naydenov/notice'
+
+
+import notice from '@peter.naydenov/notice'   // Docs: https://github.com/PeterNaydenov/notice
 
 import listen         from './listen.js'
 import readShortcut   from './readShortcut.js'
@@ -26,18 +30,9 @@ import changeContext from './changeContext.js'
 
 
 function main ( options = {} ) {
-    /**
-     *  Need options for:
-     *  - Shortcut sequence or not;
-     *  - Waiting time during shortcut input ( if shortcut sequence is defined );
-     *  - Click placeholder name. Default is 'click'( attribute 'data-click' );
-     *  - Listening for mouse events or not;
-     *  - Listening for skeyboard events or not;
-     *  - A log function;
-     */
     const
-          ev = notice ()
-        , currentContext = { name: null, note: null }
+          ev = notice ()  // Event emitter instance
+        , currentContext = { name: null, note: null } // Context data container
         , exposeShortcut = (options.onShortcut && ( typeof options.onShortcut === 'function')) ? options.onShortcut : false
         , streamKeys     = (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false
         , listenOptions = {
@@ -47,7 +42,7 @@ function main ( options = {} ) {
                             , maxSequence   : 1  // How many keys can be pressed in a sequence. Controlled automatically by 'changeContext' function.
                             , clickTarget   : options.clickTarget ? options.clickTarget :  'click' // Data-attribute name for click target ( data-click )
                             , listenFor     : (options.listenFor && Array.isArray(options.listenFor)) ? options.listenFor : [ 'mouse', 'keyboard' ] // What to listen for: ['mouse'], ['keyboard'], ['mouse', 'keyboard']
-                            , keyIgnore     : null   // Timer for ignoring key presses after max sequence or null
+                            , keyIgnore     : null   // Timer for ignoring key presses after max sequence or null. Not a public option.
                        }
         , shortcuts = {}   // shortcuts = { contextName : { shortcut :  callback[] } }
         , getContext = () => currentContext.name
@@ -61,7 +56,6 @@ function main ( options = {} ) {
                             , ev
                             , exposeShortcut
                             , streamKeys
-                            , shortcuts // ???
                         }
         ;
     
@@ -87,6 +81,8 @@ main.getDefaults = () => ({
                         , keyWait       : 480     // 480 ms
                         , clickTarget   : 'click' // Data-attribute name for click target ( data-click )
                         , listenFor     : [ 'mouse', 'keyboard' ]
+                        , onShortcut    : false   // Shortcut log function or false 
+                        , streamKeys    : false   // Stream keys function or false
                     })
 
 

@@ -1,15 +1,13 @@
 # Shortcuts (@peter.naydenov/shortcuts)
-*UNDER HEAVY DEVELOPMENT - early experimental stage*
+
+![version](https://img.shields.io/github/package-json/v/peterNaydenov/shortcuts)
+![license](https://img.shields.io/github/license/peterNaydenov/shortcuts)
 
 Build a keyboard shortcuts maps and describe a mouse clicks. Control them on context.
 
-Tread it as a "**draft**" during `HEAVY DEVELOPMENT` stage. the API will change frequently and version of the package will not be updated. Will stay at `0.0.1` until the API get usable.
 
 
-
-
-
-## General Description Rules
+## Shortcut Description Rules
 The shortcuts definition includes a context name and a set of rules(object). The rules are a set of key-value pairs. The key is a shortcut name and the value is a function or array of functions, to be executed when the shortcut is triggered (action function).
 
 ```js
@@ -128,10 +126,10 @@ Keyboard event description contains a key name and a modifier keys if they are u
 
 ```js
  // example:
- // ctrl+alt+shift+key-a -> for key 'a' with ctrl, alt and shift keys pressed
+ // ctrl+alt+shift+a -> for key 'a' with ctrl, alt and shift keys pressed
 ```
 
-Keyboard event description support a shortcut sequenses. These means that you can press a sequence of keys to trigger a shortcut. The sequence elements are separated by sign `,`:
+Keyboard event description support a shortcut sequenses. These means that you can press a sequence of keys to trigger a shortcut. The sequence elements are separated by sign "," ( coma ):
 
 ```js
  // example:
@@ -187,8 +185,15 @@ Action functions are called when a shortcut is triggered. They is a difference b
 ### Keyboard Action Functions
 Description of keyboard action functions is:
 ```js
-function myKeyHandler ( {context, note, key, event} ) {
-    // do something
+function myKeyHandler ({
+                  context   // (string) Name of the current context;
+                , note      // (string) Name of the note or null if note isn't set;
+                , wait      // (function). Call it to stop a sequence timer and write shortcut sequence without a timer.
+                , end       // (function). Recover the sequence timer;
+                , ignore    // (function). Call it to ignore the current shortcut from the sequence;
+                , isWaiting // (boolean). True if the sequence timer is active;
+                        }) {
+    // Body of the handler. Do something...
 }
 ```
 
@@ -199,10 +204,20 @@ function myKeyHandler ( {context, note, key, event} ) {
 Mouse action functions can be described like:
 
 ```js
-function myClickHandler ( event ) {
-    // do something
+function myMouseHandler ({
+                  context     // (string) Name of the current context;
+                , note        // (string) Name of the note or null if note isn't set;
+                , target      // (DOM element). Target element of the mouse event;
+                , targetProps // (object). Coordinates of the target element (top, left, right, bottom, width, height) or null if target element is not available;
+                , x           // (number). X coordinate of the target element;
+                , y           // (number). Y coordinate of the target element;
+                , event       // (object). Original mouse event object;
+          }) {
+    // Body of the handler. Do something...
 }
 ```
+
+
 
 
 
@@ -234,6 +249,8 @@ By `options` you can customize the behavior of the shortcuts. Here is the list o
 , keyWait       : 'Timeout for entering shortcut sequence in ms. Default value - 480'
 , clickTarget   : 'Data attribute name to recognize click items in HTML. Default value - click' // data attribute 'click' means attribute ( data-click='someName' )
 , listenFor     : `List input signal sources. Default value - [ 'mouse', 'keyboard' ]`
+, onShortcut    : 'False or a callback function that is called when a shortcut is triggered. Default value - false'
+, streamKeys    : 'False or a callback function that is called when a key is pressed. Default value - false'
 ```
 
 You can request default list of options with their default values:
@@ -246,6 +263,28 @@ shortcuts.getDefaults ()
 const short = shortcuts ()
 const short = shortcuts ( shortcuts.getDefaults () ) // same as above
 // The idea behind getDefaults is to see what options are available and what are their default values.
+```
+
+
+
+### onShortcut option
+```js
+ function onShortcut ( shortcut, context, note ) {
+        // shortcut - (string) Triggered shortcut name
+        // context - (string) Name of the current context
+        // note - (string) Name of the note or null if note isn't set
+    }
+```
+
+
+
+### streamKeys option
+```js
+ function streamKeys ( key, context, note ) {
+        // key - (string) Pressed key name
+        // context - (string) Name of the current context
+        // note - (string) Name of the note or null if note isn't set
+    }
 ```
 
 

@@ -71,11 +71,12 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                           mouseEvent = readMouseEvent ( mouseDomEvent, count )
                         , data = { 
                                   target : mouseTarget
-                                , x : mouseDomEvent.clientX
-                                , y : mouseDomEvent.clientY
-                                , context : currentContext.name
-                                , note : currentContext.note
                                 , targetProps : mouseTarget ? mouseTarget.getBoundingClientRect() : null
+                                , x       : mouseDomEvent.clientX
+                                , y       : mouseDomEvent.clientY
+                                , context : currentContext.name
+                                , note    : currentContext.note
+                                , event   : mouseDomEvent
                             }
                         ;
                     ev.emit ( mouseEvent.join('+'), data )
