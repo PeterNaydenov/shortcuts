@@ -3,7 +3,7 @@
 ![version](https://img.shields.io/github/package-json/v/peterNaydenov/shortcuts)
 ![license](https://img.shields.io/github/license/peterNaydenov/shortcuts)
 
-Build a keyboard shortcuts maps and describe a mouse clicks. Control them on context.
+Define a context based keyboard-shortcuts and describe a mouse clicks. Switch among contexts.
 
 
 
@@ -11,6 +11,10 @@ Build a keyboard shortcuts maps and describe a mouse clicks. Control them on con
 The shortcuts definition includes a context name and a set of rules(object). The rules are a set of key-value pairs. The key is a shortcut name and the value is a function or array of functions, to be executed when the shortcut is triggered (action function).
 
 ```js
+// { context: { shortcutName: actionFunction } }
+// or
+// { context: { shortcutName: [ actionFunction1, actionFunction2 ] }}
+```
 // Shortcut definition object:
 {
     contextName : {

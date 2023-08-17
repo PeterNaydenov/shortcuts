@@ -1,7 +1,7 @@
 {
   "name": "@peter.naydenov/shortcuts",
   "version": "1.0.0",
-  "description": "Create shortcuts for your web application based on keyboard and mouse events",
+  "description": "Context control of shortcuts based on keyboard and mouse events",
   "keywords": [
     "shortcut",
     "key",
@@ -26,7 +26,7 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.4",
     "chai": "^4.3.7",
-    "cypress": "^12.17.3",
+    "cypress": "^12.17.4",
     "mocha": "^10.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
