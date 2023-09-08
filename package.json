@@ -25,8 +25,8 @@
     },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.4",
-    "chai": "^4.3.7",
-    "cypress": "^12.17.4",
+    "chai": "^4.3.8",
+    "cypress": "^13.1.0",
     "mocha": "^10.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
