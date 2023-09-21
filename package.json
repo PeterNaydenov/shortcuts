@@ -21,12 +21,12 @@
             "url": "git+https://github.com/PeterNaydenov/shortcuts"
     },
   "dependencies": {
-            "@peter.naydenov/notice": "^2.1.0"
+            "@peter.naydenov/notice": "^2.2.0"
     },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.4",
     "chai": "^4.3.8",
-    "cypress": "^13.1.0",
+    "cypress": "^13.2.0",
     "mocha": "^10.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
