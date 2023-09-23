@@ -1,6 +1,6 @@
 {
   "name": "@peter.naydenov/shortcuts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Context control of shortcuts based on keyboard and mouse events",
   "keywords": [
     "shortcut",
@@ -17,12 +17,12 @@
     "test": "cypress open --component --browser chrome test"
   },
   "repository": {
-            "type": "git",
-            "url": "git+https://github.com/PeterNaydenov/shortcuts"
-    },
+    "type": "git",
+    "url": "git+https://github.com/PeterNaydenov/shortcuts"
+  },
   "dependencies": {
-            "@peter.naydenov/notice": "^2.2.1"
-    },
+    "@peter.naydenov/notice": "^2.2.1"
+  },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.4",
     "chai": "^4.3.8",
