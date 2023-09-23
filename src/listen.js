@@ -93,6 +93,7 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
 
     function listenMouse () {
                         window.addEventListener ( 'contextmenu', event => {   // Listen for right mouse clicks
+                                        event.preventDefault ()
                                         clearTimeout ( mouseTimer )
                                         if ( mouseIgnore ) {
                                                     clearTimeout ( mouseIgnore )
@@ -104,7 +105,6 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                                                     mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
                                                     return
                                             }
-                                        event.preventDefault ()
                                         mouseTarget = findTarget (event.target, clickTarget )
                                         mouseDomEvent = event
                                         count++
@@ -112,6 +112,7 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                                 })
 
                         document.addEventListener ( 'click', event => {  // Listen for left and middle mouse clicks
+                                        event.preventDefault ()
                                         clearTimeout ( mouseTimer )
                                         if ( mouseIgnore ) {
                                                     clearTimeout ( mouseIgnore )

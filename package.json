@@ -21,7 +21,7 @@
             "url": "git+https://github.com/PeterNaydenov/shortcuts"
     },
   "dependencies": {
-            "@peter.naydenov/notice": "^2.2.0"
+            "@peter.naydenov/notice": "^2.2.1"
     },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.4",
