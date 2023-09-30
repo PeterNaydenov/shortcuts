@@ -32,7 +32,7 @@ it ( 'Simple shortcut', done => {
             let res = false;
             short.changeContext ( 'general' )
             cy.get('body').type ( '{shift}a' )
-            cy.wait ( 100 )   // Default wait sequence timeout is 480 ms
+            cy.wait ( 30 )   // Default wait sequence timeout is 480 ms, but maxSequence is 1, so we don't need to wait for timeout
               .then ( () => { 
                                 expect ( a ).to.be.true 
                                 done ()
@@ -81,11 +81,10 @@ it ( 'Single mouse click', done => {
             })
     short.changeContext ( 'extra' )
     cy.get('#rspan').click ()
-    cy.wait ( 350 ) // Default wait mouse timeout is 320 ms
-      .then ( () => {
-                        expect ( a ).to.be.true
-                        done ()
-            })
+    cy.wait ( 10 ) // Default wait mouse timeout is 320 ms, but maxClicks is 1, so we don't need to wait for timeout
+      .then ( () => expect ( a ).to.be.true )
+    cy.wait ( 300 ) // ...but mouseIgnore still active, so we better wait to not interfere with next test
+      .then ( () => done() )
 }) // it mouse click
 
 

@@ -100,14 +100,14 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                                                     mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
                                                     return
                                             }
+                                        mouseTarget = findTarget (event.target, clickTarget )
+                                        mouseDomEvent = event
+                                        count++
                                         if ( count === options.maxClicks ) {  
                                                     mouseSequenceEnd ()
                                                     mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
                                                     return
                                             }
-                                        mouseTarget = findTarget (event.target, clickTarget )
-                                        mouseDomEvent = event
-                                        count++
                                         mouseTimer = setTimeout ( mouseSequenceEnd, mouseWait )
                                 })
 
@@ -119,14 +119,14 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                                                     mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
                                                     return
                                             }
-                                        if ( count === options.maxClicks ) {
+                                        mouseTarget = findTarget ( event.target, clickTarget )
+                                        mouseDomEvent = event
+                                        count++
+                                        if ( count >= options.maxClicks ) {
                                                     mouseSequenceEnd ()
                                                     mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
                                                     return
                                             }
-                                        mouseTarget = findTarget ( event.target, clickTarget )
-                                        mouseDomEvent = event
-                                        count++
                                         mouseTimer = setTimeout ( mouseSequenceEnd, mouseWait )
                                 })
         } // listenMouse func.
