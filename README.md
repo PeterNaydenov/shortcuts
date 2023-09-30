@@ -11,7 +11,7 @@ Define a context based keyboard-shortcuts and describe a mouse clicks. Switch am
 
 
 ## What's new?
-Version 1.1.0 is coming with new method `emit` that make possible to trigger context functions also programmatically. In `shortcuts` you can mix keyboard, mouse and programmatical events that is prity everything that can happen in a web page.
+Version 1.1.x and above are coming with method `emit` that make possible to trigger context functions also programmatically. In `shortcuts` you can mix keyboard, mouse and programmatical events that is prity everything that can happen in a web page.
 
 
 
