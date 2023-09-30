@@ -22,7 +22,7 @@ The shortcuts definition includes a context name and a set of rules(object). The
 // { context: { shortcutName: actionFunction } }
 // or
 // { context: { shortcutName: [ actionFunction1, actionFunction2 ] }}
-```
+
 // Shortcut definition object:
 {
     contextName : {
@@ -40,6 +40,7 @@ The shortcuts definition includes a context name and a set of rules(object). The
                 }
 }
 ```
+
 Load a shortcut definition by calling `load` method.
 
 ```js
