@@ -9,6 +9,7 @@
  *  History notes:
  *  - Development was started on June 21st, 2023
  *  - First version was published on August 14th, 2023
+ *  - Method 'emit' was added on September 30st, 2023
  */
 
 
@@ -67,6 +68,7 @@ function main ( options = {} ) {
       , changeContext : changeContext ( shortcuts, listenOptions, ev, currentContext )
       , pause         : () => ev.stop ()
       , resume        : () => ev.start ()
+      , emit          : (x,...args) => ev.emit ( readShortcut(x), ...args )
       , listContexts  : () => Object.keys ( shortcuts )
       , getContext
       , getNote 

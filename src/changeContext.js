@@ -1,9 +1,5 @@
 'use strict'
 
-import listen from "./listen";
-
-
-
 function changeContext ( shortcuts, listenOptions, ev, currentContext ) {
 return function changeContext ( contextName = false ) {
         const current = currentContext.name;

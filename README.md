@@ -3,7 +3,15 @@
 ![version](https://img.shields.io/github/package-json/v/peterNaydenov/shortcuts)
 ![license](https://img.shields.io/github/license/peterNaydenov/shortcuts)
 
+
+
 Define a context based keyboard-shortcuts and describe a mouse clicks. Switch among contexts.
+
+
+
+
+## What's new?
+Version 1.1.0 is coming with new method `emit` that make possible to trigger context functions also programmatically. In `shortcuts` you can mix keyboard, mouse and programmatical events that is prity everything that can happen in a web page.
 
 
 
@@ -233,6 +241,7 @@ Description of the methods of shortcut instance:
   load          : 'Load and extend a shortcut definition.'
 , unload        : 'Remove a shortcut context with all its shortcuts.'
 , changeContext : 'Switch to existing shortcut context.'
+, emit          : 'Trigger a shortcut or custom event programmatically.'
 , pause         : 'Stop listening for shortcuts.'
 , resume        : 'Resume listening for shortcuts.'
 , listContexts  : 'Return list of available contexts.'

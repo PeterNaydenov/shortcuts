@@ -26,6 +26,8 @@ beforeEach ( () => {
     a = false, b = false
 }) // beforeEach
 
+
+
 it ( 'Simple shortcut', done => {
             let res = false;
             short.changeContext ( 'general' )
@@ -107,5 +109,20 @@ it ( 'Double mouse click', done => {
                     done ()
         })
 }) // it double mouse click
+
+
+
+it ( 'Emit custom event', () => {
+      let result = null;
+      const myAllContext = { 
+                              myAll: {
+                                        'mouse-click-leff-1' : () =>  console.log ( 'nothing' )
+                                      , 'yo' : r => result = r
+                                  }}
+      short.load ( myAllContext )
+      short.changeContext ( 'myAll' )
+      short.emit ( 'yo', 'hello' )
+      expect ( result ).to.be.equal ( 'hello' )
+}) // it emit custom event
 
 }) // describe
