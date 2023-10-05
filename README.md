@@ -11,8 +11,11 @@ Define a context based keyboard-shortcuts and describe a mouse clicks. Switch am
 
 
 ## What's new?
-Version 1.1.x and above are coming with method `emit` that make possible to trigger context functions also programmatically. In `shortcuts` you can mix keyboard, mouse and programmatical events that is prity everything that can happen in a web page.
 
+- Version 1.1.x and above are coming with method `emit` that make possible to trigger shortcuts programmatically. In `shortcuts` you can mix keyboard, mouse and programmatical events that is prity everything that can happen in a web page;
+- Method `setDependencies` comes after version 2.0.0. You can insert external libraries and modules that you will need to access from action functions. They will come as **dependencies** object. In function `emit` will come as first argument. Other arguments are attached behind the dependencies object;
+- Another html data attribute is added - `data-quick-click`. Example: `<button data-click="id" data-quick-click>Click me</button>`. This attribute is saying to `shortcuts` that target element don't need to wait for more then 1 click and shortcut can be executed immediately after the click. Attribute is available in version 2.0.0 and above;
+- Method `listShortcuts` is added in version 2.0.0. It returns a list of shortcuts for requested context. If context is not set, will return a list of all shortcuts;
 
 
 ## Shortcut Description Rules
@@ -201,6 +204,7 @@ Description of keyboard action functions is:
 function myKeyHandler ({
                   context   // (string) Name of the current context;
                 , note      // (string) Name of the note or null if note isn't set;
+                , dependencies // (object) Object with dependencies that you have set by calling `setDependencies` method;
                 , wait      // (function). Call it to stop a sequence timer and write shortcut sequence without a timer.
                 , end       // (function). Recover the sequence timer;
                 , ignore    // (function). Call it to ignore the current shortcut from the sequence;
@@ -220,6 +224,7 @@ Mouse action functions can be described like:
 function myMouseHandler ({
                   context     // (string) Name of the current context;
                 , note        // (string) Name of the note or null if note isn't set;
+                , dependencies // (object) Object with dependencies that you have set by calling `setDependencies` method;
                 , target      // (DOM element). Target element of the mouse event;
                 , targetProps // (object). Coordinates of the target element (top, left, right, bottom, width, height) or null if target element is not available;
                 , x           // (number). X coordinate of the target element;
@@ -251,6 +256,16 @@ Description of the methods of shortcut instance:
 , setNote       : 'Set a note to current context.'
 ```
 
+### How to 'pause' and 'resume'?
+When you want to stop execution of shortcuts, call `short.pause()`. It's equal to `short.pause('*')`. Will stop all shortcuts in the active context. Stop for single shortcut is by calling `short.pause('shortcutName')`. To resume shortcuts execution call `short.resume()`. It's equal to `short.resume('*')`. Will resume all shortcuts in the active context. Resume for single shortcut is by calling `short.resume('shortcutName')`.
+
+```js
+// pause all shortcuts in the active context
+short.pause () // will stop all shortcuts in the active context
+short.resume ( 'shift+a' ) // will resume only 'shift+a' shortcut
+
+short.resume ('*') // will resume all shortcuts
+```
 
 
 
@@ -283,10 +298,11 @@ const short = shortcuts ( shortcuts.getDefaults () ) // same as above
 
 ### onShortcut option
 ```js
- function onShortcut ( shortcut, context, note ) {
+ function onShortcut ({ shortcut, context, note, dependencies }) {
         // shortcut - (string) Triggered shortcut name
         // context - (string) Name of the current context
         // note - (string) Name of the note or null if note isn't set
+        // dependencies - (object) Object with dependencies that you have set by calling `setDependencies` method
     }
 ```
 
@@ -294,10 +310,11 @@ const short = shortcuts ( shortcuts.getDefaults () ) // same as above
 
 ### streamKeys option
 ```js
- function streamKeys ( key, context, note ) {
+ function streamKeys ({ key, context, note, dependencies }) {
         // key - (string) Pressed key name
         // context - (string) Name of the current context
         // note - (string) Name of the note or null if note isn't set
+        // dependencies - (object) Object with dependencies that you have set by calling `setDependencies` method
     }
 ```
 

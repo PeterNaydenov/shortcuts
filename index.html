@@ -25,7 +25,7 @@
         import sc from '/src/main.js'
 
         const options = {
-                  onShortcut ( shortcut, context, note ) {
+                  onShortcut ({ shortcut, context, note }) {
                           console.log ( '-- RESULTS --->' )
                           console.log ( 'Shortcut', shortcut )
                           console.log ( 'Context:', context )

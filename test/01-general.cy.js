@@ -4,11 +4,13 @@ import '../test-components/style.css'
 import shortcuts from '../src/main.js'
 import { expect } from 'chai'
 
+import askForPromise from 'ask-for-promise'
+
 let
        a = false
      , b = false
      ;
-const short = shortcuts ({onShortcut : ( shortcut, context, note ) => console.log (shortcut, context, note)});
+const short = shortcuts ({onShortcut : ({shortcut, context, note}) => console.log (shortcut, context, note)});
 short.load ({
                   general : {
                             'shift+a': [ () => a = true ]
@@ -116,12 +118,69 @@ it ( 'Emit custom event', () => {
       const myAllContext = { 
                               myAll: {
                                         'mouse-click-leff-1' : () =>  console.log ( 'nothing' )
-                                      , 'yo' : r => result = r
+                                      , 'yo' : (dependencies,r) => result = r
                                   }}
       short.load ( myAllContext )
       short.changeContext ( 'myAll' )
       short.emit ( 'yo', 'hello' )
       expect ( result ).to.be.equal ( 'hello' )
+      short.changeContext ( 'general' )
+      short.unload ( 'myAll' )
 }) // it emit custom event
+
+
+
+it ( 'Dependencies on shortcuts', done => {
+    const task = askForPromise ();
+    expect ( a ).to.be.false
+    expect ( b ).to.be.false
+
+    short.setDependencies ({ task })
+    
+    short.load ({   
+                    'extra' : {   // load will overwrite existing 'extra' context definition
+                                  'mouse-click-left-1' : ({dependencies}) => {
+                                                                    const { task } = dependencies;
+                                                                    expect ( task ).to.have.property ( 'done' )
+                                                                    expect ( task ).to.have.property ( 'promise' )
+                                                                    a = true
+                                                                }
+                              } 
+                }) // load will restart the selected context
+
+    short.changeContext ( 'extra' )
+    cy.get('#rspan').click ()
+    cy.wait ( 350 ) // Default wait mouse timeout is 320 ms
+      .then ( () => {
+                    expect ( a ).to.be.true
+                    done ()
+        })
+}) // it dependencies on shortcuts
+
+
+
+it ( 'List shortcuts', () => {
+    let general =  short.listShortcuts ('general');
+    expect ( general ).to.be.an('array')
+    expect ( general ).to.have.lengthOf ( 1 )
+    expect ( general[0] ).to.be.equal ( 'A+SHIFT' )
+    
+    let fail = short.listShortcuts ('somethingNotExisting');
+    expect ( fail ).to.be.null
+
+    let all = short.listShortcuts ();
+    expect ( all ).to.be.an('array')
+    console.log ( all )
+    expect ( all ).to.have.lengthOf ( 2 )
+    expect ( all[0] ).to.have.property ( 'context' )
+    expect ( all[0] ).to.have.property ( 'shortcuts' )
+    expect ( all[0].shortcuts ).to.be.an('array')
+    expect ( all[0].shortcuts ).to.have.lengthOf ( 1 )
+    expect ( all[0].shortcuts[0] ).to.be.equal ( 'A+SHIFT' )
+    expect ( all[0].context ).to.be.equal ( 'general' )
+    
+}) // it list shortcuts
+
+
 
 }) // describe

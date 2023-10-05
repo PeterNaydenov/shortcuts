@@ -16,15 +16,17 @@
 
 import notice from '@peter.naydenov/notice'   // Docs: https://github.com/PeterNaydenov/notice
 
+import _readKeyEvent   from './_readKeyEvent.js'
+import _readShortcut   from './_readShortcut.js'
+import _readMouseEvent from './_readMouseEvent.js'
+import _findTarget      from './_findTarget.js'
+
 import listen         from './listen.js'
-import readShortcut   from './readShortcut.js'
-import readKeyEvent   from './readKeyEvent.js'
-import readMouseEvent from './readMouseEvent.js'
-import findTarget from './findTarget.js'
-import specialChars from './specialChars.js'
+import _specialChars from './_specialChars.js'
 import load from './load.js'
 import unload from './unload.js'
 import changeContext from './changeContext.js'
+import listShortcuts from './listShortcuts.js'
 
 
 
@@ -33,6 +35,9 @@ import changeContext from './changeContext.js'
 function main ( options = {} ) {
     const
           ev = notice ()  // Event emitter instance
+        , state = {
+
+              } // state
         , currentContext = { name: null, note: null } // Context data container
         , exposeShortcut = (options.onShortcut && ( typeof options.onShortcut === 'function')) ? options.onShortcut : false
         , streamKeys     = (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false
@@ -50,29 +55,44 @@ function main ( options = {} ) {
         , getNote    = () => currentContext.note
         , setNote    = (note=null) => { if (typeof note === 'string' || note == null )   currentContext.note = note }
         , dependencies = { 
-                              specialChars 
-                            , readKeyEvent
-                            , readMouseEvent
-                            , findTarget
+                              _specialChars 
+                            , _readKeyEvent
+                            , _readMouseEvent
+                            , _findTarget
                             , ev
                             , exposeShortcut
                             , streamKeys
+                            , extra : {}
                         }
         ;
-    
+  
     listen ( dependencies, listenOptions, currentContext )
 
     return {  // shortcuts API
-        load          : load ( shortcuts, readShortcut, changeContext( shortcuts, listenOptions, ev, currentContext ), getContext )      
+        load          : load ( shortcuts, _readShortcut, changeContext( shortcuts, listenOptions, ev, currentContext ), getContext )      
       , unload        : unload ( shortcuts, ev, currentContext )
       , changeContext : changeContext ( shortcuts, listenOptions, ev, currentContext )
-      , pause         : () => ev.stop ()
-      , resume        : () => ev.start ()
-      , emit          : (x,...args) => ev.emit ( readShortcut(x), ...args )
+      /**
+       * @function pause
+       * @description Pause shortcut(s) in current context
+       * @param {string} [name='*' ] - Shortcut name that should be paused. Default is '*' - all shortcuts in current context.
+       * @returns {void}
+       */
+      , pause         : (name='*') => ev.stop ( _readShortcut(name) )
+      /**
+       * @function resume
+       * @description Resume shortcut(s) in current context
+       * @param {string} [name='*' ] - Shortcut name that should be resumed. Default is '*' - all shortcuts in current context.
+       * @returns {void}
+       */
+      , resume        : (name='*') => ev.start ( _readShortcut(name) )
+      , emit          : (x,...args) => ev.emit ( _readShortcut(x), dependencies.extra, ...args )
       , listContexts  : () => Object.keys ( shortcuts )
+      , listShortcuts : listShortcuts ( shortcuts )
       , getContext
       , getNote 
       , setNote
+      , setDependencies : (deps) => dependencies.extra = { ...dependencies.extra, ...deps }
     }
 } // main func.
 

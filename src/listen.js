@@ -4,10 +4,10 @@
 
 function listen ( dependencies, options, currentContext ) {   // Listen for input signals and generate event titles
     const { 
-              specialChars 
-            , readKeyEvent
-            , readMouseEvent
-            , findTarget
+              _specialChars 
+            , _readKeyEvent
+            , _readMouseEvent
+            , _findTarget
             , ev
             , exposeShortcut
             , streamKeys
@@ -54,10 +54,18 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                                         ignore = false
                                 }
                         }
-
+                    const data = {
+                                      wait: waitKeys
+                                    , end:endKeys
+                                    , ignore:ignoreKeys
+                                    , isWaiting:waitingKeys
+                                    , note: currentContext.note
+                                    , context: currentContext.name
+                                    , dependencies : dependencies.extra
+                            };
                     if ( sequence ) { 
-                            ev.emit ( res.join(','), { wait: waitKeys, end:endKeys, ignore:ignoreKeys, isWaiting:waitingKeys, note: currentContext.note, context: currentContext.name })   
-                            if ( exposeShortcut )   exposeShortcut ( res.join(','), currentContext.name, currentContext.note ) // TODO: Add a context information...?
+                            ev.emit ( res.join(','), data )   
+                            if ( exposeShortcut )   exposeShortcut ({ shortcut:res.join(','), context: currentContext.name, note:currentContext.note, dependencies:dependencies.extra }) // TODO: Add a context information...?
                             // Reset:
                             r = []
                             keyTimer = null
@@ -68,7 +76,7 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
 
     function mouseSequenceEnd () {   // Execute when mouse sequence ends
                     const 
-                          mouseEvent = readMouseEvent ( mouseDomEvent, count )
+                          mouseEvent = _readMouseEvent ( mouseDomEvent, count )
                         , data = { 
                                   target : mouseTarget
                                 , targetProps : mouseTarget ? mouseTarget.getBoundingClientRect() : null
@@ -77,10 +85,11 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                                 , context : currentContext.name
                                 , note    : currentContext.note
                                 , event   : mouseDomEvent
+                                , dependencies : dependencies.extra
                             }
                         ;
                     ev.emit ( mouseEvent.join('+'), data )
-                    if ( exposeShortcut )   exposeShortcut ( mouseEvent.join('+'), currentContext.name, currentContext.note )
+                    if ( exposeShortcut )   exposeShortcut ({ shortcut: mouseEvent.join('+'), context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
                     // Reset:
                     mouseTimer = null
                     mouseIgnore = null
@@ -93,6 +102,7 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
 
     function listenMouse () {
                         window.addEventListener ( 'contextmenu', event => {   // Listen for right mouse clicks
+                                        let targetMax = options.maxClicks;  // Maximum number of clicks per target
                                         event.preventDefault ()
                                         clearTimeout ( mouseTimer )
                                         if ( mouseIgnore ) {
@@ -100,18 +110,20 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                                                     mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
                                                     return
                                             }
-                                        mouseTarget = findTarget (event.target, clickTarget )
+                                        mouseTarget = _findTarget (event.target, clickTarget )
+                                        if ( mouseTarget && mouseTarget.dataset.hasOwnProperty('quickClick'))   targetMax = 1
                                         mouseDomEvent = event
                                         count++
-                                        if ( count === options.maxClicks ) {  
+                                        if ( count >= targetMax ) {  
                                                     mouseSequenceEnd ()
-                                                    mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
+                                                    if ( targetMax > 1 )   mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
                                                     return
                                             }
                                         mouseTimer = setTimeout ( mouseSequenceEnd, mouseWait )
                                 })
 
                         document.addEventListener ( 'click', event => {  // Listen for left and middle mouse clicks
+                                        let targetMax = options.maxClicks;  // Maximum number of clicks per target
                                         event.preventDefault ()
                                         clearTimeout ( mouseTimer )
                                         if ( mouseIgnore ) {
@@ -119,12 +131,13 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                                                     mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
                                                     return
                                             }
-                                        mouseTarget = findTarget ( event.target, clickTarget )
+                                        mouseTarget = _findTarget ( event.target, clickTarget )
+                                        if ( mouseTarget && mouseTarget.dataset.hasOwnProperty('quickClick'))   targetMax = 1
                                         mouseDomEvent = event
                                         count++
-                                        if ( count >= options.maxClicks ) {
+                                        if ( count >= targetMax ) {
                                                     mouseSequenceEnd ()
-                                                    mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
+                                                    if ( targetMax > 1 )   mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
                                                     return
                                             }
                                         mouseTimer = setTimeout ( mouseSequenceEnd, mouseWait )
@@ -136,9 +149,9 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
     function listenKeyboard () {
                         document.addEventListener ( 'keydown', event => {   // Listen for special keyboard keys
                                         clearTimeout ( keyTimer )
-                                        if ( specialChars.hasOwnProperty(event.code) )   r.push ( readKeyEvent ( event, specialChars ))
+                                        if ( _specialChars.hasOwnProperty(event.code) )   r.push ( _readKeyEvent ( event, _specialChars ))
                                         else                                             return
-                                        if ( streamKeys )   streamKeys ( event.key, currentContext.name, currentContext.note )
+                                        if ( streamKeys )   streamKeys ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
                                         if ( options.keyIgnore ) {
                                                     clearTimeout ( options.keyIgnore )
                                                     options.keyIgnore = setTimeout ( () => options.keyIgnore=null, keyWait )
@@ -154,15 +167,15 @@ function listen ( dependencies, options, currentContext ) {   // Listen for inpu
                                 })
 
                         document.addEventListener ( 'keypress', event => {  // Listen for regular keyboard keys
-                                        if ( specialChars.hasOwnProperty(event.code) )   return            
+                                        if ( _specialChars.hasOwnProperty(event.code) )   return            
                                         clearTimeout ( keyTimer )
-                                        if ( streamKeys )   streamKeys ( event.key, currentContext.name, currentContext.note )
+                                        if ( streamKeys )   streamKeys ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
                                         if ( options.keyIgnore ) {
                                                     clearTimeout ( options.keyIgnore )
                                                     options.keyIgnore = setTimeout ( () => options.keyIgnore=null, keyWait )
                                                     return 
                                             }
-                                        r.push ( readKeyEvent ( event, specialChars ))
+                                        r.push ( _readKeyEvent ( event, _specialChars ))
                                         if ( sequence && r.length === options.maxSequence ) {
                                                     keySequenceEnd ()
                                                     options.keyIgnore = setTimeout ( () => options.keyIgnore=null, keyWait )
