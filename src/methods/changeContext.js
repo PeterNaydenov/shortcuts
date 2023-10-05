@@ -1,6 +1,14 @@
 'use strict'
 
-function changeContext ( shortcuts, listenOptions, ev, currentContext ) {
+function changeContext ( dependencies, state ) {
+const 
+          { 
+               shortcuts
+             , listenOptions 
+             , currentContext
+          } = state
+        , { ev } = dependencies
+        ;
 return function changeContext ( contextName = false ) {
         const current = currentContext.name;
         listenOptions.maxSequence = 1

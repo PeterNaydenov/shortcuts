@@ -1,7 +1,7 @@
 'use strict'
 
-
-function _readKeyEvent ( event, _specialChars ) {
+function _readKeyEvent () {
+return function _readKeyEvent ( event, _specialChars ) {
     let
           { shiftKey, altKey, ctrlKey } = event
         , falseKeys = [ 'ControlLeft','ControlRight', 'ShiftLeft', 'ShiftRight', 'AltLeft', 'AltRight', 'Meta' ]
@@ -18,7 +18,7 @@ function _readKeyEvent ( event, _specialChars ) {
     if ( _specialChars.hasOwnProperty ( key ) )  res.push ( _specialChars[key].toUpperCase () )
     else if (       !falseKeys.includes(key)  )  res.push ( key.toUpperCase () )
     return res.sort ()
-} // _readKeyEvent func.
+}} // _readKeyEvent func.
 
 
 

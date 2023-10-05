@@ -1,7 +1,7 @@
 'use strict'
 
-
-function _findTarget ( target, dataName ) {
+function _findTarget ( dependencies, state ) {
+return function _findTarget ( target, dataName ) {
     let t = target
     while ( t && !t.dataset[dataName] ) {
             t = t.parentNode;
@@ -9,7 +9,7 @@ function _findTarget ( target, dataName ) {
             if ( t === document.body )   return null
         }
     return t
-} // _findTarget func.
+}} // _findTarget func.
 
 
 

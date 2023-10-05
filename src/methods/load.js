@@ -1,8 +1,12 @@
 'use strict'
 
-
-
-function load ( shortcuts, _readShortcut, changeContext, getContext ) {
+function load ( dependencies, state ) {
+const 
+          { shortcuts } = state
+        , {
+                inAPI : { _readShortcut }
+                , API : { changeContext, getContext }
+        } = dependencies;
 /**
  *  Load a context with shortcuts object
  *  @param {Object} obj - Context description object: { contextName : { shortcut : callback[] }

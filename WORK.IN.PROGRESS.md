@@ -9,3 +9,5 @@
 √ Add method `listShortcuts` to get names of all shortcuts defined;
 √ Arguments for `onShortcut` and `streamKeys` converted to named arguments;
 √ Methods `onShortcut` and `streamKeys` have a new argument `dependencies` to pass dependencies to the callback;
+- Full refactoring of the library for better readability and maintainability;
+- Add jsdoc type description for public methods;
