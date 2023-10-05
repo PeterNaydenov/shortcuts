@@ -134,6 +134,22 @@ Order of describing mouse event and modifier keys is not important.
 Multiple clicks are detected automatically by time interval between clicks. The default interval is 320ms but you can change it by setting `mouseWait` option. Read more in section `Options`.
 
 
+## Define a mouse targets
+Target HTML elements for `shortcuts` are defined by `data-click` attribute. The value of the attribute is the name of the target. Example:
+
+```html
+<button data-click="id">Click me</button>
+<!-- target name is 'id' -->
+```
+
+Attribute is customizable by setting `clickTarget` option. Read more in section `Options`.
+
+If current shortcuts context contain definition for 2 or more clicks, this may slow down the execution of single shortcuts because `shortcuts` will wait for the time interval to detect multiple clicks. To avoid this for specific targets, you can set `data-quick-click` attribute to the target element. Example:
+
+```html
+<button data-click="id" data-quick-click>Click me</button>
+<!-- target name is 'id' and will not wait for more then 1 click -->
+```
 
 
 
