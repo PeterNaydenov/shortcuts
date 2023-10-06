@@ -170,7 +170,7 @@ it ( 'List shortcuts', () => {
 
     let all = short.listShortcuts ();
     expect ( all ).to.be.an('array')
-    console.log ( all )
+    
     expect ( all ).to.have.lengthOf ( 2 )
     expect ( all[0] ).to.have.property ( 'context' )
     expect ( all[0] ).to.have.property ( 'shortcuts' )
@@ -185,14 +185,26 @@ it ( 'List shortcuts', () => {
 
 it ( 'Click on anchor', done => {
     // Click on anchor that don't have click-data attribute.
+    let result = 'none';
     short.load ({ 'extra' : { 
-                              'mouse-click-left-1' : ({target}) => expect ( target.nodeName ).to.be.equal ( 'A' )
+                              'mouse-click-left-1' : ({target, context }) => {
+                                          expect ( context ).to.be.equal ( 'extra' )
+                                          expect ( target.nodeName ).to.be.equal ( 'A' )
+                                          result = target.nodeName
+                                    }
                           } 
               })
-    short.changeContext ( 'extra' )
-    cy.get('#anchor').click ()
-    short.changeContext ( 'general' )
-    done ()
+    short.changeContext ( 'extra' )    
+    cy.get ( '#anchor' ).click ()
+    cy.wait ( 3 ) // Consider mouse click has some latency
+      // According Cypress documentation: 
+      // It is unsafe to chain further commands that rely on the subject after .click(). 
+      // source docs: https://docs.cypress.io/api/commands/click
+      .then ( () => {
+                  short.changeContext ( 'general' )              
+                  expect ( result ).to.be.equal ( 'A' )
+                  done ()
+          })
 }) // it click on anchor
 
 

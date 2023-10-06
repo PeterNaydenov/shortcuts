@@ -3,13 +3,13 @@
 function _findTarget ( dependencies, state ) {
 const { listenOptions : {clickTarget}} = state;
 return function _findTarget ( target ) {
-    let t = target;
-    while ( !t.dataset[clickTarget] && t.nodeName !== 'A' ) {
-            t = t.parentNode;
-            if ( t === document      )   return null
-            if ( t === document.body )   return null
-        }
-    return t
+    const t = target;
+    if ( t === document      )   return null
+    if ( t === document.body )   return null
+
+    if ( t.dataset[clickTarget] ) return t
+    if ( t.nodeName === 'A'     ) return t
+    return   _findTarget ( t.parentNode ) 
 }} // _findTarget func.
 
 

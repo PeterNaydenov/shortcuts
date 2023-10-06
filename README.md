@@ -150,6 +150,27 @@ If current shortcuts context contain definition for 2 or more clicks, this may s
 <button data-click="id" data-quick-click>Click me</button>
 <!-- target name is 'id' and will not wait for more then 1 click -->
 ```
+Using a <a> tag is a special case. It's always recognized as a target, and always with attribute `data-quick-click`. No need to set it manually. Example:
+
+```html
+<a href="#">Click me</a>
+<!-- Recognized as a target and will not wait for more then 1 click -->
+<!-- Take care for the action from shortcut `mouse-click-left-1`. -->
+```
+
+Clicking on <a> tag will not execute anything. All events are blocked by default. In your `mouse-click-left-1` action function you can write:
+
+```js
+{
+    contextName : {
+                    'mouse-click-left-1' : function ( {target, event} ) {
+                                        if ( target.tagName === 'A' ) { // All targets that are <a> tags will execute the default action
+                                                  window.location.href = target.href
+                                            }
+                                    }
+                }
+}
+```
 
 
 

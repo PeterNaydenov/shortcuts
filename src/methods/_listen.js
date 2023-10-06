@@ -1,4 +1,7 @@
 'use strict'
+
+
+
 function _listen ( dependencies, state ) {
 // Listen for input signals and generate event titles
 return function _listen () {   
@@ -117,6 +120,7 @@ return function _listen () {
                                             }
                                         mouseTarget = _findTarget ( event.target )
                                         if ( mouseTarget && mouseTarget.dataset.hasOwnProperty('quickClick'))   targetMax = 1
+                                        if ( mouseTarget && mouseTarget.tagName === 'A'                     )   targetMax = 1
                                         mouseDomEvent = event
                                         count++
                                         if ( count >= targetMax ) {  
@@ -138,6 +142,7 @@ return function _listen () {
                                             }
                                         mouseTarget = _findTarget ( event.target )
                                         if ( mouseTarget && mouseTarget.dataset.hasOwnProperty('quickClick'))   targetMax = 1
+                                        if ( mouseTarget && mouseTarget.tagName === 'A'                     )   targetMax = 1
                                         mouseDomEvent = event
                                         count++
                                         if ( count >= targetMax ) {
