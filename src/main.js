@@ -125,7 +125,7 @@ function main ( options = {} ) {
 
 
 main.getDefaults = () => ({
-                          mouseWait     : 320     // 320 ms   // TODO: Slow down. It's too fast at the moment.
+                          mouseWait     : 320     // 320 ms
                         , keyWait       : 480     // 480 ms
                         , clickTarget   : 'click' // Data-attribute name for click target ( data-click )
                         , listenFor     : [ 'mouse', 'keyboard' ]

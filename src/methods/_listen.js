@@ -70,7 +70,7 @@ return function _listen () {
                             };
                     if ( sequence ) { 
                             ev.emit ( res.join(','), data )   
-                            if ( exposeShortcut )   exposeShortcut ({ shortcut:res.join(','), context: currentContext.name, note:currentContext.note, dependencies:dependencies.extra }) // TODO: Add a context information...?
+                            if ( exposeShortcut )   exposeShortcut ({ shortcut:res.join(','), context: currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
                             // Reset:
                             r = []
                             keyTimer = null
