@@ -1,9 +1,10 @@
 'use strict'
 
 function _findTarget ( dependencies, state ) {
-return function _findTarget ( target, dataName ) {
-    let t = target
-    while ( t && !t.dataset[dataName] ) {
+const { listenOptions : {clickTarget}} = state;
+return function _findTarget ( target ) {
+    let t = target;
+    while ( !t.dataset[clickTarget] && t.nodeName !== 'A' ) {
             t = t.parentNode;
             if ( t === document      )   return null
             if ( t === document.body )   return null

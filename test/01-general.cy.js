@@ -183,4 +183,17 @@ it ( 'List shortcuts', () => {
 
 
 
+it ( 'Click on anchor', done => {
+    // Click on anchor that don't have click-data attribute.
+    short.load ({ 'extra' : { 
+                              'mouse-click-left-1' : ({target}) => expect ( target.nodeName ).to.be.equal ( 'A' )
+                          } 
+              })
+    short.changeContext ( 'extra' )
+    cy.get('#anchor').click ()
+    short.changeContext ( 'general' )
+    done ()
+}) // it click on anchor
+
+
 }) // describe

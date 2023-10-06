@@ -115,7 +115,7 @@ return function _listen () {
                                                     mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
                                                     return
                                             }
-                                        mouseTarget = _findTarget (event.target, clickTarget )
+                                        mouseTarget = _findTarget ( event.target )
                                         if ( mouseTarget && mouseTarget.dataset.hasOwnProperty('quickClick'))   targetMax = 1
                                         mouseDomEvent = event
                                         count++
@@ -136,7 +136,7 @@ return function _listen () {
                                                     mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
                                                     return
                                             }
-                                        mouseTarget = _findTarget ( event.target, clickTarget )
+                                        mouseTarget = _findTarget ( event.target )
                                         if ( mouseTarget && mouseTarget.dataset.hasOwnProperty('quickClick'))   targetMax = 1
                                         mouseDomEvent = event
                                         count++

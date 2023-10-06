@@ -11,5 +11,5 @@
 √ Methods `onShortcut` and `streamKeys` have a new argument `dependencies` to pass dependencies to the callback;
 √ Full refactoring of the library for better readability and maintainability;
 √ Add jsdoc type description for public methods;
-- Page links <a> should work. At the moment we block them with `event.preventDefault()`;
+√ Tag <a> is a always a target, regardless of argument 'data-click';
 - Migration instructions from v1 to v2. Create the file and fullfill it;
