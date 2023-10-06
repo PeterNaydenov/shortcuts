@@ -1,6 +1,6 @@
 'use strict'
 /**
- * @typedef {object} allShortcuts
+ * @typedef {object} contextShortcuts
  * @property {string} context - Context name
  * @property {string[]} shortcuts - List of shortcuts in a context
  */
@@ -12,7 +12,7 @@ const shortcuts = state.shortcuts;
 /**
  *  List all shortcuts in all contexts or in a specific context.
  *  @param {string}[ contextName=null]  - List of shortcuts for provided context name. (optional)
- *  @returns {string[]|allShortcuts[]} - List of shortcuts for a specified context or list of allShortcuts for all contexts.
+ *  @returns {string[]|contextShortcuts[]} - List of shortcuts for a specified context or list of contextShortcuts for all contexts.
  */
 return function listShortcuts ( contextName=null ) {
     
