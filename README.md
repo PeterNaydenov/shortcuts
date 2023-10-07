@@ -158,14 +158,14 @@ Using a <a> tag is a special case. It's always recognized as a target, and alway
 <!-- Take care for the action from shortcut `mouse-click-left-1`. -->
 ```
 
-Clicking on <a> tag will not execute anything. All events are blocked by default. In your `mouse-click-left-1` action function you can write:
+Clicking on <a> tag will not execute anything. All events are blocked by default. In your `mouse-click-left-1` action function you can write a code to execute the default action. Example:
 
 ```js
 {
     contextName : {
                     'mouse-click-left-1' : function ( {target, event} ) {
                                         if ( target.tagName === 'A' ) { // All targets that are <a> tags will execute the default action
-                                                  window.location.href = target.href
+                                                  window.location.href = target.href  // Go to the link
                                             }
                                     }
                 }
