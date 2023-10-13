@@ -11,5 +11,6 @@
 √ Methods `onShortcut` and `streamKeys` have a new argument `dependencies` to pass dependencies to the callback;
 √ Full refactoring of the library for better readability and maintainability;
 √ Add jsdoc type description for public methods;
-√ Tag <a> is a always a target, regardless of argument 'data-click';
-- Migration instructions from v1 to v2. Create the file and fullfill it;
+√ Tag <a> is always a target, regardless of argument 'data-click'. Tag <a> is always a `data-quick-click` target also;
+√ Migration instructions from v1 to v2. Create the file and fullfill it;
+√ Create a change log list
