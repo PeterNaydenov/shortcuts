@@ -1,8 +1,16 @@
 'use strict'
 
-
-
-function unload ( shortcuts, ev, currentContext ) {
+function unload ( dependencies, state ) {
+const 
+     { currentContext, shortcuts } = state
+   , { ev } = dependencies
+   ;
+/**
+ * @function unload
+ * @description Unload a non-active context with shortcuts.
+ * @param {string} contextName - Context name to unload
+ * @returns {void}
+ */
 return function unload ( contextName ) {
         const current = currentContext.name;
         if ( current === contextName ) {

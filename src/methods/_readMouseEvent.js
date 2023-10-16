@@ -1,7 +1,7 @@
 'use strict'
 
-
-function readMouseEvent ( event, count ) {
+function _readMouseEvent () {
+return function _readMouseEvent ( event, count ) {
     let
           { shiftKey, altKey, ctrlKey, key, button } = event
         , mouseNames = [ 'LEFT', 'MIDDLE', 'RIGHT' ]
@@ -15,10 +15,10 @@ function readMouseEvent ( event, count ) {
     if ( altKey )    res.push ( 'ALT' )
 
     return res.sort ()
-} // readMouseEvent func.
+}} // _readMouseEvent func.
 
 
 
-export default readMouseEvent
+export default _readMouseEvent
 
 

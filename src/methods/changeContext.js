@@ -1,8 +1,24 @@
 'use strict'
 
-function changeContext ( shortcuts, listenOptions, ev, currentContext ) {
+function changeContext ( dependencies, state ) {
+const 
+          { 
+               shortcuts
+             , listenOptions 
+             , currentContext
+          } = state
+        , { ev } = dependencies
+        ;
+
+/**
+ * @function changeContext
+ * @description Change current context with shortcuts belonging to it.
+ * @param {string} [contextName=false] - Name of context to change to. Default 'false' will switch off all shortcuts.
+ * @returns {void}
+ */
 return function changeContext ( contextName = false ) {
         const current = currentContext.name;
+        
         listenOptions.maxSequence = 1
         listenOptions.maxClicks = 1
         
@@ -37,7 +53,7 @@ return function changeContext ( contextName = false ) {
                                 }
                         list.forEach ( fn => ev.on ( shortcutName, fn )   )    // Enable new context shortcuts
                 })   
-        currentContext.name = contextName
+        currentContext.name = contextName        
 }} // changeContext func.
 
 

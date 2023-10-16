@@ -1,8 +1,17 @@
 'use strict'
 
-
-
-function load ( shortcuts, readShortcut, changeContext, getContext ) {
+function load ( dependencies, state ) {
+const 
+          { shortcuts } = state
+        , {
+                inAPI : { _readShortcut }
+                , API : { changeContext, getContext }
+        } = dependencies;
+/**
+ *  Load a context with shortcuts object
+ *  @param {Object} obj - Context description object: { contextName : { shortcut : callback[] }
+ *  @returns {void}
+ */
 return function load ( obj ) {
     const
            currentContextName = getContext ()
@@ -14,7 +23,7 @@ return function load ( obj ) {
                     if ( contextName === currentContextName ) hasChanges = true;
                     shortcuts [ contextName ] = {}
                     description.forEach ( ([ title, callbackList ]) => {
-                                    const name = readShortcut ( title );
+                                    const name = _readShortcut ( title );
                                     if ( callbackList instanceof Function ) callbackList = [ callbackList ]
                                     shortcuts [contextName][ name ] = callbackList
                             }) // shortcuts.forEach
