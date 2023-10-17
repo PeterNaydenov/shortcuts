@@ -10,7 +10,7 @@
  *  - Development was started on June 21st, 2023
  *  - First version was published on August 14th, 2023
  *  - Method 'emit' was added on September 30st, 2023
- *  - Version 2.0.0 was published on October 14th, 2023
+ *  - Version 2.0.0 was published on October 16th, 2023
  */
 
 
@@ -111,6 +111,13 @@ function main ( options = {} ) {
      * @returns {void}
      */
     API.setDependencies = (deps) => dependencies.extra = { ...dependencies.extra, ...deps }
+
+    /**
+     * @function getDependencies
+     * @description Get a dependency package that will be provided to each action function
+     * @returns {object} - Enumerate external dependencies
+     **/
+    API.getDependencies = () => dependencies.extra
 
 
 

@@ -1,8 +1,13 @@
 ## Release History
 
 
+### 2.1.0 ( 2023-10-17 )
+- [x] Method `setDependencies` to add more external objects available in all action functions;
+- [x] Method `getDependencies` to look at existing `dependencies` list;
 
-### 2.0.0 ( 2023-10-14 )
+
+
+### 2.0.0 ( 2023-10-16 )
 - [x] HTML attribute `data-quick-click` is available to speed up single click response;
 - [x] Documentation on methods `pause` and `resume`;
 - [x] Method `listShortcuts` to get names of all shortcuts defined;
