@@ -1,6 +1,6 @@
 {
   "name": "@peter.naydenov/shortcuts",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Context control of shortcuts based on keyboard and mouse events",
   "keywords": [
     "shortcut",
