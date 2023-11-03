@@ -2,6 +2,8 @@
 
 ![version](https://img.shields.io/github/package-json/v/peterNaydenov/shortcuts)
 ![license](https://img.shields.io/github/license/peterNaydenov/shortcuts)
+![GitHub issues](https://img.shields.io/github/issues/peterNaydenov/shortcuts)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/%40peter.naydenov%2Fshortcuts)
 
 
 
