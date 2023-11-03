@@ -1,6 +1,12 @@
 ## Release History
 
 
+
+### 2.2.0 ( 2023-11-?? )( in progress )
+- [ ] New: Load context during promise execution. Return back when promise resolved.(still in progress);
+
+
+
 ### 2.1.0 ( 2023-10-17 )
 - [x] Method `setDependencies` to add more external objects available in all action functions;
 - [x] Method `getDependencies` to look at existing `dependencies` list;
