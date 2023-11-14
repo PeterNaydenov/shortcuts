@@ -2,8 +2,8 @@
 
 
 
-### 2.2.0 ( 2023-11-?? )( in progress )
-- [ ] New: Load context during promise execution. Return back when promise resolved.(still in progress);
+### x.x.x ( 2023-11-?? )( in progress )
+- [ ] New: Load different context during promise execution. Return back when promise resolved. Use it for creation of loading screens and disable shortcuts during loading, then return back to normal; (still in progress);
 
 
 
