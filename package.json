@@ -24,14 +24,14 @@
     "@peter.naydenov/notice": "^2.2.2"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.1.1",
+    "@vitejs/plugin-react": "^4.2.0",
     "ask-for-promise": "^1.5.0",
     "chai": "^4.3.10",
-    "cypress": "^13.5.0",
+    "cypress": "^13.5.1",
     "mocha": "^10.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "vite": "^4.5.0"
+    "vite": "^5.0.0"
   },
   "author": "Peter Naydenov",
   "license": "MIT"
