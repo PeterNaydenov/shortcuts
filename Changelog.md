@@ -2,8 +2,15 @@
 
 
 
-### x.x.x ( 2023-11-?? )( in progress )
+### x.x.x ( 2024-02-?? )( in progress )
 - [ ] New: Load different context during promise execution. Return back when promise resolved. Use it for creation of loading screens and disable shortcuts during loading, then return back to normal; (still in progress);
+
+
+
+### 2.2.0 ( 2024-02-10 )
+- [x] Folder 'dist' was added to the project. Includes commonjs, umd and esm versions of the library;
+- [x] Package.json: "exports" section was added. Allows you to use package as commonjs or es6 module without additional configuration;
+- [x] Rollup was added to the project. Used to build the library versions;
 
 
 
