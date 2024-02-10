@@ -49,7 +49,13 @@ The shortcuts definition includes a context name and a set of rules(object). The
 Load a shortcut definition by calling `load` method.
 
 ```js
+// for es6 module projects:
 include shortcuts from '@peter.naydenov/shortcuts'
+// for commonjs projects:
+const shortcuts = require('@peter.naydenov/shortcuts')
+
+
+
 const short = shortcuts ();
 short.load ( shortcutDefinition )
 ```
@@ -359,6 +365,12 @@ const short = shortcuts ( shortcuts.getDefaults () ) // same as above
     }
 ```
 
+
+
+## Links
+
+- [History of changes](https://github.com/PeterNaydenov/shortcuts/blob/main/Changelog.md)
+- [Migration guide](https://github.com/PeterNaydenov/shortcuts/blob/main/Migration.guide.md)
 
 
 
