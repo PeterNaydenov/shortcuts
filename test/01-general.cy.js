@@ -187,7 +187,8 @@ it ( 'Click on anchor', done => {
     // Click on anchor that don't have click-data attribute.
     let result = 'none';
     short.load ({ 'extra' : { 
-                              'mouse-click-left-1' : ({target, context }) => {
+                              'mouse-click-left-1' : ({target, context, event }) => {
+                                          event.preventDefault ()
                                           expect ( context ).to.be.equal ( 'extra' )
                                           expect ( target.nodeName ).to.be.equal ( 'A' )
                                           result = target.nodeName

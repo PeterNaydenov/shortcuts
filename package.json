@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "vite",
     "build": "rollup -c",
-    "test": "cypress run --component --browser chrome test"
+    "test": "cypress open --component --browser chrome test"
   },
   "repository": {
     "type": "git",

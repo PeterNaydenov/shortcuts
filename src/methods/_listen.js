@@ -111,7 +111,6 @@ return function _listen () {
     function listenMouse () {
                         window.addEventListener ( 'contextmenu', event => {   // Listen for right mouse clicks
                                         let targetMax = listenOptions.maxClicks;  // Maximum number of clicks per target
-                                        event.preventDefault ()
                                         clearTimeout ( mouseTimer )
                                         if ( mouseIgnore ) {
                                                     clearTimeout ( mouseIgnore )
@@ -133,7 +132,6 @@ return function _listen () {
 
                         document.addEventListener ( 'click', event => {  // Listen for left and middle mouse clicks
                                         let targetMax = listenOptions.maxClicks;  // Maximum number of clicks per target
-                                        event.preventDefault ()
                                         clearTimeout ( mouseTimer )
                                         if ( mouseIgnore ) {
                                                     clearTimeout ( mouseIgnore )

@@ -2,8 +2,9 @@
 
 
 
-### x.x.x ( 2024-02-?? )( in progress )
-- [ ] New: Load different context during promise execution. Return back when promise resolved. Use it for creation of loading screens and disable shortcuts during loading, then return back to normal; (still in progress);
+### 3.0.0 ( 2024-02-?? )( in progress )
+- [x] Mouse events don't have `preventDefault` by default anymore. Handle it in the action function if needed. Take a look on `Mouse Action Function` argument description. Object `event` is available;
+
 
 
 

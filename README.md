@@ -11,15 +11,6 @@ Define a context based keyboard-shortcuts and describe a mouse clicks. Switch am
 
 
 
-
-## What's new?
-
-- Version 1.1.x and above are coming with method `emit` that make possible to trigger shortcuts programmatically. In `shortcuts` you can mix keyboard, mouse and programmatical events that is prity everything that can happen in a web page;
-- Method `setDependencies` comes after version 2.0.0. You can insert external libraries and modules that you will need to access from action functions. They will come as **dependencies** object. In function `emit` will come as first argument. Other arguments are attached behind the dependencies object;
-- Another html data attribute is added - `data-quick-click`. Example: `<button data-click="id" data-quick-click>Click me</button>`. This attribute is saying to `shortcuts` that target element don't need to wait for more then 1 click and shortcut can be executed immediately after the click. Attribute is available in version 2.0.0 and above;
-- Method `listShortcuts` is added in version 2.0.0. It returns a list of shortcuts for requested context. If context is not set, will return a list of all shortcuts;
-
-
 ## Shortcut Description Rules
 The shortcuts definition includes a context name and a set of rules(object). The rules are a set of key-value pairs. The key is a shortcut name and the value is a function or array of functions, to be executed when the shortcut is triggered (action function).
 

@@ -1,5 +1,14 @@
 # Migration Guides
 
+
+## From version 2.x.x to version 3.x.x
+
+### Mouse events
+Prevent default is not called by default anymore. Handle it manually in the action function if needed. Object `event` is available in arguments object of action function. That will allow you to use default browser behavior without writing additional code.
+
+
+
+
 ## From version 1.x.x to version 2.x.x
 There are 2 breaking changes: in action functions and in emit method.
 ### Action functions
