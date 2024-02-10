@@ -4,35 +4,48 @@
   "version": "2.1.0",
   "license": "MIT",
   "author": "Peter Naydenov",
-  "main": "src/main.js",
+  "main": "./dist/shortcuts.umd.js",
   "type": "module",
+  "exports" : {
+                ".": {
+                        "import": "./dist/shortcuts.esm.mjs",
+                        "require": "./dist/shortcuts.cjs",
+                        "default": "./dist/shortcuts.umd.js"
+                },
+                "./package.json": "./package.json",
+                "./dist/*": "./dist/*",
+                "./src/*": "./src/*"
+        },
   "scripts": {
-                "dev": "vite",
-                "build": "vite build",
-                "test": "cypress run --component --browser chrome test"
-      },
+    "dev": "vite",
+    "build": "rollup -c",
+    "test": "cypress run --component --browser chrome test"
+  },
   "repository": {
-                "type": "git",
-                "url": "git+https://github.com/PeterNaydenov/shortcuts"
-      },
+    "type": "git",
+    "url": "git+https://github.com/PeterNaydenov/shortcuts"
+  },
   "dependencies": {
-              "@peter.naydenov/notice": "^2.2.3"
-      },
+    "@peter.naydenov/notice": "^2.2.3"
+  },
   "devDependencies": {
-              "@vitejs/plugin-react": "^4.2.1",
-              "ask-for-promise": "^2.0.3",
-              "chai": "^5.0.3",
-              "cypress": "^13.6.4",
-              "mocha": "^10.3.0",
-              "react": "^18.2.0",
-              "react-dom": "^18.2.0",
-              "vite": "^5.1.1"
-      },
- "keywords": [
-        "shortcut",
-        "key",
-        "keyboard",
-        "mouse",
-        "click"
-    ]
+                "@rollup/plugin-commonjs": "^25.0.7",
+                "@rollup/plugin-node-resolve": "^15.2.3",
+                "@rollup/plugin-terser": "^0.4.4",
+                "@vitejs/plugin-react": "^4.2.1",
+                "ask-for-promise": "^2.0.3",
+                "chai": "^5.0.3",
+                "cypress": "^13.6.4",
+                "mocha": "^10.3.0",
+                "react": "^18.2.0",
+                "react-dom": "^18.2.0",
+                "vite": "^5.1.1"
+        },
+  "keywords": [
+    "shortcut",
+    "key",
+    "keyboard",
+    "mouse",
+    "click"
+  ]
 }
