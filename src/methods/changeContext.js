@@ -54,6 +54,7 @@ return function changeContext ( contextName = false ) {
                         list.forEach ( fn => ev.on ( shortcutName, fn )   )    // Enable new context shortcuts
                 })   
         currentContext.name = contextName        
+        ev.emit ( '@context-change', shortcuts[current] ) // Emit context switch event to plugins
 }} // changeContext func.
 
 

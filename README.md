@@ -287,6 +287,7 @@ Description of the methods of shortcut instance:
 , pause           : 'Stop listening for shortcuts.'
 , resume          : 'Resume listening for shortcuts.'
 , listContexts    : 'Return list of available contexts.'
+, listShortcuts   : 'Return list of shortcuts per context.'
 , getContext      : 'Return a name of current context or null if there is no context selected'
 , getNote         : `Return a name of current note or null if note isn't set`
 , setNote         : 'Set a note to current context.'

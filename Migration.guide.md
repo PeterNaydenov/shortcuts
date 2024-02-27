@@ -9,6 +9,7 @@ Prevent default is not called by default anymore. Handle it manually in the acti
 
 
 
+
 ## From version 1.x.x to version 2.x.x
 There are 2 breaking changes: in action functions and in emit method.
 ### Action functions

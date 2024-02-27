@@ -3,6 +3,7 @@
 /**
  *  Shortcuts
  *  ========
+ * 
  *  Create shortcuts for your web application based on keyboard and mouse events.
  *  Repository: https://github.com/PeterNaydenov/shortcuts
  * 
@@ -11,12 +12,16 @@
  *  - First version was published on August 14th, 2023
  *  - Method 'emit' was added on September 30st, 2023
  *  - Version 2.0.0 was published on October 16th, 2023
+ *  - Version 3.0.0. Plugin system. Published on ...
  */
 
 
 
 import notice  from '@peter.naydenov/notice'   // Docs: https://github.com/PeterNaydenov/notice
 import methods from './methods/index.js'
+
+import pluginKey from './plugins/key/index.js'
+import pluginClick from './plugins/click/index.js'
 
 
 
@@ -36,11 +41,11 @@ function main ( options = {} ) {
                                         , keyWait       : options.keyWait ? options.keyWait : 480   // 480 ms
                                         , maxSequence   : 1  // How many keys can be pressed in a sequence. Controlled automatically by 'changeContext' function.
                                         , clickTarget   : options.clickTarget ? options.clickTarget :  'click' // Data-attribute name for click target ( data-click )
-                                        , listenFor     : (options.listenFor && Array.isArray(options.listenFor)) ? options.listenFor : [ 'mouse', 'keyboard' ] // What to listen for: ['mouse'], ['keyboard'], ['mouse', 'keyboard']
                                         , keyIgnore     : null   // Timer for ignoring key presses after max sequence or null. Not a public option.
                                     }
-                    , exposeShortcut : (options.onShortcut && ( typeof options.onShortcut === 'function')) ? options.onShortcut : false
-                    , streamKeys     : (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false
+                    , plugins        : [] // Array of active plugins
+                    , exposeShortcut : (options.onShortcut && ( typeof options.onShortcut === 'function')) ? options.onShortcut : false   // Keyboard shortcut log function
+                    , streamKeys     : (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false   // Keyboard stream function
               } // state
         , dependencies = { 
                               ev
@@ -50,6 +55,80 @@ function main ( options = {} ) {
                         }
         ;
 
+
+
+
+
+    // System events listeners. Events that control plugin's lifecycle.:    
+    ev.on ( '@context-change', context  => {
+                                  ev.reset ()
+                                  state.plugins.map ( plugin => plugin.contextChange(context))
+                          })
+
+
+    
+    function _systemAction ( pluginName, fn, params=null ) {   // Specific plugin command: Mute, unmute, pause, resume, destroy
+                        return state.plugins.findIndex ( plugin => {
+                                      if ( plugin.getPrefix() === pluginName ) {  
+                                                  if ( plugin[fn] )   plugin[fn]( params )
+                                                  return true
+                                          }
+                                      return false
+                                  })
+                } // systemAction func.
+
+
+
+    // ----------------------  > PLUGIN METHODS < ---------------------- //
+    /**
+     * @function enable
+     * @description Enable a plugin
+     * @returns {void}
+     */
+    API.enable = ( plugin,options={}) => {
+                const 
+                      name = plugin.name
+                    , ix = _systemAction ( name, 'none' )
+                    ;
+
+                if ( ix === -1 ) {   // If plugin is not registered
+                            let plugApp;   // Started instance of the plugin
+                            plugApp = plugin ( dependencies, state, options )
+                            state.plugins.push ( plugApp )
+                    }
+      } // enable func.
+
+
+
+    /**
+     * @function disable
+     * @description Disable a plugin
+     * @returns {void}
+     */
+    API.disable = pluginName => { 
+                const ix = _systemAction ( pluginName, 'destroy' );
+                if ( ix !== -1 )   state.plugins = state.plugins.filter ( (plugin, i) => i !== ix )
+      } // disable func.
+
+
+    /**
+     * @function mute
+     * @description Mute a plugin
+     * @returns number - Index of the plugin in the plugins array ( -1 if not found ).
+     */
+    API.mute = pluginName => _systemAction ( pluginName, 'mute'   )
+
+    /**
+     * @function unmute
+     * @description Unmute a plugin
+     * @returns number - Index of the plugin in the plugins array ( -1 if not found ).
+     */
+    API.unmute = pluginName => _systemAction ( pluginName, 'unmute' )
+
+
+    
+
+    // ----------------------  > PUBLIC METHODS < ---------------------- //
     /**
      * @function getContext
      * @description Get current context name
@@ -78,7 +157,10 @@ function main ( options = {} ) {
        * @param {string} [name='*' ] - Shortcut name that should be paused. Default is '*' - all shortcuts in current context.
        * @returns {void}
        */
-    API.pause = (name='*') => ev.stop ( inAPI._readShortcut(name) )
+    API.pause = (name='*') => {
+                        const pausedEvent = inAPI._readShortcut(name)
+                        ev.stop ( pausedEvent )
+                  }
 
     /**
        * @function resume
@@ -86,7 +168,10 @@ function main ( options = {} ) {
        * @param {string} [name='*' ] - Shortcut name that should be resumed. Default is '*' - all shortcuts in current context.
        * @returns {void}
        */
-    API.resume = (name='*') => ev.start ( inAPI._readShortcut(name) )
+    API.resume = (name='*') => {
+                        const resumedEvent = inAPI._readShortcut(name)
+                        ev.start ( resumedEvent )
+                  }
 
     /**
      * @function emit
@@ -102,7 +187,9 @@ function main ( options = {} ) {
      * @description List all context names
      * @returns {string[]} - Array of context names
      */
-    API.listContexts = () => Object.keys ( shortcuts )
+    API.listContexts = () => Object.keys ( state.shortcuts )
+
+
 
     /**
      * @function setDependencies
@@ -126,7 +213,11 @@ function main ( options = {} ) {
                 else                          API [ name ] = method ( dependencies, state )
         })
   
-    inAPI._listen ()
+    // Old way to run a library:
+    // inAPI._listen ()
+    // After the implementation of the plugin system, the library is started by enabling the plugins:
+    // TODO: ...
+
     return API
 } // main func.
 
@@ -136,13 +227,17 @@ main.getDefaults = () => ({
                           mouseWait     : 320     // 320 ms
                         , keyWait       : 480     // 480 ms
                         , clickTarget   : 'click' // Data-attribute name for click target ( data-click )
-                        , listenFor     : [ 'mouse', 'keyboard' ]
                         , onShortcut    : false   // Shortcut log function or false 
                         , streamKeys    : false   // Stream keys function or false
                     })
 
 
 
-export default main
+// export default main
+export { main as shortcuts }
+export { 
+            pluginKey
+          , pluginClick
+        }
 
 
