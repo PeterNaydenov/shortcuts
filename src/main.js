@@ -28,6 +28,7 @@ import pluginClick from './plugins/click/index.js'
 
 
 function main ( options = {} ) {
+
     const
           ev = notice ()  // Event emitter instance
         , inAPI = {}      // API for internal methods
@@ -169,7 +170,7 @@ function main ( options = {} ) {
      * @param {object} deps - Enumerate external dependencies
      * @returns {void}
      */
-    API.setDependencies = (deps) => dependencies.extra = { ...dependencies.extra, ...deps }
+    API.setDependencies = deps => dependencies.extra = { ...dependencies.extra, ...deps }
 
     /**
      * @function getDependencies
@@ -184,24 +185,9 @@ function main ( options = {} ) {
                 if ( name.startsWith('_') ) inAPI [ name ] = method ( dependencies, state )
                 else                          API [ name ] = method ( dependencies, state )
         })
-  
-    // Old way to run a library:
-    // inAPI._listen ()
-    // After the implementation of the plugin system, the library is started by enabling the plugins:
-    // TODO: ...
 
     return API
 } // main func.
-
-
-
-main.getDefaults = () => ({
-                          mouseWait     : 320     // 320 ms
-                        , keyWait       : 480     // 480 ms
-                        , clickTarget   : 'click' // Data-attribute name for click target ( data-click )
-                        , onShortcut    : false   // Shortcut log function or false 
-                        , streamKeys    : false   // Stream keys function or false
-                    })
 
 
 
