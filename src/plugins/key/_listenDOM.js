@@ -42,7 +42,7 @@ function _listenDOM ( dependencies, state ) {
                     let res =  r.map ( x => ([x.join('+')])   )
                     if ( !sequence ) {
                             let signal = res.at(-1);
-                            ev.emit ( signal, { wait:waitKeys, end:endKeys, ignore:ignoreKeys, isWaiting:waitingKeys, note: currentContext.note, context: currentContext.name })
+                            ev.emit ( signal, { wait:waitKeys, end:endKeys, ignore:ignoreKeys, isWaiting:waitingKeys, note: currentContext.note, context: currentContext.name, type: 'key' })
                             if ( ignore ) {
                                         res = res.slice ( 0, -1 )
                                         ignore = false
@@ -56,6 +56,7 @@ function _listenDOM ( dependencies, state ) {
                                     , note: currentContext.note
                                     , context: currentContext.name
                                     , dependencies : dependencies.extra
+                                    , type : 'key'
                             };
                             
                     if ( sequence ) { 

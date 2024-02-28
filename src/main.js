@@ -35,17 +35,8 @@ function main ( options = {} ) {
         , state = {
                       currentContext : { name: null, note: null } // Context data container
                     , shortcuts      : {}   // shortcuts = { contextName : { shortcut :  callback[] } }
-                    , listenOptions  : {
-                                          mouseWait     : options.mouseWait ? options.mouseWait : 320   // 320 ms
-                                        , maxClicks     : 1  // The maximum number of clicks in a sequence. Controlled automatically by 'changeContext' function.
-                                        , keyWait       : options.keyWait ? options.keyWait : 480   // 480 ms
-                                        , maxSequence   : 1  // How many keys can be pressed in a sequence. Controlled automatically by 'changeContext' function.
-                                        , clickTarget   : options.clickTarget ? options.clickTarget :  'click' // Data-attribute name for click target ( data-click )
-                                        , keyIgnore     : null   // Timer for ignoring key presses after max sequence or null. Not a public option.
-                                    }
                     , plugins        : [] // Array of active plugins
                     , exposeShortcut : (options.onShortcut && ( typeof options.onShortcut === 'function')) ? options.onShortcut : false   // Keyboard shortcut log function
-                    , streamKeys     : (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false   // Keyboard stream function
               } // state
         , dependencies = { 
                               ev
@@ -57,23 +48,9 @@ function main ( options = {} ) {
 
     
 
-    // System events listeners. Events that control plugin's lifecycle.:    
+    // System events listeners. Events that control plugin's lifecycle.:
     ev.on ( '@context-change', context  => state.plugins.map ( plugin => plugin.contextChange(context))   )
-
-
     
-    function _systemAction ( pluginName, fn, params=null ) {   // Specific plugin command: Mute, unmute, pause, resume, destroy
-                        return state.plugins.findIndex ( plugin => {
-                                      if ( plugin.getPrefix() === pluginName ) {  
-                                                  if ( plugin[fn] )   plugin[fn]( params )
-                                                  return true
-                                          }
-                                      return false
-                                  })
-                } // systemAction func.
-
-
-
     // ----------------------  > PLUGIN METHODS < ---------------------- //
     /**
      * @function enable
@@ -83,7 +60,7 @@ function main ( options = {} ) {
     API.enable = ( plugin,options={}) => {
                 const 
                       name = plugin.name
-                    , ix = _systemAction ( name, 'none' )
+                    , ix = inAPI._systemAction ( name, 'none' )
                     ;
 
                 if ( ix === -1 ) {   // If plugin is not registered
@@ -101,7 +78,7 @@ function main ( options = {} ) {
      * @returns {void}
      */
     API.disable = pluginName => { 
-                const ix = _systemAction ( pluginName, 'destroy' );
+                const ix = inAPI._systemAction ( pluginName, 'destroy' );
                 if ( ix !== -1 )   state.plugins = state.plugins.filter ( (plugin, i) => i !== ix )
       } // disable func.
 
@@ -111,14 +88,14 @@ function main ( options = {} ) {
      * @description Mute a plugin
      * @returns number - Index of the plugin in the plugins array ( -1 if not found ).
      */
-    API.mute = pluginName => _systemAction ( pluginName, 'mute'   )
+    API.mute = pluginName => inAPI._systemAction ( pluginName, 'mute'   )
 
     /**
      * @function unmute
      * @description Unmute a plugin
      * @returns number - Index of the plugin in the plugins array ( -1 if not found ).
      */
-    API.unmute = pluginName => _systemAction ( pluginName, 'unmute' )
+    API.unmute = pluginName => inAPI._systemAction ( pluginName, 'unmute' )
 
 
     
