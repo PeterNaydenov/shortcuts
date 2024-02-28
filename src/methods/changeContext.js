@@ -9,10 +9,11 @@ const
         , { ev } = dependencies
         ;
 
+
+
 function expose () {
                 ev.on ( '*', (event, ...args) => {
-                        console.log ( 'EEE' )
-                        if ( state.exposeShortcut )   state.exposeShortcut ( event, ...args )
+                                if ( state.exposeShortcut )   state.exposeShortcut ( event, ...args )
                         })
         } // expose func.
 

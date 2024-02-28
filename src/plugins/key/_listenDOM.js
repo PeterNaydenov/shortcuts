@@ -114,7 +114,6 @@ function _listenDOM ( dependencies, state ) {
 
     function start () {
                         if ( state.active ) return
-                        console.log ( 'listen' )
                         document.addEventListener ( 'keydown' , listenForSpecialKeys )
                         document.addEventListener ( 'keypress', listenForRegularKeys )
                         state.active = true

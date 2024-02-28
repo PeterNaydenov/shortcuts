@@ -192,7 +192,6 @@ function main ( options = {} ) {
 
 
 
-// export default main
 export { main as shortcuts }
 export { 
             pluginKey
