@@ -20,6 +20,7 @@
 import notice  from '@peter.naydenov/notice'   // Docs: https://github.com/PeterNaydenov/notice
 import methods from './methods/index.js'
 
+// Plugins
 import pluginKey from './plugins/key/index.js'
 import pluginClick from './plugins/click/index.js'
 
@@ -131,7 +132,7 @@ function main ( options = {} ) {
        * @returns {void}
        */
     API.pause = (name='*') => {
-                        const pausedEvent = inAPI._readShortcut(name)
+                        let pausedEvent = inAPI._readWithPlugins ( name );
                         ev.stop ( pausedEvent )
                   }
 
@@ -142,7 +143,7 @@ function main ( options = {} ) {
        * @returns {void}
        */
     API.resume = (name='*') => {
-                        const resumedEvent = inAPI._readShortcut(name)
+                        const resumedEvent = inAPI._readWithPlugins ( name )
                         ev.start ( resumedEvent )
                   }
 
@@ -153,7 +154,7 @@ function main ( options = {} ) {
      * @param {any} [args] - Arguments for callback function
      * @returns {void}
      **/
-    API.emit = (name,...args) => ev.emit ( inAPI._readShortcut(name), dependencies.extra, ...args )
+    API.emit = (name,...args) => ev.emit ( inAPI._readWithPlugins(name), dependencies.extra, ...args )
 
     /**
      * @function listContexts

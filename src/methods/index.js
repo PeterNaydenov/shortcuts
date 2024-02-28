@@ -1,5 +1,6 @@
-import _normalizeWithPlugins from './_normalizeWithPlugins.js'
-import _systemAction         from './_systemAction.js'
+import _normalizeWithPlugins    from './_normalizeWithPlugins.js'
+import _readShortcutWithPlugins from './_readShortcutWithPlugins.js'
+import _systemAction            from './_systemAction.js'
 
 import load           from './load.js'
 import unload         from './unload.js'
