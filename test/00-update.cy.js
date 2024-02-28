@@ -14,7 +14,7 @@ let
        a = false
      , b = false
      ;
-const short = shortcuts ({onShortcut : ({shortcut, context, note}) => console.log (shortcut, context, note)});
+const short = shortcuts ({onShortcut : (shortcut, {context, note,type }) => console.log (shortcut, context, note, type)});
 short.load ({
                   general : {
                             'key:shift+a': [ () => a = true ]

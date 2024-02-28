@@ -10,6 +10,15 @@ const
         , { ev } = dependencies
         ;
 
+function expose () {
+                ev.on ( '*', (event, ...args) => {
+                        console.log ( 'EEE' )
+                        if ( state.exposeShortcut )   state.exposeShortcut ( event, ...args )
+                        })
+        } // expose func.
+
+
+
 /**
  * @function changeContext
  * @description Change current context with shortcuts belonging to it.
@@ -55,6 +64,7 @@ return function changeContext ( contextName = false ) {
                 })   
         currentContext.name = contextName        
         ev.emit ( '@context-change', shortcuts[current] ) // Emit context switch event to plugins
+        expose ()
 }} // changeContext func.
 
 

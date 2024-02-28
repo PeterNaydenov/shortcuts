@@ -30,12 +30,11 @@ function _listenDOM ( dependencies, state ) {
                                         , note    : currentContext.note
                                         , event   : mouseDomEvent
                                         , dependencies : dependencies.extra
+                                        , type   : 'click'
                                 }
                                 ;
 
                         ev.emit ( mouseEvent, data )
-                        // TODO: Fix exposeShortcut
-                        // if ( exposeShortcut )   exposeShortcut ({ shortcut: mouseEvent, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
                         // Reset:
                         mouseTimer = null
                         mouseIgnore = null

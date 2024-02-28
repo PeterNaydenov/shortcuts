@@ -26,8 +26,7 @@ function pluginKey ( dependencies, state, options={} ) {
                                                 , maxSequence   : 1  // How many keys can be pressed in a sequence. Controlled automatically by 'changeContext' function.
                                                 , keyIgnore     : null   // Timer for ignoring key presses after max sequence or null. Not a public option.
                                         }
-                        , exposeShortcut : (options.onShortcut && ( typeof options.onShortcut === 'function')) ? options.onShortcut : false   // Keyboard shortcut log function
-                        , streamKeys     : (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false   // Keyboard stream function
+                          , streamKeys     : (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false   // Keyboard stream function
                 }; // state
                 
         // Read shortcuts names from all context entities and normalize entries related to the plugin

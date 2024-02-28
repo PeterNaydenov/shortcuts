@@ -10,8 +10,7 @@ function _listenDOM ( dependencies, state ) {
                 , _readKeyEvent
             } = dependencies
         , {
-                  exposeShortcut
-                , currentContext
+                  currentContext
                 , streamKeys
                 , listenOptions
             } = state
@@ -61,9 +60,7 @@ function _listenDOM ( dependencies, state ) {
                             
                     if ( sequence ) { 
                             const signal = `KEY:${res.join(',')}`
-                            console.log ( signal )
                             ev.emit ( signal, data )   
-                            if ( exposeShortcut )   exposeShortcut ({ shortcut:res.join(','), context: currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
                             // Reset:
                             r = []
                             keyTimer = null
