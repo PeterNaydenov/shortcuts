@@ -51,7 +51,7 @@ function main ( options = {} ) {
     
 
     // System events listeners. Events that control plugin's lifecycle.:
-    ev.on ( '@context-change', context  => state.plugins.map ( plugin => plugin.contextChange(context))   )
+    ev.on ( '@change-context', contextName  => state.plugins.map ( plugin => plugin.contextChange(contextName))   )
     
     // ----------------------  > PLUGIN METHODS < ---------------------- //
     /**

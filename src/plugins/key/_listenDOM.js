@@ -38,7 +38,6 @@ function _listenDOM ( dependencies, state ) {
 
 
     function keySequenceEnd () {   // Execute when key sequence ends
-        
                     let res =  r.map ( x => ([x.join('+')])   )
                     if ( !sequence ) {
                             let signal = res.at(-1);
@@ -59,7 +58,7 @@ function _listenDOM ( dependencies, state ) {
                                     , type : 'key'
                             };
                             
-                    if ( sequence ) { 
+                    if ( sequence ) {
                             const signal = `KEY:${res.join(',')}`
                             ev.emit ( signal, data )   
                             // Reset:
