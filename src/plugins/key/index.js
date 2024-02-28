@@ -12,6 +12,7 @@ import _specialChars           from './_specialChars.js'
 function pluginKey ( dependencies, state, options={} ) {
         const 
                   { currentContext, shortcuts } = state
+                , { inAPI } = dependencies
                 , deps = {
                              ev: dependencies.ev
                              , _specialChars
@@ -27,18 +28,11 @@ function pluginKey ( dependencies, state, options={} ) {
                                                 , keyIgnore     : null   // Timer for ignoring key presses after max sequence or null. Not a public option.
                                         }
                           , streamKeys     : (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false   // Keyboard stream function
+                          , exposeShortcut
                 }; // state
                 
         // Read shortcuts names from all context entities and normalize entries related to the plugin
-        Object.keys ( shortcuts ).forEach ( contextName => {
-                        Object.entries (shortcuts[contextName]).forEach ( ([shortcutName, callbackList]) => {
-                                                const name = _normalizeShortcutName ( shortcutName )
-                                                if ( name !== shortcutName ) {
-                                                                delete shortcuts[contextName][shortcutName]
-                                                                shortcuts[contextName][name] = callbackList
-                                                        }
-                                        })
-                })
+        inAPI._normalizeWithPlugins ( _normalizeShortcutName )
                 
         let 
              keysListener   = _listenDOM ( deps, pluginState )

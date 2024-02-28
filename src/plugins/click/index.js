@@ -12,6 +12,7 @@ import _registerShortcutEvents from "./_registerShortcutEvents"
 function pluginClick ( dependencies, state, options ) {
         const 
                   { currentContext, shortcuts } = state
+                , { inAPI } = dependencies
                 , deps = {
                                 ev: dependencies.ev
                              , _findTarget
@@ -29,15 +30,7 @@ function pluginClick ( dependencies, state, options ) {
                 ; 
 
         // Read shortcuts names from all context entities and normalize entries related to the plugin
-        Object.keys ( shortcuts ).forEach ( contextName => {
-                        Object.entries (shortcuts[contextName]).forEach ( ([shortcutName, callbackList]) => {
-                                                const name = _normalizeShortcutName ( shortcutName )
-                                                if ( name !== shortcutName ) {
-                                                                delete shortcuts[contextName][shortcutName]
-                                                                shortcuts[contextName][name] = callbackList
-                                                        }
-                                        })
-                })
+        inAPI._normalizeWithPlugins ( _normalizeShortcutName )
         
         let 
              mouseListener = _listenDOM ( deps, pluginState )
