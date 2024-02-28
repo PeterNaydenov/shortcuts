@@ -17,7 +17,7 @@ let
 const short = shortcuts ({onShortcut : (shortcut, {context, note,type }) => console.log (shortcut, context, note, type)});
 short.load ({
                   general : {
-                            'key:shift+a': [ () => a = true ]
+                            ' key : shift+a': [ () => a = true ]
                         }
                 , extra : {    
                             'key:shift+a,p,r,o,b,a,ctrl+m' : () => b = true 
@@ -37,7 +37,7 @@ beforeEach ( () => {
 it ( 'Shortcut if no plugin installed', done => {
             short.changeContext ( 'general' )
             let r = short.listShortcuts ('general')
-            expect ( r[0]).to.equal ( 'key:shift+a' ) // Shortcut name is the same as it was set
+            expect ( r[0]).to.equal ( ' key : shift+a' ) // Shortcut name is the same as it was set
             done ()
     }) // it no plugin installed
 
@@ -71,9 +71,8 @@ it ( 'Simple shortcut', done => {
         cy.wait ( 1 )   // Default wait sequence timeout is 480 ms, but maxSequence is 1, so we don't need to wait for timeout
           .then ( () => { 
                             expect ( a ).to.be.true 
+                            done ()
                     })
-        cy.wait ( 480 ) // ...but mouseIgnore still active, so we better wait to not interfere with next test
-          .then ( () => done() )            
     }) // it simple shortcut
 
 
@@ -89,8 +88,6 @@ it ( 'Call sequence shortcut', done => {
           .type ( 'proba' )
           .type ( '{ctrl}M' )
        
-        
-
         cy.wait ( 1 )   // Default wait sequence timeout is 480 ms, but maxSequence is 1, so we don't need to wait for timeout
           .then ( () => { 
                             expect ( b ).to.be.true
@@ -100,24 +97,25 @@ it ( 'Call sequence shortcut', done => {
 
 
 
-// it ( 'Single mouse click', done => {
-//         expect ( a ).to.be.false
-//         expect ( b ).to.be.false
-//         short.enable ( pluginClick )
+it ( 'Single mouse click', done => {
+        expect ( a ).to.be.false
+        expect ( b ).to.be.false
+        short.enable ( pluginClick )
         
-//         short.load ({ 'extra' : { 
-//                                 'click:left-1' : () => a = true 
-//                             } 
-//                 })
-//         short.changeContext ( 'extra' )
-//         cy.get('#rspan').click ()
-//         cy.wait ( 10 ) // Default wait mouse timeout is 320 ms, but maxClicks is 1, so we don't need to wait for timeout
-//           .then ( () => {
-//                 expect ( a ).to.be.true 
-//             })
-//         cy.wait ( 300 ) // ...but mouseIgnore still active, so we better wait to not interfere with next test
-//           .then ( () => done() )
-//     }) // it mouse click
+        short.load ({ 'extra' : { 
+                                ' cLIck  : left - 1 ' : () => a = true // Check if spaces, letter case can break the shortcut recognition
+                            }
+                })
+        short.changeContext ( 'extra' )
+        console.log ( short.listShortcuts ('extra') )
+        cy.get('#rspan').click ()
+        cy.wait ( 10 ) // Default wait mouse timeout is 320 ms, but maxClicks is 1, so we don't need to wait for timeout
+          .then ( () => {
+                expect ( a ).to.be.true 
+            })
+        cy.wait ( 300 ) // ...but mouseIgnore still active, so we better wait to not interfere with next test
+          .then ( () => done() )
+    }) // it mouse click
 
 }) // describe
 

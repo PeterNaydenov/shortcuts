@@ -14,7 +14,7 @@ const
 return function load ( shortcutsUpdate ) {
     const
            currentContextName = getContext ()
-         , pluginPrefixList = plugins.map ( plugin => plugin.getPrefix()   )
+         , pluginPrefixList = plugins.map ( plugin => plugin.getPrefix().toUpperCase()   )
          ;
     let hasChanges = false;
     
@@ -22,8 +22,11 @@ return function load ( shortcutsUpdate ) {
                     if ( contextName === currentContextName ) hasChanges = true;   // If changes in current context will need to reload it
                     shortcuts [ contextName ] = {}
                     Object.entries ( contextShortcuts ).forEach ( ([ title, callbackList ]) => {
-                                    let name = title;
-                                    let pluginIndexList = pluginPrefixList.map ( (prefix,i) => name.startsWith ( prefix ) ? i : null ).filter ( i => i !== null );
+                                    let 
+                                          name = title
+                                        , test = title.toUpperCase().trim()
+                                        ;
+                                    let pluginIndexList = pluginPrefixList.map ( (prefix,i) => test.startsWith ( prefix ) ? i : null ).filter ( i => i !== null );
                                     if ( pluginIndexList.length ) {
                                                 let id = pluginIndexList[0];
                                                 name = plugins[id].shortcutName ( title )

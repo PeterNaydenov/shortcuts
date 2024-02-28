@@ -3,12 +3,14 @@
 function _normalizeShortcutName ( name ) {
             const 
                   upperCase = name.toUpperCase ()
-                , isKeyboardShortcut = upperCase.includes ('KEY:')
+                , regex = /KEY\s*\:/i
+                , isKeyboardShortcut = regex.test ( upperCase )
+                , sliceIndex = upperCase.indexOf ( ':' )
                 ;
 
             if ( !isKeyboardShortcut )   return name
             let shortcut = upperCase
-                               .slice(4)
+                               .slice(sliceIndex+1)
                                .split(',')
                                .map ( key => key.trim() )
                                .map ( key => {

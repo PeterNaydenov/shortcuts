@@ -3,7 +3,8 @@
 function _normalizeShortcutName ( name ) {
             const 
                   upperCase = name.toUpperCase ()
-                , isClickShortcut = upperCase.includes ('CLICK:')
+                , regex = /CLICK\s*\:/i
+                , isClickShortcut = regex.test(upperCase)
                 , mouseNames = [ 'LEFT', 'MIDDLE', 'RIGHT' ]
                 , modifiers = [ 'ALT', 'SHIFT', 'CTRL' ]
                 ;   
@@ -11,12 +12,14 @@ function _normalizeShortcutName ( name ) {
                   btn = null
                 , usedModifiers = []
                 , counter = 0
+                , sliceIndex = upperCase.indexOf ( ':' )
                 ;
 
             // Click event format: CLICK:LEFT-2-ALT-SHIFT-CTRL
 
             if ( !isClickShortcut )   return name
-            let shortcutArray = upperCase.slice(6).split('-');
+            let shortcutArray = upperCase.slice(sliceIndex+1).trim().split('-').map ( x => x.trim() );
+            console.log ( shortcutArray )
             shortcutArray.forEach ( item => {
                         if ( mouseNames.includes ( item )) { 
                                 btn = item
