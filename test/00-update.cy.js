@@ -2,7 +2,7 @@
 import Block from '../test-components/Block.jsx'
 import '../test-components/style.css'
 import { 
-    pluginClick,
+          pluginClick,
           pluginKey
         , shortcuts 
                 } from '../src/main.js'
@@ -44,7 +44,7 @@ it ( 'Shortcut if no plugin installed', done => {
 
 
 it ( 'Key plugin, no context selected', done => {
-            short.enable ( pluginKey )
+            short.enablePlugin ( pluginKey )
             const r = short.listShortcuts ( 'general' )
             expect ( r[0] ).to.equal ( 'KEY:A+SHIFT' ) // Shortcut name is recognized by plugin and is normalized
             done ()
@@ -53,7 +53,7 @@ it ( 'Key plugin, no context selected', done => {
 
 
 it ( 'Key plugin with context selected', done => {
-            short.enable ( pluginKey )
+            short.enablePlugin ( pluginKey )
             short.changeContext ( 'general' )
             const r = short.listShortcuts ('general')
             expect ( r[0] ).to.equal ( 'KEY:A+SHIFT' ) // Shortcut name is recognized by plugin and is normalized
@@ -64,7 +64,7 @@ it ( 'Key plugin with context selected', done => {
 
 it ( 'Simple shortcut', done => {
         let res = false;
-        short.enable ( pluginKey )
+        short.enablePlugin ( pluginKey )
         short.changeContext ( 'general' )
         cy.get('body').type ( '{shift}a' )
 
@@ -79,7 +79,7 @@ it ( 'Simple shortcut', done => {
 
 it ( 'Call sequence shortcut', done => {
         b = false
-        short.enable ( pluginKey )
+        short.enablePlugin ( pluginKey )
         short.changeContext ( 'general' )
         short.changeContext ( 'extra' )
         
@@ -100,7 +100,7 @@ it ( 'Call sequence shortcut', done => {
 it ( 'Single mouse click', done => {
         expect ( a ).to.be.false
         expect ( b ).to.be.false
-        short.enable ( pluginClick )
+        short.enablePlugin ( pluginClick )
         
         short.load ({ 'extra' : { 
                                 ' cLIck  : left - 1 ' : () => a = true // Check if spaces, letter case can break the shortcut recognition

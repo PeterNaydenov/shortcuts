@@ -55,11 +55,11 @@ function main ( options = {} ) {
     
     // ----------------------  > PLUGIN METHODS < ---------------------- //
     /**
-     * @function enable
+     * @function enablePlugin
      * @description Enable a plugin
      * @returns {void}
      */
-    API.enable = ( plugin,options={}) => {
+    API.enablePlugin = ( plugin,options={}) => {
                 const 
                       name = plugin.name
                     , ix = inAPI._systemAction ( name, 'none' )
@@ -75,11 +75,11 @@ function main ( options = {} ) {
 
 
     /**
-     * @function disable
+     * @function disablePlugin
      * @description Disable a plugin
      * @returns {void}
      */
-    API.disable = pluginName => { 
+    API.disablePlugin = pluginName => { 
                 const ix = inAPI._systemAction ( pluginName, 'destroy' );
                 if ( ix !== -1 )   state.plugins = state.plugins.filter ( (plugin, i) => i !== ix )
       } // disable func.
