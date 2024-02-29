@@ -17,7 +17,6 @@ Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {
                 count++
                 let sequenceArraySize = shortcutName.slice(4).split(',').length;
                 if ( listenOptions.maxSequence < sequenceArraySize )   listenOptions.maxSequence = sequenceArraySize
-                list.forEach ( fn => ev.on ( shortcutName, fn )    )    // Enable new context shortcuts
         })
 return count
 } // _registerShortcutEvents func.

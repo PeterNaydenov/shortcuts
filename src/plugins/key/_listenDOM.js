@@ -8,6 +8,7 @@ function _listenDOM ( dependencies, state ) {
                 ev
                 , _specialChars
                 , _readKeyEvent
+                , mainDependencies
             } = dependencies
         , {
                   currentContext
@@ -54,7 +55,7 @@ function _listenDOM ( dependencies, state ) {
                                     , isWaiting:waitingKeys
                                     , note: currentContext.note
                                     , context: currentContext.name
-                                    , dependencies : dependencies.extra
+                                    , dependencies : mainDependencies.extra
                                     , type : 'key'
                             };
                             

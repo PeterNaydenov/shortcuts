@@ -33,7 +33,7 @@ return function changeContext ( contextName = false ) {
                         currentContext.name = null
                         return
                 }
-        if ( current === contextName ) return   // Do nothing if contextName is the same as current
+        
         if ( !shortcuts [ contextName ] ) {   // If contextName is not defined
                         ev.emit ( '@shortcuts-error', `Context '${ contextName }' does not exist` )
                         return
@@ -43,7 +43,10 @@ return function changeContext ( contextName = false ) {
                 }
 
         currentContext.name = contextName 
-        state.plugins.forEach ( plugin => plugin.contextChange ( contextName ) )   // Change context in all plugins
+        state.plugins.forEach ( plugin => plugin.contextChange ( contextName )    )        // Inform plugins for context change
+        Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {   // Enable new context shortcuts
+                        list.forEach ( fn => ev.on ( shortcutName, fn )    )
+                })
         expose ()
 }} // changeContext func.
 

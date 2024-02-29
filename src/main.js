@@ -132,7 +132,7 @@ function main ( options = {} ) {
        * @returns {void}
        */
     API.pause = (name='*') => {
-                        let pausedEvent = inAPI._readWithPlugins ( name );
+                        let pausedEvent = inAPI._readShortcutWithPlugins ( name );
                         ev.stop ( pausedEvent )
                   }
 
@@ -143,7 +143,7 @@ function main ( options = {} ) {
        * @returns {void}
        */
     API.resume = (name='*') => {
-                        const resumedEvent = inAPI._readWithPlugins ( name )
+                        const resumedEvent = inAPI._readShortcutWithPlugins ( name )
                         ev.start ( resumedEvent )
                   }
 
@@ -154,7 +154,8 @@ function main ( options = {} ) {
      * @param {any} [args] - Arguments for callback function
      * @returns {void}
      **/
-    API.emit = (name,...args) => ev.emit ( inAPI._readWithPlugins(name), dependencies.extra, ...args )
+    API.emit = (name,...args) =>  ev.emit ( inAPI._readShortcutWithPlugins ( name ), dependencies.extra, ...args )
+      
 
     /**
      * @function listContexts

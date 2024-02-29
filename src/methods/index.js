@@ -12,6 +12,7 @@ import listShortcuts  from './listShortcuts.js'
 export default {
 // Internal methods
    _normalizeWithPlugins
+ , _readShortcutWithPlugins
  , _systemAction
     
 // Public methods

@@ -6,6 +6,7 @@ function _listenDOM ( dependencies, state ) {
                    ev
                 , _findTarget 
                 , _readClickEvent
+                , mainDependencies
                         } = dependencies
         const { listenOptions, currentContext } = state
         const { mouseWait } = listenOptions
@@ -17,7 +18,7 @@ function _listenDOM ( dependencies, state ) {
            , mouseIgnore = null // Timer for ignoring mouse clicks or null
            , count    = 0
            ;
-           
+
         function mouseSequenceEnd () {   // Execute when mouse sequence ends
                         const 
                                   mouseEvent = _readClickEvent ( mouseDomEvent, count )
@@ -29,7 +30,7 @@ function _listenDOM ( dependencies, state ) {
                                         , context : currentContext.name
                                         , note    : currentContext.note
                                         , event   : mouseDomEvent
-                                        , dependencies : dependencies.extra
+                                        , dependencies : mainDependencies.extra
                                         , type   : 'click'
                                 }
                                 ;

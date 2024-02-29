@@ -17,6 +17,7 @@ function pluginKey ( dependencies, state, options={} ) {
                              ev: dependencies.ev
                              , _specialChars
                              , _readKeyEvent
+                             , mainDependencies : dependencies
                         }
                 , pluginState = {
                             currentContext

@@ -19,7 +19,6 @@ function _normalizeShortcutName ( name ) {
 
             if ( !isClickShortcut )   return name
             let shortcutArray = upperCase.slice(sliceIndex+1).trim().split('-').map ( x => x.trim() );
-            console.log ( shortcutArray )
             shortcutArray.forEach ( item => {
                         if ( mouseNames.includes ( item )) { 
                                 btn = item

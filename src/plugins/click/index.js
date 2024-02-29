@@ -17,6 +17,7 @@ function pluginClick ( dependencies, state, options ) {
                                 ev: dependencies.ev
                              , _findTarget
                              , _readClickEvent
+                             , mainDependencies : dependencies
                         }
                 , pluginState = {
                                   currentContext
@@ -36,7 +37,7 @@ function pluginClick ( dependencies, state, options ) {
              mouseListener = _listenDOM ( deps, pluginState )
            , countShortcuts = _registerShortcutEvents ( dependencies, pluginState )
            ;
-        
+      
         if ( countShortcuts > 0 )   mouseListener.start ()
        
         const pluginAPI = {
