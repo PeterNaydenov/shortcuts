@@ -33,7 +33,7 @@ return function changeContext ( contextName = false ) {
                         currentContext.name = null
                         return
                 }
-        
+        if ( current === contextName ) return   // Do nothing if contextName is the same as current
         if ( !shortcuts [ contextName ] ) {   // If contextName is not defined
                         ev.emit ( '@shortcuts-error', `Context '${ contextName }' does not exist` )
                         return

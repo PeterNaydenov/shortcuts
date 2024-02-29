@@ -66,6 +66,7 @@ it ( 'Key plugin with context selected', done => {
 
 it ( 'Simple shortcut', done => {
         short.enablePlugin  ( pluginKey  )
+        short.changeContext ( )
         short.changeContext ( 'general'  )
         cy.get('body').type ( '{shift}a' )
         cy.wait ( 1 )   // Default wait sequence timeout is 480 ms, but maxSequence is 1, so we don't need to wait for timeout
