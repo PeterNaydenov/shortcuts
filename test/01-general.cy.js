@@ -14,12 +14,9 @@ let
        a = false
      , b = false
      ;
-                                    //    event , dependencies, metaData
-const short = shortcuts ({onShortcut : (...arg) => {
-        console.log ( arg )
-        // console.log (shortcut, context, note, type)});
-}
-    })
+                                    
+const short = shortcuts ({onShortcut : ( shortcut, {context,note,type}) =>  console.log (shortcut, context, note, type)   });
+    
 short.load ({
                   general : {
                             ' key : shift+a': [ () => a = true ]
@@ -158,7 +155,6 @@ it ( 'Dependencies on shortcuts', done => {
         short.load ({   
                         'extra' : {   // load will overwrite existing 'extra' context definition
                                     'click: left-1' : ({dependencies}) => {
-                                        console.log ( dependencies )
                                                                         const { task } = dependencies;
                                                                         expect ( task ).to.have.property ( 'done' )
                                                                         expect ( task ).to.have.property ( 'promise' )
