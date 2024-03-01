@@ -40,14 +40,6 @@ function _listenDOM ( dependencies, state ) {
 
     function keySequenceEnd () {   // Execute when key sequence ends
                     let res =  r.map ( x => ([x.join('+')])   )
-                    if ( !sequence ) {
-                            let signal = res.at(-1);
-                            ev.emit ( signal, { wait:waitKeys, end:endKeys, ignore:ignoreKeys, isWaiting:waitingKeys, note: currentContext.note, context: currentContext.name, type: 'key' })
-                            if ( ignore ) {
-                                        res = res.slice ( 0, -1 )
-                                        ignore = false
-                                }
-                        }
                     const data = {
                                       wait: waitKeys
                                     , end:endKeys
@@ -58,6 +50,14 @@ function _listenDOM ( dependencies, state ) {
                                     , dependencies : mainDependencies.extra
                                     , type : 'key'
                             };
+                    if ( !sequence ) {
+                            let signal = res.at(-1);
+                            ev.emit ( signal, data )    
+                            if ( ignore ) {
+                                        res = res.slice ( 0, -1 )
+                                        ignore = false
+                                }
+                        }
                             
                     if ( sequence ) {
                             const signal = `KEY:${res.join(',')}`

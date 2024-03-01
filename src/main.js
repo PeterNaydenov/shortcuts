@@ -48,11 +48,8 @@ function main ( options = {} ) {
                         }
         ;
 
-    
 
-    // System events listeners. Events that control plugin's lifecycle.:
-    ev.on ( '@change-context', contextName  => state.plugins.map ( plugin => plugin.contextChange(contextName))   )
-    
+
     // ----------------------  > PLUGIN METHODS < ---------------------- //
     /**
      * @function enablePlugin
@@ -154,7 +151,7 @@ function main ( options = {} ) {
      * @param {any} [args] - Arguments for callback function
      * @returns {void}
      **/
-    API.emit = (name,...args) =>  ev.emit ( inAPI._readShortcutWithPlugins ( name ), dependencies.extra, ...args )
+    API.emit = (name,...args) =>  ev.emit ( inAPI._readShortcutWithPlugins ( name ), ...args )
       
 
     /**

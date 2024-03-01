@@ -12,8 +12,8 @@ const
 
 
 function expose () {
-                ev.on ( '*', (event, ...args) => {
-                                if ( state.exposeShortcut )   state.exposeShortcut ( event, ...args )
+                ev.on ( '*', (...args) => {
+                                if ( state.exposeShortcut )   state.exposeShortcut ( ...args )
                         })
         } // expose func.
 

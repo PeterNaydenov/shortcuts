@@ -14,7 +14,12 @@ let
        a = false
      , b = false
      ;
-const short = shortcuts ({onShortcut : (shortcut, {context, note,type }) => console.log (shortcut, context, note, type)});
+                                    //    event , dependencies, metaData
+const short = shortcuts ({onShortcut : (...arg) => {
+        console.log ( arg )
+        // console.log (shortcut, context, note, type)});
+}
+    })
 short.load ({
                   general : {
                             ' key : shift+a': [ () => a = true ]
@@ -180,11 +185,11 @@ it ( 'Emit custom event', done => {
         const myAllContext = { 
                                 myAll: {
                                           'click : leff-1' : () =>  console.log ( 'nothing' )
-                                         , 'yo' : ( dependencies, r ) =>  result = r
+                                         , 'yo' : ({msg}) => result = msg
                                     }}
         short.load ( myAllContext )
         short.changeContext ( 'myAll' )
-        short.emit ( 'yo', 'hello' )
+        short.emit ( 'yo', { context: short.getContext(), note: 'tt', type:'custom', msg:'hello' })
         expect ( result ).to.be.equal ( 'hello' )
         short.changeContext ( 'general' )
         short.unload ( 'myAll' )
