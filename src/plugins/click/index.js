@@ -18,6 +18,7 @@ function pluginClick ( dependencies, state, options ) {
                              , _findTarget
                              , _readClickEvent
                              , mainDependencies : dependencies
+                             , regex : /CLICK\s*\:/i
                         }
                 , pluginState = {
                                   currentContext
@@ -35,7 +36,7 @@ function pluginClick ( dependencies, state, options ) {
         
         let 
              mouseListener = _listenDOM ( deps, pluginState )
-           , countShortcuts = _registerShortcutEvents ( dependencies, pluginState )
+           , countShortcuts = _registerShortcutEvents ( deps, pluginState )
            ;
       
         if ( countShortcuts > 0 )   mouseListener.start ()

@@ -18,6 +18,7 @@ function pluginKey ( dependencies, state, options={} ) {
                              , _specialChars
                              , _readKeyEvent
                              , mainDependencies : dependencies
+                             , regex : /KEY\s*\:/i
                         }
                 , pluginState = {
                             currentContext
@@ -37,7 +38,7 @@ function pluginKey ( dependencies, state, options={} ) {
                 
         let 
              keysListener   = _listenDOM ( deps, pluginState )
-           , countShortcuts = _registerShortcutEvents ( dependencies, pluginState )
+           , countShortcuts = _registerShortcutEvents ( deps, pluginState )
            ;
            
         if ( countShortcuts > 0 )   keysListener.start ()

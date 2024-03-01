@@ -3,7 +3,7 @@
 function _registerShortcutEvents ( dependencies, pluginState ) {
 let count = 0;
 const 
-          { ev } = dependencies
+          { regex } = dependencies
         , { 
                   listenOptions
                 , currentContext : { name:contextName }
@@ -13,7 +13,7 @@ const
 
 if ( contextName == null )   return 0
 Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {   // Enable new context shortcuts and set a listenOptions 'maxSequence'      
-                let isClickEv = shortcutName.includes ( 'CLICK:' );
+                let isClickEv = regex.test ( shortcutName );
                 if ( !isClickEv ) return
                 count++
                 
