@@ -232,9 +232,9 @@ it ( 'Click on anchor', done => {
         short.changeContext ( 'extra' )    
         cy.get ( '#anchor' ).click ()
         cy.wait ( 3 ) // Consider mouse click has some latency
-        // According Cypress documentation: 
-        // It is unsafe to chain further commands that rely on the subject after .click(). 
-        // source docs: https://docs.cypress.io/api/commands/click
+                      // According Cypress documentation: 
+                      // It is unsafe to chain further commands that rely on the subject after .click(). 
+                      // source docs: https://docs.cypress.io/api/commands/click
         .then ( () => {
                     short.changeContext ( 'general' )              
                     expect ( result ).to.be.equal ( 'A' )
