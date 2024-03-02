@@ -2,8 +2,18 @@
 
 
 
-### 3.0.0 ( 2024-02-?? )( in progress )
+### 3.0.0 ( 2024-03-?? )( in progress )
 - [x] Mouse events don't have `preventDefault` by default anymore. Handle it in the action function if needed. Take a look on `Mouse Action Function` argument description. Object `event` is available;
+- [x] Plugin system where plugins role is to convert DOM events to shortcut strings, then the core part will trigger the action functions related to the shortcut.
+- [x] Plugin can be enable/disable;
+- [x] Plugin can be mute/unmute;
+- [x] Plugin prefix in shortcut description is required. Keyboard plugin will take care for events started with ‘key:’ for example. Required because we should know the plugin that will handle the event;
+- [x] Start a plugin: enablePlugin ( pluginCode, pluginOptions );
+- [x] Function to destroy(remove) a plugin - disablePlugin();
+- [x] Mute/unmute a plugin. It’s like disable all events for a specific plugin;
+- [ ] Plugin system documentation;
+- [x] Plugin interface: getPrefix, shortcutName, contextChange, mute, unmute, destroy;
+- [x] Plugin options - specific for each plugin;
 
 
 

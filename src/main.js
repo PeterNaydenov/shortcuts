@@ -83,18 +83,18 @@ function main ( options = {} ) {
 
 
     /**
-     * @function mute
+     * @function mutePlugin
      * @description Mute a plugin
      * @returns number - Index of the plugin in the plugins array ( -1 if not found ).
      */
-    API.mute = pluginName => inAPI._systemAction ( pluginName, 'mute'   )
+    API.mutePlugin = pluginName => inAPI._systemAction ( pluginName, 'mute'   )
 
     /**
      * @function unmute
      * @description Unmute a plugin
      * @returns number - Index of the plugin in the plugins array ( -1 if not found ).
      */
-    API.unmute = pluginName => inAPI._systemAction ( pluginName, 'unmute' )
+    API.unmutePlugin = pluginName => inAPI._systemAction ( pluginName, 'unmute' )
 
 
     
