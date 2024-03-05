@@ -10,7 +10,7 @@ import _registerShortcutEvents from "./_registerShortcutEvents"
 
 
 function pluginClick ( dependencies, state, options ) {
-        const 
+        let 
                   { currentContext, shortcuts } = state
                 , { inAPI } = dependencies
                 , deps = {

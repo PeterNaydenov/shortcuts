@@ -221,7 +221,7 @@ it ( 'Click on anchor', done => {
         // Click on anchor that don't have click-data attribute.
         let result = 'none';
         short.load ({ 'extra' : { 
-                                'click: left - 1' : ({target, context, event }) => {
+                                'click: 1 - left' : ({target, context, event }) => {   // Order of button name and number of click is not important
                                             event.preventDefault ()
                                             expect ( context ).to.be.equal ( 'extra' )
                                             expect ( target.nodeName ).to.be.equal ( 'A' )

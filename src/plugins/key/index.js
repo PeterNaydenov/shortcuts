@@ -10,7 +10,7 @@ import _specialChars           from './_specialChars.js'
 
 
 function pluginKey ( dependencies, state, options={} ) {
-        const 
+        let 
                   { currentContext, shortcuts, exposeShortcut } = state
                 , { inAPI } = dependencies
                 , deps = {

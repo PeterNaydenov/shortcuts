@@ -406,6 +406,7 @@ Plugin options are provided as a second argument during the plugin enabling. It'
 
 - [History of changes](https://github.com/PeterNaydenov/shortcuts/blob/main/Changelog.md)
 - [Migration guide](https://github.com/PeterNaydenov/shortcuts/blob/main/Migration.guide.md)
+- [How to make a plugin](https://github.com/PeterNaydenov/shortcuts/blob/main/How.to.make.plugins.md)
 
 
 
