@@ -309,12 +309,12 @@ Description of the methods of shortcut instance:
 , unmutePlugin    : 'Unmute a plugin. All events for the plugin will be listened again.'
 
 , changeContext   : 'Switch to existing shortcut context or shitch off the context(if no argument).'
+, getContext      : 'Return a name of current context or null if there is no context selected'
 , emit            : 'Trigger a shortcut or custom event programmatically.'
 , pause           : 'Stop listening for shortcuts.'
 , resume          : 'Resume listening for shortcuts.'
 , listContexts    : 'Return list of available contexts.'
 , listShortcuts   : 'Return list of shortcuts per context.'
-, getContext      : 'Return a name of current context or null if there is no context selected'
 , getNote         : `Return a name of current note or null if note isn't set`
 , setNote         : 'Set a note to current context.'
 , setDependencies : 'Set dependencies that will be available in action functions.'
