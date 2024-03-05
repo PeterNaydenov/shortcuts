@@ -6,13 +6,8 @@
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/%40peter.naydenov%2Fshortcuts)
 
 
- 
-Describe all page activities as list of shortcuts wrapped in contexts. Switch among available contexts.
-Library has a plugin system to extend the possible `shortcut names`/`event coverage`. Plugins role is to convert DOM events to shortcut strings, then the core part will trigger the action functions related to the shortcut. At the moment we have 2 plugins:
-- `key`   - converts keyboard events to shortcut names;
-- `click` - converts mouse events to shortcut names;
 
-Planned work on the plugins for `scroll`, `drag-drop`, `input-change`, etc...
+Define a context based keyboard-shortcuts and describe a mouse clicks. Switch among contexts.
 
 
 
@@ -40,28 +35,20 @@ The shortcuts definition includes a context name and a set of rules(object). The
                                     ]
                 }
 }
-// shortcutName after v.3.0.0 have a plugin prefix. - 'pluginPrefix:shortcutName'. 
-// For example:  'key:s+alt'   - for 's+alt' shortcut that is handled by 'key' plugin.
 ```
 
 Load a shortcut definition by calling `load` method.
 
 ```js
 // for es6 module projects:
-include { shortcuts, pluginKey, pluginClick } from '@peter.naydenov/shortcuts'
+include shortcuts from '@peter.naydenov/shortcuts'
 // for commonjs projects:
-const { shortcuts, pluginKey, pluginClick } = require('@peter.naydenov/shortcuts')
+const shortcuts = require('@peter.naydenov/shortcuts')
 
 
 
 const short = shortcuts ();
-// Load a needed plugins
-// short.enablePlugin ( pluginCode, ?pluginOptions )
-short.enablePlugin ( pluginKey ) 
-short.enablePlugin ( pluginClick )
-// Load a shortcut definition
 short.load ( shortcutDefinition )
-
 ```
 
 Shortcuts are working only if contex is active. To activate a context call `changeContext` method.
@@ -114,45 +101,39 @@ short.getNote ()
 
 
 
-## Plugin 'click' Shortcut Descriptions
+## Mouse Event Descriptions
 Mouse event name is build from the following parts:
 ```js
- // click:<mouse button>-<number of clicks>-<modifier key>-<modifier key>-<modifier key>
+ // mouse-click-<mouse button>-<number of clicks>
  // example:
- // click: left-2 -> for double click with left mouse button
- // click: right-3 -> for triple click with right mouse button
+ // mouse-click-left-2 -> for double click with left mouse button
+ // mouse-click-right-3 -> for triple click with right mouse button
 
  // mouse button options: left, right, middle
 ```
 
-The modifier keys `ctrl`, `alt`, and `shift` are supported. They are added to the mouse event by sign `-`:
+The modifier keys `ctrl`, `alt`, and `shift` are supported. They are added to the mouse event by sign `+`:
 
 ```js
  // example:
- // click: left-1-ctrl -> for single click with left mouse button and ctrl key pressed
+ // ctrl+mouse-click-left-1 -> for single click with left mouse button and ctrl key pressed
 ```
-
-Order of describing click event and modifier keys is not important.
+Order of describing mouse event and modifier keys is not important.
 
 ```js
  // example:
- // click: ctrl-left-1 -> same as above
+ // mouse-click-left-1+ctrl -> same as above
 
  // These 3 descriptions are equal:
- // click: left-1-ctrl-alt-shift
- // click: alt-shift-left-1-ctrl
- // click: left-1-shift-ctrl-alt
+ // mouse-click-left-1+ctrl+alt+shift
+ // alt+shift+mouse-click-left-1+ctrl
+ // mouse-click-left-1+shift+ctrl+alt
 ```
 
-Multiple clicks are detected automatically by time interval between clicks. The default interval is 320ms but you can change it by setting `mouseWait` click plugin option.
-```js
- short.enablePlugin ( pluginClick, { mouseWait: 500 }) // set the interval to 500ms
-```
-
-Read more in section `Options`.
+Multiple clicks are detected automatically by time interval between clicks. The default interval is 320ms but you can change it by setting `mouseWait` option. Read more in section `Options`.
 
 
-## Define a Click Targets
+## Define a mouse targets
 Target HTML elements for `shortcuts` are defined by `data-click` attribute. The value of the attribute is the name of the target. Example:
 
 ```html
@@ -160,7 +141,7 @@ Target HTML elements for `shortcuts` are defined by `data-click` attribute. The 
 <!-- target name is 'id' -->
 ```
 
-Attribute is customizable by setting `clickTarget` click plugin option. Read more in section `Options`.
+Attribute is customizable by setting `clickTarget` option. Read more in section `Options`.
 
 If current shortcuts context contain definition for 2 or more clicks, this may slow down the execution of single shortcuts because `shortcuts` will wait for the time interval to detect multiple clicks. To avoid this for specific targets, you can set `data-quick-click` attribute to the target element. Example:
 
@@ -173,18 +154,17 @@ Using a <a> tag is a special case. It's always recognized as a target, and alway
 ```html
 <a href="#">Click me</a>
 <!-- Recognized as a target and will not wait for more then 1 click -->
-<!-- Take care for the action from shortcut `click: left-1`. -->
+<!-- Take care for the action from shortcut `mouse-click-left-1`. -->
 ```
 
-Clicking on <a> tag will execute default browser behaviour. In your `click:left-1` action function you can take the control. Example:
+Clicking on <a> tag will not execute anything. All events are blocked by default. In your `mouse-click-left-1` action function you can write a code to execute the default action. Example:
 
 ```js
 {
     contextName : {
-                    'click:left-1' : function ( {target, event} ) {
-                                        if ( target.tagName === 'A' ) { // To prevent default action on <a> tag
-                                                  event.preventDefault ()
-                                                  // do something...
+                    'mouse-click-left-1' : function ( {target, event} ) {
+                                        if ( target.tagName === 'A' ) { // All targets that are <a> tags will execute the default action
+                                                  window.location.href = target.href  // Go to the link
                                             }
                                     }
                 }
@@ -193,35 +173,35 @@ Clicking on <a> tag will execute default browser behaviour. In your `click:left-
 
 
 
-## Plugin 'key' Event Descriptions
+## Keyboard Event Descriptions
 Keyboard event description contains a key name and a modifier keys if they are used. The modifier keys `ctrl`, `alt`, and `shift` are supported. They are added to the keyboard event by sign `+`:
 
 ```js
  // example:
- // key: ctrl+alt+shift+a -> for key 'a' with ctrl, alt and shift keys pressed
+ // ctrl+alt+shift+a -> for key 'a' with ctrl, alt and shift keys pressed
 ```
 
 Keyboard event description support a shortcut sequenses. These means that you can press a sequence of keys to trigger a shortcut. The sequence elements are separated by sign "," ( coma ):
 
 ```js
  // example:
- // key: a,b,c -> for key 'a' then key 'b' then key 'c'
+ // a,b,c -> for key 'a' then key 'b' then key 'c'
 
- // key: g+shift,o,t,o -> for key 'g' with shift, then key 'o', then key 't' then key 'o'
+ // g+shift,o,t,o -> for key 'g' with shift, then key 'o', then key 't' then key 'o'
 ```
 
 Order of describing keyboard event and modifier keys is not important, but sequence elements are:
 
 ```js
  // example:
- // key: a+ctrl,l,o,t -> a with ctrl, then l, then o, then t
+ // a+ctrl,l,o,t -> a with ctrl, then l, then o, then t
  // this is equal to:
- // key: ctrl+a,l,o,t
+ // ctrl+a,l,o,t
  // but not equal to:
- // key: ctrl+a,o,t,l
+ // ctrl+a,o,t,l
 ```
 
-Keyboard sequence is detected automatically by time interval between key presses. The default interval is 480ms but you can change it by setting `keyWait` key plugin option. Read more in section `Options`. 
+Keyboard sequence is detected automatically by time interval between key presses. The default interval is 480ms but you can change it by setting `keyWait` option. Read more in section `Options`. 
 
 There is a way to disable automatic sequence detection and mark the begining and the end of the sequense by using a keyboard action functions. Read more in section `Keyboard Action Functions`.
 
@@ -243,19 +223,19 @@ Special characters that are available for your shortcut descriptions:
 - ']' - close square bracket key
 - '`' - backtick key
 
-**Warning**: For keys with two symbols(look at the keyboard), in shortcut description use the lower one. Examples: Use '=' instead of '+', use '/' instead of '?', etc. Modifier keys are available for special characters too.
+**Warning**: For keys with two symbols, in shortcut description use the lower one. Examples: Use '=' instead of '+', use '/' instead of '?', etc. Modifier keys are available for special characters too.
 
 **Warining**: Some of the shortcuts are used by OS and the browswer, so they are not available.
 
 
 
 ## Action Functions
-Action functions are called when a shortcut is triggered. There is a difference among plugin action functions. Arguments are slightly different.
+Action functions are called when a shortcut is triggered. They is a difference between keyboard and mouse action functions. Arguments are slightly different.
 
 
 
 ### Keyboard Action Functions
-Description of `key` plugin action functions is:
+Description of keyboard action functions is:
 ```js
 function myKeyHandler ({
                   context   // (string) Name of the current context;
@@ -274,7 +254,7 @@ function myKeyHandler ({
 
 
 ### Mouse Action Functions
-Click plugin action functions can be described like:
+Mouse action functions can be described like:
 
 ```js
 function myMouseHandler ({
@@ -302,23 +282,17 @@ Description of the methods of shortcut instance:
 ```js
   load            : 'Load and extend a shortcut definition.'
 , unload          : 'Remove a shortcut context with all its shortcuts.'
-
-, enablePlugin    : 'Enable a plugin.'
-, disablePlugin   : 'Disable a plugin.'
-, mutePlugin      : 'Mute a plugin. All events for the plugin will be ignored.'
-, unmutePlugin    : 'Unmute a plugin. All events for the plugin will be listened again.'
-
-, changeContext   : 'Switch to existing shortcut context or shitch off the context(if no argument).'
-, getContext      : 'Return a name of current context or null if there is no context selected'
+, changeContext   : 'Switch to existing shortcut context.'
 , emit            : 'Trigger a shortcut or custom event programmatically.'
 , pause           : 'Stop listening for shortcuts.'
 , resume          : 'Resume listening for shortcuts.'
 , listContexts    : 'Return list of available contexts.'
 , listShortcuts   : 'Return list of shortcuts per context.'
+, getContext      : 'Return a name of current context or null if there is no context selected'
 , getNote         : `Return a name of current note or null if note isn't set`
 , setNote         : 'Set a note to current context.'
 , setDependencies : 'Set dependencies that will be available in action functions.'
-, getDependencies : 'Return a dependencies object.'
+, getDependencies : 'Return dependencies object.'
 ```
 
 ### How to 'pause' and 'resume'?
@@ -336,44 +310,27 @@ short.resume ('*') // will resume all shortcuts
 
 ## Options
 
-Shortcut receives `options` during the start. Here is the list of available options:
+By `options` you can customize the behavior of the shortcuts. Here is the list of available options:
 
 ```js
- onShortcut    : 'Callback function that is called when a shortcut is triggered. Default value - false'
-```
-```js
-const short = shortcut ({onShortcut: (shortcut) => console.log(shortcut) }) // Log in console each triggered shortcut
-```
-
-
-
-### Plugin 'key' options
-```js
-  keyWait       : 'Timeout for entering shortcut sequence in ms. Default value - 480'
+  mouseWait     : 'Timeout for entering multiple mouse events. Default value - 320.'
+, keyWait       : 'Timeout for entering shortcut sequence in ms. Default value - 480'
+, clickTarget   : 'Data attribute name to recognize click items in HTML. Default value - click' // data attribute 'click' means attribute ( data-click='someName' )
+, listenFor     : `List input signal sources. Default value - [ 'mouse', 'keyboard' ]`
+, onShortcut    : 'False or a callback function that is called when a shortcut is triggered. Default value - false'
 , streamKeys    : 'False or a callback function that is called when a key is pressed. Default value - false'
 ```
 
+You can request default list of options with their default values:
 
-
-### Plugin 'click' options
 ```js
-  mouseWait     : 'Timeout for entering multiple mouse events. Default value - 320.'
-, clickTarget   : 'Data attribute name to recognize click items in HTML. Default value - click' // data attribute 'click' means attribute ( data-click='someName' )
-```
+shortcuts.getDefaults ()
+// Note: This method is availalble on the original shortcuts object, not on the shortcuts instance.
 
-Plugin options are provided as a second argument during the plugin enabling. It's look like this:
-  
-```js
-  short.enablePlugin ( pluginKey, {
-                             keyWait: 500 // set the interval to 500ms
-                           , streamKeys: (key) => console.log(key)   // Log in console each pressed key
-                      })
-
-  short.enablePlugin ( pluginClick, {
-                             mouseWait: 200     // set the interval between multiple clicks to 200ms
-                           , clickTarget: 'puk' // data attribute 'puk' means attribute ( data-puk='someName' )
-                      })
-
+// start a shortcuts with default options
+const short = shortcuts ()
+const short = shortcuts ( shortcuts.getDefaults () ) // same as above
+// The idea behind getDefaults is to see what options are available and what are their default values.
 ```
 
 
@@ -406,7 +363,6 @@ Plugin options are provided as a second argument during the plugin enabling. It'
 
 - [History of changes](https://github.com/PeterNaydenov/shortcuts/blob/main/Changelog.md)
 - [Migration guide](https://github.com/PeterNaydenov/shortcuts/blob/main/Migration.guide.md)
-- [How to make a plugin](https://github.com/PeterNaydenov/shortcuts/blob/main/How.to.make.plugins.md)
 
 
 

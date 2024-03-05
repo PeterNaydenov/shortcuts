@@ -2,32 +2,39 @@
 
 function load ( dependencies, state ) {
 const 
-          { shortcuts } = state
+          { shortcuts, plugins } = state
         , {
-                inAPI : { _readShortcut }
-                , API : { changeContext, getContext }
-        } = dependencies;
+                API : { changeContext, getContext }
+          } = dependencies;
 /**
  *  Load a context with shortcuts object
- *  @param {Object} obj - Context description object: { contextName : { shortcut : callback[] }
+ *  @param {Object} shortcutsUpdate - Context description object: { contextName : { shortcut : callback[] }
  *  @returns {void}
  */
-return function load ( obj ) {
+return function load ( shortcutsUpdate ) {
     const
            currentContextName = getContext ()
-         , contextList = Object.keys ( obj )
+         , pluginPrefixList = plugins.map ( plugin => plugin.getPrefix().toUpperCase()   )
          ;
     let hasChanges = false;
-    contextList.forEach ( contextName => {
-                    const description = Object.entries ( obj [ contextName ] );
-                    if ( contextName === currentContextName ) hasChanges = true;
+    
+    Object.entries ( shortcutsUpdate ).forEach ( ([contextName, contextShortcuts]) => {
+                    if ( contextName === currentContextName ) hasChanges = true;   // If changes in current context will need to reload it
                     shortcuts [ contextName ] = {}
-                    description.forEach ( ([ title, callbackList ]) => {
-                                    const name = _readShortcut ( title );
+                    Object.entries ( contextShortcuts ).forEach ( ([ title, callbackList ]) => {
+                                    let 
+                                          name = title
+                                        , test = title.toUpperCase().trim()
+                                        ;
+                                    let pluginIndexList = pluginPrefixList.map ( (prefix,i) => test.startsWith ( prefix ) ? i : null ).filter ( i => i !== null );
+                                    if ( pluginIndexList.length ) {
+                                                let id = pluginIndexList[0];
+                                                name = plugins[id].shortcutName ( title )
+                                        }
                                     if ( callbackList instanceof Function ) callbackList = [ callbackList ]
                                     shortcuts [contextName][ name ] = callbackList
-                            }) // shortcuts.forEach
-        }) // contextList.forEach
+                            }) // contextShortcuts.forEach
+        }) // shortcutsUpdate.forEach
      if ( hasChanges ) {  // Reload context shortcuts after loading process if context was active
                 changeContext ()
                 changeContext ( currentContextName )
