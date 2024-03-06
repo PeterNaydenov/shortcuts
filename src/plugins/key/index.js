@@ -43,7 +43,7 @@ function pluginKey ( dependencies, state, options={} ) {
            
         if ( countShortcuts > 0 )   keysListener.start ()
        
-        const pluginAPI = {
+        let pluginAPI = {
                                getPrefix      : () => 'key'
                              , shortcutName  : key => {   // Format a key string according plugin needs
                                                      return _normalizeShortcutName ( key )   

@@ -1,5 +1,7 @@
 ## Release History
 
+### 3.0.1 ( 2024-03-06 )
+
 
 
 ### 3.0.0 ( 2024-03-05 )
@@ -14,6 +16,7 @@
 - [x] Plugin system documentation;
 - [x] Plugin interface: getPrefix, shortcutName, contextChange, mute, unmute, destroy;
 - [x] Plugin options - specific for each plugin;
+- [ ] Bug: Can't start the library
 
 
 
