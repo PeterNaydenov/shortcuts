@@ -1,6 +1,9 @@
 ## Release History
 
+
+
 ### 3.0.1 ( 2024-03-06 )
+- [x] Fix: Library works again;
 
 
 
