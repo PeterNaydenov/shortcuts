@@ -1,6 +1,12 @@
 ## Release History
 
 
+
+### 3.1.1 ( 2024-03-15 )
+- [x] Update: Using @peter.naydenov/notice v.2.3.1: Fix: Callback stop will stop the wildcard callbacks as well;
+
+
+
 ### 3.1.0 ( 2024-03-14 )
 - [x] Using @peter.naydenov/notice v.2.3.0: If action function returns a string 'stop' and execution of followed action functions will be stopped. Option to build a chain of conditional action functions before the main action function;
 

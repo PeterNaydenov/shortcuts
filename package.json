@@ -26,7 +26,7 @@
     "url": "git+https://github.com/PeterNaydenov/shortcuts"
   },
   "dependencies": {
-    "@peter.naydenov/notice": "^2.3.0"
+    "@peter.naydenov/notice": "^2.3.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
