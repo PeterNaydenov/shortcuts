@@ -1,6 +1,10 @@
 ## Release History
 
 
+### 3.1.2 ( 2024-12-23 )
+- [x] Dependency update. @peter.naydenov/notice - v.2.3.2
+
+
 
 ### 3.1.1 ( 2024-03-15 )
 - [x] Update: Using @peter.naydenov/notice v.2.3.1: Fix: Callback stop will stop the wildcard callbacks as well;
