@@ -1,6 +1,12 @@
 ## Release History
 
 
+
+### 3.1.3 ( 2025-01-12)
+- [x] Dependency update. @peter.naydenov/notice - v.2.4.0
+
+
+
 ### 3.1.2 ( 2024-12-23 )
 - [x] Dependency update. @peter.naydenov/notice - v.2.3.2
 
