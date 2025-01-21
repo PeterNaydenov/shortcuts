@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "vite",
     "build": "rollup -c",
-    "test": "cypress open --component --browser chrome test"
+    "test": "vitest --workspace=vitest.workspace.js"
   },
   "repository": {
     "type": "git",
@@ -29,14 +29,16 @@
     "@peter.naydenov/notice": "^2.4.0"
   },
   "devDependencies": {
+    "@peter.naydenov/visual-controller-for-react": "^3.0.0",
     "@rollup/plugin-commonjs": "^28.0.2",
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/browser": "^3.0.2",
     "ask-for-promise": "^3.0.1",
     "chai": "^5.1.2",
-    "cypress": "^13.17.0",
     "mocha": "^11.0.1",
+    "playwright": "^1.49.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "vite": "^6.0.7"
