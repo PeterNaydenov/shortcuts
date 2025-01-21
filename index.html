@@ -22,10 +22,10 @@
   </head>
   <body>
     <script type="module">
-        import sc from '/src/main.js'
+        import { shortcuts, pluginKey, pluginClick } from '/src/main.js'
 
         const options = {
-                  onShortcut ({ shortcut, context, note }) {
+                  onShortcut ( shortcut, { context, note }) {
                           console.log ( '-- RESULTS --->' )
                           console.log ( 'Shortcut', shortcut )
                           console.log ( 'Context:', context )
@@ -33,31 +33,39 @@
                     } // onShortcut func.
               }
 
-        const short = sc ( options );
+        const short = shortcuts ( options );
+        short.enablePlugin( pluginKey )
+        short.enablePlugin( pluginClick )
+        
+        
         short.load ( { general : {
-                              'q' : [ () => console.log('Q was clicked')   ] 
-                            , 'r,o,s' : () => console.log ( 'ROS was clicked' ) 
-                            , 'mouse-click-left-2' : () => console.log ( 'Mouse left click 2' )
-                            , 'r' : [
+                              'key:q' : [ () => console.log('Q was clicked')   ] 
+                            , 'key:r,o,s' : () => console.log ( 'ROS was clicked' ) 
+                            , 'click:left-2' : () => console.log ( 'Mouse left click 2' )
+                            , 'key:r' : [
                                         ({isWaiting}) => { 
                                                 if ( !isWaiting() ) {
                                                             console.log ( 'R was clicked' )
                                                     }
                                             }
                                     ]
-                            , 'shift+w' : [
+                            , 'key:shift+w' : [
                                                 ({wait, end, ignore, isWaiting, note })  => { 
+                                                          console.log ( 'HIT a shift + w')
                                                           ignore ()
                                                           if ( isWaiting () ) {
-                                                                      console.log('END')
-                                                                      end ()    
+                                                                  end ()    
+                                                                  console.log('END')
                                                             } 
                                                           else {
-                                                                      console.log('WAIT')
-                                                                      wait ()
+                                                                  console.log('WAIT')
+                                                                  wait ()
                                                             }
                                                     },
-                                                () => console.log ( 'W' )
+                                                ({end}) => {
+                                                        console.log ( 'W' )
+                                                        setTimeout ( end, 3000 )
+                                                }
                                           ]
                           }
             })
