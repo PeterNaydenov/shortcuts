@@ -33,11 +33,13 @@ short.load ({
                             ' key : shift+a': [ () => a = true ]
                         }
                 , extra : {    
-                            'key:shift+a,p,r,o,b,a,ctrl+m' : () => b = true 
+                            'key : p,r,o,b,a': () => b = true                        
                         }
         })
 
 
+// short.enablePlugin ( pluginClick )
+// short.enablePlugin ( pluginKey )
 
 
 
@@ -50,7 +52,12 @@ beforeEach ( () => {
 }) // beforeEach
 
 
+
+
+
 describe ( "Shortcuts", () => {
+
+
 
 test ( 'Shortcut if no plugin installed', () => {
             let res = new Promise ( (resolve,reject) => {
@@ -91,10 +98,10 @@ test ( 'Key plugin with context selected', () => {
 
 test ( 'Simple shortcut', () => {
             const res = new Promise ( (resolve) => {
-                                    short.enablePlugin  ( pluginKey  )
-                                    short.changeContext ( )
+                                    short.enablePlugin ( pluginKey )
+                                    short.changeContext ()
                                     short.changeContext ( 'general'  )
-                                    userEvent.keyboard ( '{Shift>}a' )
+                                    userEvent.keyboard ( '{Shift>}a</Shift>' )
                                     expect ( a ).to.be.false
                                     wait ( 1000 ) 
                                        .then ( () => { // Default wait sequence timeout is 480 ms, but maxSequence is 1, so we don't need to wait for timeout
@@ -107,23 +114,18 @@ test ( 'Simple shortcut', () => {
 
 
 
-// test ( 'Call sequence shortcut', done => {
-//         b = false
-//         short.enablePlugin ( pluginKey )
-//         short.changeContext ( 'general' )
-//         short.changeContext ( 'extra' )
-        
-//         cy.get('body')
-//           .type ( '{shift}a' )
-//           .type ( 'proba' )
-//           .type ( '{ctrl}M' )
-       
-//         cy.wait ( 1 )   // Default wait sequence timeout is 480 ms, but maxSequence is 1, so we don't need to wait for timeout
-//           .then ( () => { 
-//                             expect ( b ).to.be.true
-//                             done ()
-//                     })                      
-//     }) // test call sequence shortcut
+test ( 'Call sequence shortcut', async () => {
+        let res = new Promise ( async (resolve) => {
+                            b = false
+                            short.enablePlugin ( pluginKey )
+                            short.changeContext ()
+                            short.changeContext ( 'extra' )
+                            await userEvent.keyboard ( 'proba' )
+                            expect ( b ).to.be.true
+                            resolve ( 'success' )
+                    })
+        return res
+    }) // test call sequence shortcut
 
 
 

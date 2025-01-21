@@ -61,7 +61,7 @@ function _listenDOM ( dependencies, state ) {
                             
                     if ( sequence ) {
                             const signal = `KEY:${res.join(',')}`
-                            ev.emit ( signal, data )   
+                            ev.emit ( signal, data )
                             // Reset:
                             r = []
                             keyTimer = null
