@@ -34,7 +34,7 @@
     "@rollup/plugin-node-resolve": "^16.0.0",
     "@rollup/plugin-terser": "^0.4.4",
     "@vitejs/plugin-react": "^4.3.4",
-    "@vitest/browser": "^3.0.2",
+    "@vitest/browser": "^3.0.3",
     "ask-for-promise": "^3.0.1",
     "chai": "^5.1.2",
     "mocha": "^11.0.1",
