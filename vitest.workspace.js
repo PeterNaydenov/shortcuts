@@ -6,6 +6,7 @@ export default defineWorkspace([
   {
     extends: 'vite.config.js',
     test: {
+      environment: 'browser',
       browser: {
         enabled: true,
         name: 'chromium',

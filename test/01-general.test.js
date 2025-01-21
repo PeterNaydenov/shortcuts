@@ -1,7 +1,10 @@
-import { beforeEach, afterEach, describe, it, test } from 'vitest'
+import { beforeEach, describe, it, test } from 'vitest'
+import { userEvent } from '@vitest/browser/context'
+
 import Block from '../test-components/Block.jsx'
 import VisaulController from '@peter.naydenov/visual-controller-for-react'
 import '../test-components/style.css'
+
 import { 
           pluginClick,
           pluginKey
@@ -17,6 +20,11 @@ let
        a = false
      , b = false
      ;
+
+
+function wait (ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
                                     
 const short = shortcuts ({onShortcut : ( shortcut, {context,note,type}) =>  console.log (shortcut, context, note, type)   });
     
@@ -42,6 +50,7 @@ beforeEach ( () => {
 }) // beforeEach
 
 
+describe ( "Shortcuts", () => {
 
 test ( 'Shortcut if no plugin installed', () => {
             let res = new Promise ( (resolve,reject) => {
@@ -80,17 +89,21 @@ test ( 'Key plugin with context selected', () => {
 
 
 
-// test ( 'Simple shortcut', done => {
-//         short.enablePlugin  ( pluginKey  )
-//         short.changeContext ( )
-//         short.changeContext ( 'general'  )
-//         cy.get('body').type ( '{shift}a' )
-//         cy.wait ( 1 )   // Default wait sequence timeout is 480 ms, but maxSequence is 1, so we don't need to wait for timeout
-//           .then ( () => { 
-//                             expect ( a ).to.be.true 
-//                             done ()
-//                     })
-//     }) // test simple shortcut
+test ( 'Simple shortcut', () => {
+            const res = new Promise ( (resolve) => {
+                                    short.enablePlugin  ( pluginKey  )
+                                    short.changeContext ( )
+                                    short.changeContext ( 'general'  )
+                                    userEvent.keyboard ( '{Shift>}a' )
+                                    expect ( a ).to.be.false
+                                    wait ( 1000 ) 
+                                       .then ( () => { // Default wait sequence timeout is 480 ms, but maxSequence is 1, so we don't need to wait for timeout
+                                                expect ( a ).to.be.true 
+                                                resolve ( 'success' )
+                                       })
+                            })
+            return res
+    }) // test simple shortcut
 
 
 
@@ -256,5 +269,5 @@ test ( 'Key plugin with context selected', () => {
 //             })
 //     }) // test click on anchor
 
-
+}) // describe
 
