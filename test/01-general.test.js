@@ -67,14 +67,16 @@ test ( 'Key plugin, no context selected', () => {
 
 
 
-// test ( 'Key plugin with context selected', done => {
-//             short.enablePlugin ( pluginKey )
-//             short.changeContext ( 'general' )
-//             const r = short.listShortcuts ('general')
-//             expect ( r[0] ).to.equal ( 'KEY:A+SHIFT' ) // Shortcut name is recognized by plugin and is normalized
-//             cy.wait ( 1 )
-//                 .then ( () => done () )
-//     }) // test key plugin installed with context selected
+test ( 'Key plugin with context selected', () => {
+            const res = new Promise ( (resolve) => {
+                        short.enablePlugin ( pluginKey )
+                        short.changeContext ( 'general' )
+                        const r = short.listShortcuts ('general')
+                        expect ( r[0] ).to.equal ( 'KEY:A+SHIFT' ) // Shortcut name is recognized by plugin and is normalized
+                        resolve ( 'success' )
+                    })
+            return res
+    }) // test key plugin installed with context selected
 
 
 
