@@ -103,21 +103,21 @@ function main ( options = {} ) {
     /**
      * @function getContext
      * @description Get current context name
-     * @returns {string} - Current context name
+     * @returns {string|null} - Current context name
      */
     API.getContext = () => state.currentContext.name
 
     /**
      * @function getNote
      * @description Get current context note
-     * @returns {string} - Current context note
+     * @returns {string|null} - Current context note
      */
     API.getNote    = () => state.currentContext.note
 
     /**
      * @function setNote
      * @description Set current context note
-     * @param {string} note - Context note
+     * @param {string|null} note - Context note
      * @returns {void}
      */
     API.setNote    = (note=null) => { if (typeof note === 'string' || note == null )   state.currentContext.note = note }
