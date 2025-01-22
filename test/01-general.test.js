@@ -256,30 +256,32 @@ test ( 'List shortcuts', () => {
 
 
 
-// test ( 'Click on anchor', done => {
-//         // Click on anchor that don't have click-data attribute.
-//         let result = 'none';
-//         short.load ({ 'extra' : { 
-//                                 'click: 1 - left' : ({target, context, event }) => {   // Order of button name and number of click is not important
-//                                             event.preventDefault ()
-//                                             expect ( context ).to.be.equal ( 'extra' )
-//                                             expect ( target.nodeName ).to.be.equal ( 'A' )
-//                                             result = target.nodeName
-//                                         }
-//                             } 
-//                 })
-//         short.changeContext ( 'extra' )    
-//         cy.get ( '#anchor' ).click ()
-//         cy.wait ( 3 ) // Consider mouse click has some latency
-//                       // According Cypress documentation: 
-//                       // It is unsafe to chain further commands that rely on the subject after .click(). 
-//                       // source docs: https://docs.cypress.io/api/commands/click
-//         .then ( () => {
-//                     short.changeContext ( 'general' )              
-//                     expect ( result ).to.be.equal ( 'A' )
-//                     done ()
-//             })
-//     }) // test click on anchor
+test ( 'Click on anchor', () => {
+        const res = new Promise ( async (resolve) => {
+                                // Click on anchor that don't have click-data attribute.
+                                let result = 'none';
+                                short.enablePlugin ( pluginClick )
+                                short.load ({ 'extra' : { 
+                                                        'click: 1 - left' : ({target, context, event }) => {   // Order of button name and number of click is not important
+                                                                    event.preventDefault ()
+                                                                    expect ( context ).to.be.equal ( 'extra' )
+                                                                    expect ( target.nodeName ).to.be.equal ( 'A' )
+                                                                    result = target.nodeName
+                                                                }
+                                                    } 
+                                        })
+                                short.changeContext ( 'extra' )
+                                wait ( 10 )
+                                    .then ( async () => {
+                                            let loc = document.querySelector ( '#anchor' )  || false;
+                                            if ( loc )   await userEvent.click ( loc )
+                                            expect ( result ).to.be.equal ( 'A' )  
+                                            short.changeContext ( 'general' )
+                                            resolve ( 'success' )
+                                        })
+                        })
+        return res
+    }) // test click on anchor
 
 }) // describe
 
