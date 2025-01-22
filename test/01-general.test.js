@@ -163,7 +163,7 @@ test ( 'Double mouse click', () => {
                                                                 'click: left-2' : () => a = true
                                                             } 
                                                 }) 
-                                    wait ( 100 )
+                                    wait ( 350 )
                                         .then ( async () => {   // Default wait mouse timeout is 320 ms
                                             let loc = document.querySelector ( '#rspan' )  || false
                                             // Third click is ignored. Max clicks according definition is 2.
@@ -177,33 +177,35 @@ test ( 'Double mouse click', () => {
 
 
 
-// test ( 'Dependencies on shortcuts', done => {
-//         const task = askForPromise ();
-//         expect ( a ).to.be.false
-//         expect ( b ).to.be.false
+test ( 'Dependencies on shortcuts', () => {
+        const res = new Promise ( async (resolve) => {
+                            const task = askForPromise ();
+                            expect ( a ).to.be.false
+                            expect ( b ).to.be.false
 
-//         short.enablePlugin ( pluginClick )
-//         short.setDependencies ({ task })
-        
-//         short.load ({   
-//                         'extra' : {   // load will overwrite existing 'extra' context definition
-//                                     'click: left-1' : ({dependencies}) => {
-//                                                                         const { task } = dependencies;
-//                                                                         expect ( task ).to.have.property ( 'done' )
-//                                                                         expect ( task ).to.have.property ( 'promise' )
-//                                                                         a = true
-//                                                                     }
-//                                 } 
-//                     }) // load will restart the selected context
-
-//         short.changeContext ( 'extra' )
-//         cy.get('#rspan').click ()
-//         cy.wait ( 350 ) // Default wait mouse timeout is 320 ms
-//         .then ( () => {
-//                         expect ( a ).to.be.true
-//                         done ()
-//             })
-//     }) // test dependencies on shortcuts
+                            short.enablePlugin ( pluginClick )
+                            short.setDependencies ({ task })
+                            
+                            short.load ({   
+                                            'extra' : {   // load will overwrite existing 'extra' context definition
+                                                        'click: left-1' : ({dependencies}) => {
+                                                                                            const { task } = dependencies;
+                                                                                            expect ( task ).to.have.property ( 'done' )
+                                                                                            expect ( task ).to.have.property ( 'promise' )
+                                                                                            a = true
+                                                                                        }
+                                                    } 
+                                        }) // load will restart the selected context
+                            short.changeContext ( 'extra' )
+                            wait ( 350 )   // Default wait mouse timeout is 320 ms
+                                .then ( async () => {
+                                        let loc = document.querySelector ( '#rspan' )  || false
+                                        if ( loc )   await userEvent.click ( loc )
+                                        resolve ( 'success' )
+                                })
+                    }) // res promise
+        return res
+    }) // test dependencies on shortcuts
 
 
 
