@@ -151,26 +151,29 @@ test ( 'Single mouse click', done => {
 
 
 
-// test ( 'Double mouse click', done => {
-//         expect ( a ).to.be.false
-//         expect ( b ).to.be.false
+test ( 'Double mouse click', () => {
+        let res = new Promise ( async (resolve) => {
+                                    expect ( a ).to.be.false
+                                    expect ( b ).to.be.false
 
-//         short.enablePlugin ( pluginClick )
-//         short.changeContext ( 'extra' )
-        
-//         short.load ({   
-//                         'extra' : {   // load will overwrite existing 'extra' context definition
-//                                       'click: left-2' : () => a = true
-//                                   } 
-//                     }) // load will restart the selected context
-                       
-//         cy.get('#rspan').click().click ().click () // Third click is ignored. Max clicks according definition is 2.
-//         cy.wait ( 1 ) // Default wait mouse timeout is 320 ms
-//           .then ( () => {
-//                         expect ( a ).to.be.true
-//                         done ()
-//             })
-//     }) // test double mouse click
+                                    short.enablePlugin ( pluginClick )
+                                    short.changeContext ( 'extra' )
+                                    short.load ({ // load will restart the selected context
+                                                    'extra' : {   // load will overwrite existing 'extra' context definition
+                                                                'click: left-2' : () => a = true
+                                                            } 
+                                                }) 
+                                    wait ( 100 )
+                                        .then ( async () => {   // Default wait mouse timeout is 320 ms
+                                            let loc = document.querySelector ( '#rspan' )  || false
+                                            // Third click is ignored. Max clicks according definition is 2.
+                                            if ( loc )   await userEvent.tripleClick ( loc )
+                                            expect ( a ).to.be.true
+                                            resolve ( 'success' )
+                                        })
+                    })
+        return res
+    }) // test double mouse click
 
 
 
