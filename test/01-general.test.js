@@ -209,23 +209,26 @@ test ( 'Dependencies on shortcuts', () => {
 
 
 
-// test ( 'Emit custom event', done => {
-//         let result = null;
-//         short.changeContext ()
-//         short.enablePlugin ( pluginClick )
-//         const myAllContext = { 
-//                                 myAll: {
-//                                           'click : leff-1' : () =>  console.log ( 'nothing' )
-//                                          , 'yo' : ({msg}) => result = msg
-//                                     }}
-//         short.load ( myAllContext )
-//         short.changeContext ( 'myAll' )
-//         short.emit ( 'yo', { context: short.getContext(), note: 'tt', type:'custom', msg:'hello' })
-//         expect ( result ).to.be.equal ( 'hello' )
-//         short.changeContext ( 'general' )
-//         short.unload ( 'myAll' )
-//         done ()
-//     }) // test emit custom event
+test ( 'Emit custom event', () => {
+        const res = new Promise ( async (resolve) => {
+                                let result = null;
+                                short.changeContext ()
+                                short.enablePlugin ( pluginClick )
+                                const myAllContext = { 
+                                                        myAll: {
+                                                                'click : leff-1' : () =>  console.log ( 'nothing' )
+                                                                , 'yo' : ({msg}) => result = msg
+                                                            }}
+                                short.load ( myAllContext )
+                                short.changeContext ( 'myAll' )    
+                                short.emit ( 'yo', { context: short.getContext(), note: 'tt', type:'custom', msg:'hello' })
+                                expect ( result ).to.be.equal ( 'hello' )
+                                short.changeContext ( 'general' )
+                                short.unload ( 'myAll' )
+                                resolve ( 'success' )
+                        })
+        return res
+    }) // test emit custom event
 
 
 
