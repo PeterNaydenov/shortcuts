@@ -37,12 +37,6 @@ short.load ({
                         }
         })
 
-
-// short.enablePlugin ( pluginClick )
-// short.enablePlugin ( pluginKey )
-
-
-
 beforeEach ( () => {
     let container = document.createElement ( 'div' )
     container.id = 'app'
@@ -129,24 +123,31 @@ test ( 'Call sequence shortcut', async () => {
 
 
 
-// test ( 'Single mouse click', done => {
-//         expect ( a ).to.be.false
-//         expect ( b ).to.be.false
-//         short.enablePlugin ( pluginClick )
-        
-//         short.load ({ 'extra' : { 
-//                                 ' cLIck  : left - 1 ' : () => a = true   // Check if spaces, letter case can break the shortcut recognition
-//                             }
-//                 })
-//         short.changeContext ( 'extra' )
-//         cy.get('#rspan').click ()
-//         cy.wait ( 10 ) // Default wait mouse timeout is 320 ms, but maxClicks is 1, so we don't need to wait for timeout
-//           .then ( () => {
-//                 expect ( a ).to.be.true 
-//             })
-//         cy.wait ( 1 ) // ...but mouseIgnore still active, so we better wait to not interfere with next test
-//           .then ( () => done() )
-//     }) // test mouse click
+test ( 'Single mouse click', done => {
+        const res = new Promise ( async (resolve) => {
+                                expect ( a ).to.be.false
+                                expect ( b ).to.be.false
+                                short.enablePlugin ( pluginClick )
+                                
+                                short.load ({ 'extra' : { 
+                                                        ' cLIck  : left - 1 ' : () => a = true   // Check if spaces, letter case can break the shortcut recognition
+                                                    }
+                                        })
+                                short.changeContext ()
+                                short.changeContext ( 'extra' )
+                                wait ( 100 )
+                                   .then ( async () => {
+                                            // Default wait mouse timeout is 320 ms, but maxClicks is 1, so we don't need to wait for timeout
+                                            let loc = document.querySelector('#rspan')  || false 
+                                            if ( loc )   await userEvent.click ( loc )
+                                            expect ( a ).to.be.true 
+                                            resolve ( 'success' ) 
+                                        })
+                                
+                                
+                        })
+        return res
+    }) // test single mouse click
 
 
 
