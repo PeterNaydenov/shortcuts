@@ -232,26 +232,27 @@ test ( 'Emit custom event', () => {
 
 
 
-// test ( 'List shortcuts', () => {
-//         let general =  short.listShortcuts ('general');
-//         expect ( general ).to.be.an('array')
-//         expect ( general ).to.have.lengthOf ( 1 )
-//         expect ( general[0] ).to.be.equal ( 'KEY:A+SHIFT' )
+test ( 'List shortcuts', () => {
+        short.enablePlugin ( pluginKey )
+        let general =  short.listShortcuts ('general');
+        expect ( general ).to.be.an ( 'array' )
+        expect ( general ).to.have.lengthOf ( 1 )
+        expect ( general[0] ).to.be.equal ( 'KEY:A+SHIFT' )
         
-//         let fail = short.listShortcuts ('somethingNotExisting');
-//         expect ( fail ).to.be.null
+        let fail = short.listShortcuts ( 'somethingNotExisting' );
+        expect ( fail ).to.be.null
     
-//         let all = short.listShortcuts ();
-//         expect ( all ).to.be.an('array')
+        let all = short.listShortcuts ();
+        expect ( all ).to.be.an ( 'array' )
         
-//         expect ( all ).to.have.lengthOf ( 2 )
-//         expect ( all[0] ).to.have.property ( 'context' )
-//         expect ( all[0] ).to.have.property ( 'shortcuts' )
-//         expect ( all[0].shortcuts ).to.be.an('array')
-//         expect ( all[0].shortcuts ).to.have.lengthOf ( 1 )
-//         expect ( all[0].shortcuts[0] ).to.be.equal ( 'KEY:A+SHIFT' )
-//         expect ( all[0].context ).to.be.equal ( 'general' )
-//     }) // test list shortcuts
+        expect ( all ).to.have.lengthOf ( 2 )
+        expect ( all[0] ).to.have.property ( 'context' )
+        expect ( all[0] ).to.have.property ( 'shortcuts' )
+        expect ( all[0].shortcuts ).to.be.an('array')
+        expect ( all[0].shortcuts ).to.have.lengthOf ( 1 )
+        expect ( all[0].shortcuts[0] ).to.be.equal ( 'KEY:A+SHIFT' )
+        expect ( all[0].context ).to.be.equal ( 'general' )
+    }) // test list shortcuts
 
 
 
