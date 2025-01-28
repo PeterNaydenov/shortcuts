@@ -37,7 +37,7 @@
     "@vitest/browser": "^3.0.4",
     "ask-for-promise": "^3.0.1",
     "chai": "^5.1.2",
-    "mocha": "^11.0.1",
+    "mocha": "^11.1.0",
     "playwright": "^1.49.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
