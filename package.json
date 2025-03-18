@@ -31,7 +31,7 @@
   "devDependencies": {
     "@peter.naydenov/visual-controller-for-react": "^3.0.0",
     "@rollup/plugin-commonjs": "^28.0.3",
-    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
     "@vitejs/plugin-react": "^4.3.4",
     "@vitest/browser": "^3.0.9",
