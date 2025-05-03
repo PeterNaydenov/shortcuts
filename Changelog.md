@@ -2,6 +2,10 @@
 
 
 
+### 3.1.4 ( 2025-05-3)
+- [x] Dependency update. @peter.naydenov/notice - v.2.4.1
+
+
 ### 3.1.3 ( 2025-01-12)
 - [x] Dependency update. @peter.naydenov/notice - v.2.4.0
 
