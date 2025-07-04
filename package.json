@@ -38,7 +38,7 @@
     "ask-for-promise": "^3.0.1",
     "chai": "^5.2.0",
     "mocha": "^11.7.1",
-    "playwright": "^1.53.1",
+    "playwright": "^1.53.2",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
     "vite": "^7.0.2"
