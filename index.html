@@ -81,7 +81,7 @@
                                                         return 'button'
                                                    }
                                         }
-                            , 'form : action' : [
+                            , 'form : action' : () =>  [
                                 {
                                         fn: ({target}) => { console.log ( target)}
                                       , type : 'input'
@@ -103,7 +103,7 @@
                                         , type : 'button'
                                         , timing : 'out'
                                 }
-                            ]
+                            ] // form: action
                           }
             })
         short.changeContext ( 'general' )

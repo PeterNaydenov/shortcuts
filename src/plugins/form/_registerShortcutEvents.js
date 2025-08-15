@@ -33,22 +33,23 @@ const
         pluginState.watchList.forEach ( el => setTypes.add (define[0](el)) ) 
 
         pluginState.typeFn = define[0] ? define[0] : _defaults.define
-        action.forEach ( ({fn, type, timing, wait=0}) => {
-                        if ( setTypes.has ( type) && fn instanceof Function ) {
-                                let key = `${type}/${timing}`
-                                const hasProperty = callbacks.hasOwnProperty ( key );
-                                hasProperty ? 
-                                                callbacks[key].push ( fn ) :
-                                                callbacks[key] = [ fn ]
-                                if ( !hasProperty ) {
-                                                ev.on ( key, ( props, callbacks ) => {   // Register the 'type/timing' as an event
-                                                                callbacks.forEach ( cb => { if ( cb instanceof Function )   cb ( props )   })
-                                                        }) 
-                                        }  
-                            } // if function
-                        if ( timing === 'instant' )   pluginState.wait[`${type}`] = wait
-                })
-
+        action.forEach ( act => {
+                        act().forEach ( ({fn, type, timing, wait=0}) => {
+                                        if ( setTypes.has ( type) && fn instanceof Function ) {
+                                                let key = `${type}/${timing}`
+                                                const hasProperty = callbacks.hasOwnProperty ( key );
+                                                hasProperty ? 
+                                                                callbacks[key].push ( fn ) :
+                                                                callbacks[key] = [ fn ]
+                                                if ( !hasProperty ) {
+                                                                ev.on ( key, ( props, callbacks ) => {   // Register the 'type/timing' as an event
+                                                                                callbacks.forEach ( cb => { if ( cb instanceof Function )   cb ( props )   })
+                                                                        }) 
+                                                        }  
+                                        } // if function
+                                        if ( timing === 'instant' )   pluginState.wait[`${type}`] = wait
+                                }) // for each act
+                }) // for each action
         if ( Object.keys(pluginState.callbacks).length > 0 )   return true
         else                                                   return false
 } // _registerShortcutEvents func.
