@@ -13,7 +13,7 @@
  *  - Method 'emit' was added on September 30st, 2023
  *  - Version 2.0.0 was published on October 16th, 2023
  *  - Version 3.0.0. Plugin system. Published on March 5th, 2024
- *  - Version 3.1.0. Added new plugin 'form'. Published on August 15th, 2025
+ *  - Version 3.2.0. Added plugin 'form'. Published on August 15th, 2025
  */
 
 

@@ -1,6 +1,9 @@
 ## Release History
 
 
+### 3.2.0 ( 2025-08-15)
+- [x] Plugin 'form' was added. It allows you to listen for form elements changes.
+
 
 ### 3.1.4 ( 2025-05-3)
 - [x] Dependency update. @peter.naydenov/notice - v.2.4.1
