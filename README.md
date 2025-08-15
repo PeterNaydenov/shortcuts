@@ -271,7 +271,7 @@ Action definitions have 4 possible properties:
 
 Definition Example:
 ```js
-const shortcutSkope = {
+const shortcutScope = {
 ...
 , 'form : watch' : () => 'input, button' // Will select all inputs and buttons elements on the page.
 , 'form : define' : ( target ) => { // Target is a DOM element selected by 'form: watch'
