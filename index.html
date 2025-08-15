@@ -82,27 +82,27 @@
                                                    }
                                         }
                             , 'form : action' : () =>  [
-                                {
-                                        fn: ({target}) => { console.log ( target)}
-                                      , type : 'input'
-                                      , timing : 'in'
-                                },
-                                {
-                                        fn: ({target}) => { console.log ( 'extra')}
-                                      , type : 'input'
-                                      , timing : 'in'
-                                },
-                                {
-                                          fn: () => { console.log ( 'Update content') }
-                                        , type : 'input'
-                                        , timing : 'instant'
-                                        , wait : 500 
-                                },
-                                {
-                                          fn: () => { console.log('It was a button') }
-                                        , type : 'button'
-                                        , timing : 'out'
-                                }
+                                                {
+                                                        fn: ({target}) => { console.log ( target)}
+                                                , type : 'input'
+                                                , timing : 'in'
+                                                },
+                                                {
+                                                        fn: ({target}) => { console.log ( 'extra')}
+                                                , type : 'input'
+                                                , timing : 'in'
+                                                },
+                                                {
+                                                        fn: () => { console.log ( 'Update content') }
+                                                        , type : 'input'
+                                                        , timing : 'instant'
+                                                        , wait : 500 
+                                                },
+                                                {
+                                                        fn: () => { console.log('It was a button') }
+                                                        , type : 'button'
+                                                        , timing : 'out'
+                                                }
                             ] // form: action
                           }
             })

@@ -34,6 +34,10 @@ const
 
         pluginState.typeFn = define[0] ? define[0] : _defaults.define
         action.forEach ( act => {
+                        if ( !(act instanceof Function)) {  
+                                console.warn ( `Warning: The 'form:action' should be a function.` )
+                                return false
+                           }
                         act().forEach ( ({fn, type, timing, wait=0}) => {
                                         if ( setTypes.has ( type) && fn instanceof Function ) {
                                                 let key = `${type}/${timing}`
