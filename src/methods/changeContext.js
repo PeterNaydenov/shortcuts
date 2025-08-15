@@ -29,7 +29,9 @@ return function changeContext ( contextName = false ) {
         const current = currentContext.name;
         
         if ( !contextName ) {   // Switch off all shortcuts if contextName is not defined
-                        ev.reset ()
+                        ev.reset () 
+                        // All DOM/Mouse listeners provides trigger signal to notice(the event emitter).
+                        // If event emitter was reset, all DOM/Mouse listener signals will be ignored.
                         currentContext.name = null
                         return
                 }
