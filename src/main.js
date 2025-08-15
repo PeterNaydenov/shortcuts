@@ -23,6 +23,7 @@ import methods from './methods/index.js'
 // Plugins
 import pluginKey from './plugins/key/index.js'
 import pluginClick from './plugins/click/index.js'
+import pluginForm from './plugins/form/index.js'
 
 
 
@@ -194,6 +195,7 @@ export { main as shortcuts }
 export { 
             pluginKey
           , pluginClick
+          , pluginForm
         }
 
 
