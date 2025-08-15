@@ -22,7 +22,7 @@
   </head>
   <body>
     <script type="module">
-        import { shortcuts, pluginKey, pluginClick } from '/src/main.js'
+        import { shortcuts, pluginKey, pluginClick, pluginForm } from './src/main.js'
 
         const options = {
                   onShortcut ( shortcut, { context, note }) {
@@ -36,9 +36,14 @@
         const short = shortcuts ( options );
         short.enablePlugin( pluginKey )
         short.enablePlugin( pluginClick )
+        short.enablePlugin ( pluginForm )
         
         
-        short.load ( { general : {
+        short.load ( { 
+                        test : {
+                             'key:r' : () => console.log ( 'R was clicked' )
+                            },
+                        general : {
                               'key:q' : [ () => console.log('Q was clicked')   ] 
                             , 'key:r,o,s' : () => console.log ( 'ROS was clicked' ) 
                             , 'click:left-2' : () => console.log ( 'Mouse left click 2' )
@@ -67,15 +72,54 @@
                                                         setTimeout ( end, 3000 )
                                                 }
                                           ]
+                            , 'form : watch' : () => 'input, button'
+                            , 'form : define' : (target) => {
+                                                if ( target.tagName === 'INPUT' ) {
+                                                        return 'input'
+                                                   }
+                                                if ( target.tagName === 'BUTTON' ) {
+                                                        return 'button'
+                                                   }
+                                        }
+                            , 'form : action' : [
+                                {
+                                        fn: ({target}) => { console.log ( target)}
+                                      , type : 'input'
+                                      , timing : 'in'
+                                },
+                                {
+                                        fn: ({target}) => { console.log ( 'extra')}
+                                      , type : 'input'
+                                      , timing : 'in'
+                                },
+                                {
+                                          fn: () => { console.log ( 'Update content') }
+                                        , type : 'input'
+                                        , timing : 'instant'
+                                        , wait : 500 
+                                },
+                                {
+                                          fn: () => { console.log('It was a button') }
+                                        , type : 'button'
+                                        , timing : 'out'
+                                }
+                            ]
                           }
             })
         short.changeContext ( 'general' )
-        short.setNote ( 'some' )
+        
+        
+        // short.changeContext (  )
+        // short.changeContext ( 'general' )
+        
+        
     </script>
     <div class="block" data-click="red-block">
         <span>hello</span>
     </div>
 
     <button class="big-btn" data-click="mega-button" draggable>Mega button</button>
+    <p><input id="name" type="text" placeholder="Name"/></p>
+    <p><input id="age" type="text" placeholder="Age" /></p>
   </body>
 </html>
