@@ -8,11 +8,12 @@
 
  
 Describe all page activities as list of shortcuts wrapped in contexts. Switch among available contexts.
-Library has a plugin system to extend the possible `shortcut names`/`event coverage`. Plugins role is to convert DOM events to shortcut strings, then the core part will trigger the action functions related to the shortcut. At the moment we have 2 plugins:
+Library has a plugin system to extend the possible `shortcut names`/`event coverage`. Plugins role is to convert DOM events to shortcut strings, then the core part will trigger the action functions related to the shortcut. At the moment we have 3 plugins:
 - `key`   - converts keyboard events to shortcut names;
 - `click` - converts mouse events to shortcut names;
+- `form`  - watches for form elements changes;
 
-Planned work on the plugins for `scroll`, `drag-drop`, `input-change`, etc...
+Planned work on the plugins for `scroll`, `drag-drop`, etc...
 
 
 
@@ -246,6 +247,67 @@ Special characters that are available for your shortcut descriptions:
 **Warning**: For keys with two symbols(look at the keyboard), in shortcut description use the lower one. Examples: Use '=' instead of '+', use '/' instead of '?', etc. Modifier keys are available for special characters too.
 
 **Warining**: Some of the shortcuts are used by OS and the browswer, so they are not available.
+
+
+
+
+
+## Plugin 'form' Shortcut Descriptions
+`Form` plugin is used to watch for changes in inputs, textareas, select and textarea elements. All 3 possible shortcuts are predefined: 'form: watch', 'form: define' and 'form: action'.
+```js
+`form: watch`  // (function). Should return list of elements to watch
+`form: define` // (function). Define every element you are watching as a type(own definition).
+`form: action` // (function). Function should return a list of objects with action function definitions.
+```
+Action definitions have 4 possible properties:
+```js
+{
+   fn // (function) Action function
+ , type // (string) Type of the element. Available types are according to `form: define` reponses
+ , timing // (string) Possible values are: 'in', 'out', 'instant'
+ , wait // (number) It's a event reducer timer in milliseconds. Worsk only for 'timing: instant'  
+}
+```
+
+Definition Example:
+```js
+const shortcutSkope = {
+...
+, 'form : watch' : () => 'input, button' // Will select all inputs and buttons elements on the page.
+, 'form : define' : ( target ) => { // Target is a DOM element selected by 'form: watch'
+                    if ( target.tagName === 'INPUT' ) { // Will define inputs as 'input' type
+                            return 'input' // (String) Custom according your preference
+                        }
+                    if ( target.tagName === 'BUTTON' ) { // Will define buttons as 'button' type
+                            return 'button'
+                        }
+            }
+, 'form : action' : () =>  [
+                    {
+                        fn: ({target}) => { console.log ( target)}
+                      , type : 'input' // According to 'form: define'
+                      , timing : 'in' // on focus in
+                    },
+                    {
+                        fn: ({target}) => { console.log ( 'extra')}
+                      , type : 'input'
+                      , timing : 'in' // on focus in
+                    },
+                    {
+                        fn: () => { console.log ( 'Update content') }
+                      , type : 'input'
+                      , timing : 'instant' // on content change. on each change
+                      , wait : 500        // Wait 500ms between changes. 
+                    },
+                    {
+                        fn: () => { console.log('It was a button') }
+                      , type : 'button' // According to 'form: define'
+                      , timing : 'out'  // on focus out
+                    }
+] // form: action
+}
+```
+`form:watch` can contains `.someClass` for selecting elements by class name or `#someId` for selecting elements by id. It's could be everything that works in querySelectorAll. The `form:define` gives you a way to separate different inputs and privide a custom callback for each of them or use single callback for all inputs.
 
 
 
