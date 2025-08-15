@@ -8,6 +8,7 @@ import '../test-components/style.css'
 import { 
           pluginClick,
           pluginKey
+        , pluginForm
         , shortcuts 
                 } from '../src/main.js'
 import { expect } from 'chai'
@@ -35,6 +36,17 @@ short.load ({
                 , extra : {    
                             'key : p,r,o,b,a': () => b = true                        
                         }
+                , extend : {
+                              'form : watch' : () => 'input'
+                            , 'form : define' : () => 'input'
+                            , 'form : action' : () => [
+                                {
+                                      fn : (e) => console.log ( e.target )
+                                    , type : 'input'
+                                    , mode : 'in'
+                                }
+                            ]
+                    }
         })
 
 beforeEach ( () => {
@@ -245,7 +257,7 @@ test ( 'List shortcuts', () => {
         let all = short.listShortcuts ();
         expect ( all ).to.be.an ( 'array' )
         
-        expect ( all ).to.have.lengthOf ( 2 )
+        expect ( all ).to.have.lengthOf ( 3 )
         expect ( all[0] ).to.have.property ( 'context' )
         expect ( all[0] ).to.have.property ( 'shortcuts' )
         expect ( all[0].shortcuts ).to.be.an('array')
