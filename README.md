@@ -309,6 +309,24 @@ const shortcutScope = {
 ```
 `form:watch` can contains `.someClass` for selecting elements by class name or `#someId` for selecting elements by id. It's could be everything that works in querySelectorAll. The `form:define` gives you a way to separate different inputs and privide a custom callback for each of them or use single callback for all inputs.
 
+Plugin `form` has a default versions for `form:watch` and `form:define` functions. Only `form:action` is required but should use the default settings. Here are the defaults:
+```js
+const _defaults = {
+      watch : () => 'input, select, textarea, button, a'
+    , define: (el) => {
+            if ( el.type === 'checkbox' || el.type === 'radio' ) {
+                    return 'checkbox'
+                }
+            if ( el.type == 'button' || el.type=='submit' ) {
+                    return 'button'
+                }
+            return 'input'
+        } // define
+} // defaults
+```
+
+If you want to pause of resume event from `form` plugin, call `short.pause(eventName)` and `short.resume(eventName)` where eventName is a `${type}/${timing}`. Take type and timing from action definitions.
+
 
 
 ## Action Functions
