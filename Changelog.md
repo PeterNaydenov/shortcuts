@@ -2,7 +2,7 @@
 
 
 
-### 3.2.2. ( 2025-09-29)
+### 3.3.0 ( 2025-09-29)
 - [x] Dependency updates and new build;
 
 
