@@ -2,6 +2,11 @@
 
 
 
+### 3.2.2. ( 2025-09-29)
+- [x] Dependency updates and new build;
+
+
+
 ### 3.2.1 ( 2025-08-15)
 - [x] Fix: Old build files were not deleted after release.
 
