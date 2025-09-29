@@ -41,7 +41,7 @@
     "playwright": "^1.55.0",
     "react": "^19.0.1",
     "react-dom": "^19.0.1",
-    "vite": "^7.1.6"
+    "vite": "^7.1.7"
   },
   "keywords": [
     "shortcut",
