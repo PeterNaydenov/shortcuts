@@ -72,7 +72,8 @@ function _listenDOM ( dependencies, state ) {
     
     function listenForSpecialKeys ( event ) { // Listen for special keyboard keys
                 clearTimeout ( keyTimer )
-                if ( _specialChars.hasOwnProperty(event.code) )   r.push ( _readKeyEvent ( event, _specialChars ))
+                let _sp = _specialChars ()
+                if ( _sp.hasOwnProperty(event.code) )   r.push ( _readKeyEvent ( event, _specialChars ))
                 else                                             return
                 if ( streamKeys )   streamKeys ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
                 if ( listenOptions.keyIgnore ) {
@@ -92,7 +93,7 @@ function _listenDOM ( dependencies, state ) {
     
 
     function listenForRegularKeys ( event ) {  // Listen for regular keyboard keys
-                if ( _specialChars.hasOwnProperty(event.code) )   return            
+                if ( _specialChars().hasOwnProperty(event.code) )   return            
                 clearTimeout ( keyTimer )
                 if ( streamKeys )   streamKeys ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
                 if ( listenOptions.keyIgnore ) {
