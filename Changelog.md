@@ -1,20 +1,28 @@
 ## Release History
 
 
+### 3.3.1 ( 2025-10-10)
+- [x] Fix: Fail to react on 'key:specialCharacters' events
+
+
+
 
 ### 3.3.0 ( 2025-09-29)
 - [x] Dependency updates and new build;
-
+- [ ] Bug: Fail to react on 'key:specialCharacters' events
 
 
 ### 3.2.1 ( 2025-08-15)
 - [x] Fix: Old build files were not deleted after release.
-
+- [ ] Bug: Fail to react on 'key:specialCharacters' events
 
 
 ### 3.2.0 ( 2025-08-15)
 - [x] Plugin 'form' was added. It allows you to listen for form elements changes.
 - [ ] Miss: Old build files were not deleted after release.
+- [ ] Bug: Fail to react on 'key:specialCharacters' events
+
+
 
 ### 3.1.4 ( 2025-05-3)
 - [x] Dependency update. @peter.naydenov/notice - v.2.4.1
