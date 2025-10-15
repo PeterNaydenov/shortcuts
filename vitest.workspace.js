@@ -12,7 +12,6 @@ export default defineWorkspace([
         name: 'chromium',
         provider: 'playwright',
         // https://vitest.dev/guide/browser/playwright
-        configs: [],
       },
     },
   },

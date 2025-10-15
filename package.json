@@ -19,7 +19,8 @@
   "scripts": {
     "dev": "vite",
     "build": "rollup -c",
-    "test": "vitest --workspace=vitest.workspace.js"
+    "test": "vitest --workspace=vitest.workspace.js",
+    "cover": "vitest run --coverage"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@vitejs/plugin-react": "^5.0.4",
     "@vitest/browser": "^3.2.4",
+    "@vitest/coverage-v8": "^3.2.4",
     "ask-for-promise": "^3.0.2",
     "chai": "^6.2.0",
     "mocha": "^11.7.4",
