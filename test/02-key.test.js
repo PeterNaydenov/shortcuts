@@ -29,3 +29,8 @@ import { expect } from 'chai'
 import askForPromise from 'ask-for-promise'
 
 const html = new VisaulController ();
+
+describe.skip ( 'Key plugin', () => {
+
+  
+})
