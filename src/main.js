@@ -181,6 +181,22 @@ function main ( options = {} ) {
     API.getDependencies = () => dependencies.extra
 
 
+    /**
+     * @function destroy
+     * @description Destroy the library instance
+     * @returns {void}
+     */
+    API.destroy = function destroy () {
+                        state.plugins.forEach ( plugin => plugin.destroy () )
+                        state.plugins = []
+                        state.currentContext = null
+                        ev.destroy ()
+                        API = null
+                        inAPI = null
+                        dependencies = null
+      } // destroy func.
+
+
 
     Object.entries ( methods ).forEach ( ([ name, method ]) => {
                 if ( name.startsWith('_') ) inAPI [ name ] = method ( dependencies, state )
