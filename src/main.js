@@ -190,7 +190,7 @@ function main ( options = {} ) {
                         state.plugins.forEach ( plugin => plugin.destroy () )
                         state.plugins = []
                         state.currentContext = null
-                        ev.destroy ()
+                        ev.reset ()
                         API = null
                         inAPI = null
                         dependencies = null
