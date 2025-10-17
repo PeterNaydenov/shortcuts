@@ -183,20 +183,18 @@ function main ( options = {} ) {
 
 
     /**
-     * @function destroy
-     * @description Destroy the library instance
+     * @function reset
+     * @description Reset the library instance
      * @returns {void}
      */
-    API.destroy = function destroy () {
-                        state.plugins.forEach ( plugin => plugin.destroy () )
-                        API = null
-
-                        state.plugins = null
-                        state.currentContext = null
+    API.reset = function reset () {
                         ev.reset ()
-                        inAPI = null
-                        dependencies = null
-      } // destroy func.
+                        API.changeContext ()
+                        state.plugins.forEach ( plugin => plugin.destroy () )
+                        API.listContexts ().map ( cx =>  API.unload ( cx ))
+                        dependencies.extra = {}
+                        state.exposeShortcut = null
+      } // reset func.
 
 
 
