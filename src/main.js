@@ -31,24 +31,25 @@ import pluginForm from './plugins/form/index.js'
 
 
 function main ( options = {} ) {
-
+    let  
+          inAPI = {}      // API for internal methods
+        , API   = {}      // API for public methods
+        ;
     const
           ev = notice ()  // Event emitter instance
-        , inAPI = {}      // API for internal methods
-        , API   = {}      // API for public methods
         , state = {
                       currentContext : { name: null, note: null } // Context data container
                     , shortcuts      : {}   // shortcuts = { contextName : { shortcut :  callback[] } }
                     , plugins        : [] // Array of active plugins
                     , exposeShortcut : (options.onShortcut && ( typeof options.onShortcut === 'function')) ? options.onShortcut : false   // Keyboard shortcut log function
               } // state
-        , dependencies = { 
+        ;
+    let dependencies = { 
                               ev
                             , inAPI
                             , API
                             , extra : {}
-                        }
-        ;
+                        };
 
 
 
