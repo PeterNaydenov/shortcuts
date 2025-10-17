@@ -125,7 +125,6 @@ describe ( 'Key plugin', () => {
     it ( 'Key sequence', async () => {
                       // enable key plugin and normalize shortcuts related to the plugin 'key'
                       short.enablePlugin ( pluginKey )
-                      short.changeContext ()
                       short.changeContext ( 'extra' )
                       // Execute key sequence: 'p,r,o,b,a'
                       await userEvent.keyboard ( 'proba' )
@@ -134,6 +133,10 @@ describe ( 'Key plugin', () => {
                                 expect ( b ).to.equal ( true )
                       }, { timeout: 1000, interval: 12 })
         }) // it key sequence
+
+
+    
+    
 
 
 })

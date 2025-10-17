@@ -247,4 +247,26 @@ describe ( 'Click plugin', () => {
                 expect ( result.target ).to.be.equal ( 'mega' )
                 expect ( result.context ).to.be.equal ( 'local' )
           }) // it arguments of click handler
+
+
+
+      it ( 'Click on anchor', async () => {
+                // Click on anchor that don't have click-data attribute.
+                let result = 'none';
+                short.enablePlugin ( pluginClick )
+                short.load ({ 'extra' : { 
+                                        'click: 1 - left' : ({target, context, event }) => {   // Order of button name and number of click is not important
+                                                    event.preventDefault ()
+                                                    expect ( context ).to.be.equal ( 'extra' )
+                                                    expect ( target.nodeName ).to.be.equal ( 'A' )
+                                                    result = target.nodeName
+                                                }
+                                    } 
+                        })
+                short.changeContext ( 'extra' )
+                let loc = document.querySelector ( '#anchor' )  || false;
+                if ( loc )   await userEvent.click ( loc )
+                expect ( result ).to.be.equal ( 'A' )  
+          }) // it click on anchor
+  
 }) // describe
