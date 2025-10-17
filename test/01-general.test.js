@@ -1,5 +1,5 @@
-import { beforeEach, describe, it, expect } from 'vitest'
-import { userEvent, page } from '@vitest/browser/context'
+import { beforeEach, afterEach, describe, it, expect } from 'vitest'
+import { userEvent } from '@vitest/browser/context'
 import {
   getByLabelText,
   getByText,

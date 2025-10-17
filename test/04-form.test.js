@@ -1,4 +1,4 @@
-import { beforeEach, describe, it, test, expect } from 'vitest'
+import { beforeEach, afterEach, describe, it, test, expect } from 'vitest'
 import { userEvent } from '@vitest/browser/context'
 import {
   getByLabelText,
@@ -63,24 +63,27 @@ const contextDefinition = {
                     }
       }
 
-const short = shortcuts ();
-short.load ( contextDefinition )
+let short;
+
 
 
 describe.skip ( 'Form plugin', () => {
 
       beforeEach ( async  () => {
-                    let container = document.createElement ( 'div' )
-                    container.id = 'app'
-                    document.body.appendChild ( container )
-                    await html.publish ( Block, {}, 'app' )
-                    a = false, b = false
+                  short = shortcuts ();
+                  short.load ( contextDefinition )
+                  let container = document.createElement ( 'div' )
+                  container.id = 'app'
+                  document.body.appendChild ( container )
+                  await html.publish ( Block, {}, 'app' )
+                  a = false, b = false
           }) // beforeEach
 
 
 
       afterEach ( async  () => {
-                   a = false, b = false, c = null;
+                  short.destroy ()
+                  a = false, b = false, c = null;
           }) // afterEach
 
 
