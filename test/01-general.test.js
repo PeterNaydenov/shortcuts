@@ -64,15 +64,15 @@ const contextDefinition = {
 
 
                                     
-const short = shortcuts ();
-short.load ( contextDefinition )
-
+let short;
 
 
 
 describe.skip ( "Shortcuts", () => {
 
         beforeEach ( async  () => {
+                        short = shortcuts ()
+                        short.load ( contextDefinition )
                         let container = document.createElement ( 'div' )
                         container.id = 'app'
                         document.body.appendChild ( container )
@@ -83,15 +83,12 @@ describe.skip ( "Shortcuts", () => {
 
 
         afterEach ( async  () => {
+                    short.destroy ()
                     a = false, b = false, c = null;
             }) // afterEach
 
 
-
         
-
-
-
         it ( 'Emit custom event', () => {
                 const res = new Promise ( async (resolve) => {
                                         let result = null;
