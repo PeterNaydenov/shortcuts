@@ -92,8 +92,7 @@ describe ( 'Click plugin', () => {
 
 
       afterEach ( async  () => {
-                  await short.disablePlugin ( pluginClick )
-                  // TODO: Need a 'destroy' method for the library
+                  short.destroy ();
                   a = false, b = false, c = null;
           }) // afterEach
 
