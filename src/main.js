@@ -189,10 +189,11 @@ function main ( options = {} ) {
      */
     API.destroy = function destroy () {
                         state.plugins.forEach ( plugin => plugin.destroy () )
-                        state.plugins = []
+                        API = null
+
+                        state.plugins = null
                         state.currentContext = null
                         ev.reset ()
-                        API = null
                         inAPI = null
                         dependencies = null
       } // destroy func.
