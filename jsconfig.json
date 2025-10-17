@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+                "checkJs": false,  // Disables type checking in .js files
+                "noImplicitAny": false,
+                "strict": false,
+                "allowJs": true,
+        },
+  "include": ["src/**/*", "tests/**/*", "**/*.js"],  // Your files
+
+}
