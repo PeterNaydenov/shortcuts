@@ -84,7 +84,7 @@ describe ( "Shortcuts", () => {
 
 
         afterEach ( async  () => {
-                    short.destroy ()
+                    short.reset ()
                     a = false, b = false, c = null;
             }) // afterEach
 
@@ -134,7 +134,16 @@ describe ( "Shortcuts", () => {
             }) // it list shortcuts
 
 
-        
+
+        it.only ( 'Reset', () => {
+                      short.reset ()
+                      expect ( short.listShortcuts () ).to.have.lengthOf ( 0 )
+                      expect ( short.listShortcuts () ).to.have.lengthOf ( 0 )
+                      expect ( short.getContext () ).to.be.null
+                      short.setDependencies ({ a:'alabala' })
+                      // expect ( short.getDependencies ).to.be.empty
+                      // expect ( short ).to.be.null
+            }) // it Reset
         
 
 }) // describe

@@ -84,7 +84,7 @@ describe ( 'Key plugin', () => {
 
 
       afterEach ( async  () => {
-                  short.destroy ()
+                  short.reset ()
                   a = false, b = false, c = null;
           }) // afterEach
 
