@@ -242,8 +242,7 @@ describe ( 'Click plugin', () => {
                       })
                 short.changeContext ( 'local' )
                 await userEvent.click ( document.querySelector ( '[data-click="mega"]' ) )
-                await wait ( 17 )
-                expect  ( i ).to.be.equal ( 1 )
+                expect ( i ).to.be.equal ( 1 )
                 let result = test[0];
                 expect ( result.target ).to.be.equal ( 'mega' )
                 expect ( result.context ).to.be.equal ( 'local' )
