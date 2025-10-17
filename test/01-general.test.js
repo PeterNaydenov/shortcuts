@@ -135,14 +135,12 @@ describe ( "Shortcuts", () => {
 
 
 
-        it.only ( 'Reset', () => {
+        it ( 'Reset', () => {
+                      short.enablePlugin ( pluginKey )
                       short.reset ()
                       expect ( short.listShortcuts () ).to.have.lengthOf ( 0 )
                       expect ( short.listShortcuts () ).to.have.lengthOf ( 0 )
                       expect ( short.getContext () ).to.be.null
-                      short.setDependencies ({ a:'alabala' })
-                      // expect ( short.getDependencies ).to.be.empty
-                      // expect ( short ).to.be.null
             }) // it Reset
         
 
