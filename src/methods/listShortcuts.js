@@ -10,7 +10,8 @@
 function listShortcuts ( dependencies, state ) {
 const shortcuts = state.shortcuts;
 /**
- *  List all shortcuts in all contexts or in a specific context.
+ *  @function listShortcuts
+ *  @description List all shortcuts in all contexts or in a specific context.
  *  @param {string}[ contextName=null]  - List of shortcuts for provided context name. (optional)
  *  @returns {string[]|contextShortcuts[]} - List of shortcuts for a specified context or list of contextShortcuts for all contexts.
  */
