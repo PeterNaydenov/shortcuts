@@ -168,6 +168,71 @@ describe ( 'Key plugin', () => {
                               }, { timeout: 1000, interval: 12 })
         }) // it mute key plugin
     
+
+
+    it ( 'Arguments of key handler', async () => {
+                /**
+                *    Need to know arguments for 'key' handler
+                *    function myKeyHandler ({
+                *                         wait        // (function). Function to pause key sequence processing
+                *                       , end         // (function). Function to end key sequence processing
+                *                       , ignore      // (function). Function to ignore current key in sequence
+                *                       , isWaiting   // (function). Check if sequence is waiting
+                *                       , note        // (string). Current context note or null
+                *                       , context     // (string). Current context name
+                *                       , dependencies // (object). External dependencies object
+                *                       , type        // (string). Event type ('key')
+                *                  }) {
+                *            // Body of the handler. Do something...
+                *       }
+                */
+                let test = [];
+                let i = 0;
+                short.enablePlugin ( pluginKey )
+                short.setDependencies ({ test })
+                short.load ({
+                        'local' : {
+                              'key: a' : ({
+                                           wait
+                                         , end
+                                         , ignore
+                                         , isWaiting
+                                         , note
+                                         , context
+                                         , dependencies
+                                         , type
+                                       }) => {
+                                                const
+                                                    { test } = dependencies
+                                                  , result = {
+                                                                    wait: typeof wait
+                                                                  , end: typeof end
+                                                                  , ignore: typeof ignore
+                                                                  , isWaiting: typeof isWaiting
+                                                                  , note
+                                                                  , context
+                                                                  , type
+                                                              }
+                                                    ;
+                                                test.push ( result )
+                                                i++
+                                          }
+                            } // local
+                      })
+                short.changeContext ( 'local' )
+                await userEvent.keyboard ( 'a' )
+                await wait ( 50 )  // Wait for key processing
+                await waitFor ( () => {
+                            expect ( i ).to.be.equal ( 1 )
+                            let result = test[0];
+                            expect ( result.wait ).to.be.equal ( 'function' )
+                            expect ( result.end ).to.be.equal ( 'function' )
+                            expect ( result.ignore ).to.be.equal ( 'function' )
+                            expect ( result.isWaiting ).to.be.equal ( 'function' )
+                            expect ( result.context ).to.be.equal ( 'local' )
+                            expect ( result.type ).to.be.equal ( 'key' )
+                      }, { timeout: 1000, interval: 12 })
+          }) // it arguments of key handler
     
 
 
