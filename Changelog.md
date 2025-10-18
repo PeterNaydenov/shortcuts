@@ -1,55 +1,99 @@
 ## Release History
 
 
+
+### 3.4.0 ( 2025-10-18)
+- [x] Feature: New method 'reset' to reset the library instance;
+- [x] Refactoring: Added 'active' state property to 'click' plugin state management;
+- [x] Test: Migrated Vitest configuration from deprecated workspace files to modern format;
+- [x] Test: Added @vitest/ui package for interactive test interface;
+- [x] Test: Updated click and key plugin tests for better reliability;
+- [x] Dev deps update. @rollup/plugin-commonjs to v.28.0.8;
+- [x] Dev deps update. Playwright to v.1.56.1;
+- [x] Fix: Cleaning plugin-state variables on plugin stop;
+- [x] Fix: Wrong plugin name detection in 'enablePlugin' method;
+- [x] Fix: Custom events for plugins with works only with nomrmalized event-names. Fixed - event name normalization could be done from the enabled plugins;
+
+
+
 ### 3.3.1 ( 2025-10-10)
 - [x] Fix: Fail to react on 'key:specialCharacters' events
-
+- [ ] Bug: Cleaning plugin-state variables on plugin stop;
+- [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
+- [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
 
 
 
 ### 3.3.0 ( 2025-09-29)
 - [x] Dependency updates and new build;
 - [ ] Bug: Fail to react on 'key:specialCharacters' events
+- [ ] Bug: Cleaning plugin-state variables on plugin stop;
+- [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
+- [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
 
 
 ### 3.2.1 ( 2025-08-15)
 - [x] Fix: Old build files were not deleted after release.
 - [ ] Bug: Fail to react on 'key:specialCharacters' events
+- [ ] Bug: Cleaning plugin-state variables on plugin stop;
+- [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
+- [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
 
 
 ### 3.2.0 ( 2025-08-15)
 - [x] Plugin 'form' was added. It allows you to listen for form elements changes.
 - [ ] Miss: Old build files were not deleted after release.
 - [ ] Bug: Fail to react on 'key:specialCharacters' events
+- [ ] Bug: Cleaning plugin-state variables on plugin stop;
+- [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
+- [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
 
 
 
 ### 3.1.4 ( 2025-05-3)
 - [x] Dependency update. @peter.naydenov/notice - v.2.4.1
+- [ ] Bug: Cleaning plugin-state variables on plugin stop;
+- [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
+- [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
 
 
 ### 3.1.3 ( 2025-01-12)
 - [x] Dependency update. @peter.naydenov/notice - v.2.4.0
+- [ ] Bug: Cleaning plugin-state variables on plugin stop;
+- [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
+- [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
 
 
 
 ### 3.1.2 ( 2024-12-23 )
 - [x] Dependency update. @peter.naydenov/notice - v.2.3.2
+- [ ] Bug: Cleaning plugin-state variables on plugin stop;
+- [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
+- [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
 
 
 
 ### 3.1.1 ( 2024-03-15 )
 - [x] Update: Using @peter.naydenov/notice v.2.3.1: Fix: Callback stop will stop the wildcard callbacks as well;
+- [ ] Bug: Cleaning plugin-state variables on plugin stop;
+- [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
+- [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
 
 
 
 ### 3.1.0 ( 2024-03-14 )
 - [x] Using @peter.naydenov/notice v.2.3.0: If action function returns a string 'stop' and execution of followed action functions will be stopped. Option to build a chain of conditional action functions before the main action function;
+- [ ] Bug: Cleaning plugin-state variables on plugin stop;
+- [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
+- [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
 
 
 
 ### 3.0.1 ( 2024-03-06 )
 - [x] Fix: Library works again;
+- [ ] Bug: Cleaning plugin-state variables on plugin stop;
+- [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
+- [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
 
 
 
