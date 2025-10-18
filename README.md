@@ -399,6 +399,7 @@ Description of the methods of shortcut instance:
 , setNote         : 'Set a note to current context.'
 , setDependencies : 'Set dependencies that will be available in action functions.'
 , getDependencies : 'Return a dependencies object.'
+, reset           : 'Reset shortcut instance.'
 ```
 
 ### How to 'pause' and 'resume'?
