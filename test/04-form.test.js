@@ -63,14 +63,13 @@ const contextDefinition = {
                     }
       }
 
-let short;
+let short = shortcuts ();
 
 
 
 describe.skip ( 'Form plugin', () => {
 
       beforeEach ( async  () => {
-                  short = shortcuts ();
                   short.load ( contextDefinition )
                   let container = document.createElement ( 'div' )
                   container.id = 'app'

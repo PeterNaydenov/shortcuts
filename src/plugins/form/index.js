@@ -71,10 +71,10 @@ function pluginForm ( dependencies, state, options ) {
                      , mute          : () => formListener.stop ()
                      , unmute        : () => formListener.start ()
                      , destroy       : () => {
-                                                formListener.stop ()
-                                                pluginState = null
-                                                pluginAPI = null
-                                        }
+                                          formListener.stop ()
+                                          // TODO: Clean up state of the plugin
+                                }
+                                        
               }; // pluginAPI
         Object.freeze ( pluginAPI )
         return pluginAPI
