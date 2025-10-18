@@ -276,7 +276,7 @@ describe ( 'Click plugin', () => {
 
 
 
-      it ( 'Mute click plugin', async () => {
+      it ( 'Mute and unmute click plugin', async () => {
                                 const 
                                       result = []
                                     , trg = document.querySelector ( '#rspan' ) 
@@ -307,14 +307,24 @@ describe ( 'Click plugin', () => {
                                           expect ( i ).to.equal ( 1 )
                                     }, { timeout: 1000, interval: 12 })
 
-                                short.mutePlugin ( 'click' )
+                                 short.mutePlugin ( 'click' )
 
-                                await userEvent.click ( trg )
-                                await waitFor ( () => {
-                                          // Plugin is muted, so we don't expect any changes
-                                          expect ( result ).to.have.lengthOf ( 2 )
-                                          expect ( i ).to.equal ( 1 )
-                                    }, { timeout: 1000, interval: 12 })
-              }) // it mute click plugin
+                                 await userEvent.click ( trg )
+                                 await waitFor ( () => {
+                                           // Plugin is muted, so we don't expect any changes
+                                           expect ( result ).to.have.lengthOf ( 2 )
+                                           expect ( i ).to.equal ( 1 )
+                                     }, { timeout: 1000, interval: 12 })
+
+                                 short.unmutePlugin ( 'click' )
+
+                                 await userEvent.click ( trg )
+                                 await wait ( 330 )
+                                 await waitFor ( () => {
+                                           // Plugin is unmuted, should work again
+                                           expect ( result ).to.have.lengthOf ( 3 )
+                                           expect ( i ).to.equal ( 2 )
+                                     }, { timeout: 1000, interval: 12 })
+               }) // it mute and unmute click plugin
   
 }) // describe

@@ -37,7 +37,8 @@ const contextDefinition = {
                             ' key : shift+a': [ 
                                         () => a = true, 
                                         () => c = 'triggered' 
-                                      ]
+                                      ],
+                            '@shortcuts-error' : ( m ) =>  c = m
                         }
                 , touch : {
                               // Single click with left button
@@ -88,6 +89,32 @@ describe ( "Shortcuts", () => {
             }) // afterEach
 
 
+
+        it ( 'Load and unload context', async () => {
+                      let ls = short.listContexts ()
+                      expect ( ls ).to.includes ( 'general' )
+
+                      short.changeContext ( 'general' )
+                      // Can't not to unload current active context - sends an error on @shortcuts-error
+                      // @shortcuts-error is a system error event used accross the library
+                      short.unload ( 'general' )
+                      expect ( c ).to.be.equal ( `Context 'general' can't be removed during is current active context. Change the context first` )
+                      
+                      // Try to change context to non-existent one
+                      // Message goes to @shortcuts-error                   
+                      short.changeContext ( 'hhm' )
+                      expect ( c ).to.be.equal ( `Context 'hhm' does not exist` )
+
+                      // Change to something that exists
+                      short.changeContext ( 'extra' )
+                      // Free to unload 'general'
+                      short.unload ( 'general' )
+                      ls = short.listContexts ()
+                      // Unload success
+                      expect ( ls ).to.not.includes ( 'general' )
+            }) // it load and unload context
+        
+        
         
         it ( 'Emit custom event', () => {
                             // TODO: Check arguments for the custom event handlers
@@ -113,8 +140,8 @@ describe ( "Shortcuts", () => {
 
                       let general =  short.listShortcuts ('general');
                       expect ( general ).to.be.an ( 'array' )
-                      expect ( general ).to.have.lengthOf ( 1 )
-                      expect ( general[0] ).to.be.equal ( 'KEY:A+SHIFT' )
+                      expect ( general ).to.have.lengthOf ( 2 )
+                      expect ( general ).to.include ( 'KEY:A+SHIFT' )
                       
                       let fail = short.listShortcuts ( 'somethingNotExisting' );
                       expect ( fail ).to.be.null
@@ -127,8 +154,8 @@ describe ( "Shortcuts", () => {
                       expect ( all[0] ).to.have.property ( 'context' )
                       expect ( all[0] ).to.have.property ( 'shortcuts' )
                       expect ( all[0].shortcuts ).to.be.an ( 'array' )
-                      expect ( all[0].shortcuts ).to.have.lengthOf ( 1 )
-                      expect ( all[0].shortcuts[0] ).to.be.equal ( 'KEY:A+SHIFT' )
+                      expect ( all[0].shortcuts ).to.have.lengthOf ( 2 )
+                      expect ( all[0].shortcuts ).to.include ( 'KEY:A+SHIFT' )
                       expect ( all[0].context ).to.be.equal ( 'general' )
             }) // it list shortcuts
 

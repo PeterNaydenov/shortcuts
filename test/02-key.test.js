@@ -135,39 +135,52 @@ describe ( 'Key plugin', () => {
 
 
 
-    it ( 'Mute key plugin', async () => {
-                          short.enablePlugin ( pluginKey )
-                          const result = [];
-                          let i = 0;
-                          result.push ( 'init' )
 
-                          short.setDependencies ({ result })
-                          short.load ({
-                                'local': {
-                                        'key: g,t,i ' : ({dependencies}) => {
-                                                  let { result } = dependencies;
-                                                  result.push ( i++ )
-                                              }
-                                      }
-                              })
-                          
-                          short.changeContext ( 'local' )
-                          await userEvent.keyboard ( 'gti' )
-                          await waitFor ( () => {
-                                    // We checking if the shortcut works
-                                    expect ( result ).to.have.lengthOf ( 2 )
-                                    expect ( i ).to.equal ( 1 )
-                              }, { timeout: 1000, interval: 12 })
+    it ( 'Mute and unmute key plugin', async () => {
+                const result = [];
+                let i = 0;
+                result.push ( 'init' )
 
-                          short.mutePlugin ( 'key' )
-                          await userEvent.keyboard ( 'gti' )
-                          await waitFor ( () => {
-                                    // Plugin is muted, so we don't expect any changes
-                                    expect ( result ).to.have.lengthOf ( 2 )
-                                    expect ( i ).to.equal ( 1 )
-                              }, { timeout: 1000, interval: 12 })
-        }) // it mute key plugin
-    
+                short.enablePlugin ( pluginKey )
+                short.setDependencies ({ result })
+                short.load ({
+                      'local': {
+                                  'key: x,y,z' : ({ dependencies }) => {
+                                                    let { result } = dependencies;
+                                                    result.push ( i++ )
+                                                }
+                                }
+                        })
+
+                short.changeContext ( 'local' )
+
+                // Test 1: Plugin should work normally
+                await userEvent.keyboard ( 'xyz' )
+                await waitFor ( () => {
+                          // We checking if the shortcut works
+                          expect ( result ).to.have.lengthOf ( 2 )
+                          expect ( i ).to.equal ( 1 )
+                    }, { timeout: 1000, interval: 12 })
+
+                // Test 2: Mute plugin - should not trigger
+                short.mutePlugin ( 'key' )
+                await userEvent.keyboard ( 'xyz' )
+                await waitFor ( () => {
+                          // Plugin is muted, so we don't expect any changes
+                          expect ( result ).to.have.lengthOf ( 2 )
+                          expect ( i ).to.equal ( 1 )
+                    }, { timeout: 1000, interval: 12 })
+
+                // Test 3: Unmute plugin - should work again
+                short.unmutePlugin ( 'key' )
+                await userEvent.keyboard ( 'xyz' )
+                await waitFor ( () => {
+                          // Plugin is unmuted, should work again
+                          expect ( result ).to.have.lengthOf ( 3 )
+                          expect ( i ).to.equal ( 2 )
+                    }, { timeout: 1000, interval: 12 })
+          }) // it mute and unmute key plugin
+
 
 
     it ( 'Arguments of key handler', async () => {
@@ -233,7 +246,5 @@ describe ( 'Key plugin', () => {
                             expect ( result.type ).to.be.equal ( 'key' )
                       }, { timeout: 1000, interval: 12 })
           }) // it arguments of key handler
-    
-
 
 })
