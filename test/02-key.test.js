@@ -47,9 +47,9 @@ const contextDefinition = {
                               // Single click with right button
                               'click: right-1': () => b = true
                         }
-                , extra : {    
-                            'key : p,r,o,b,a': () => b = true                        
-                        }
+                 , extra : {
+                             'key : p,r,o,b,a': () => b = true
+                         }
                 , extend : {
                               'form : watch' : () => 'input'
                             , 'form : define' : () => 'input'
@@ -121,17 +121,17 @@ describe ( 'Key plugin', () => {
 
 
 
-    it ( 'Key sequence', async () => {
-                      // enable key plugin and normalize shortcuts related to the plugin 'key'
+     it ( 'Key sequence', async () => {
+                       // enable key plugin and normalize shortcuts related to the plugin 'key'
                       short.enablePlugin ( pluginKey )
                       short.changeContext ( 'extra' )
                       // Execute key sequence: 'p,r,o,b,a'
                       await userEvent.keyboard ( 'proba' )
-                      await wait ( 12 )
+                      await wait ( 480 )
                       await waitFor ( () => {
                                 expect ( b ).to.equal ( true )
                       }, { timeout: 1000, interval: 12 })
-        }) // it key sequence
+         }) // it key sequence
 
 
 
@@ -246,5 +246,26 @@ describe ( 'Key plugin', () => {
                             expect ( result.type ).to.be.equal ( 'key' )
                       }, { timeout: 1000, interval: 12 })
           }) // it arguments of key handler
+
+
+     it ( 'Pause and resume', async () => {
+                          short.enablePlugin ( pluginKey )
+                          expect ( b ).to.be.equal ( false )
+                          short.changeContext ( 'extra' )
+                          short.pause ( 'KEY:P,R,O,B,A' )
+                          // Execute key sequence: 'p,r,o,b,a'
+                          await userEvent.keyboard ( 'proba' )
+                          await wait ( 500 )
+                          await waitFor ( () => {
+                                      expect ( b ).to.be.equal ( false )
+                                }, { timeout: 1000, interval: 30 })
+
+                          short.resume ( 'KEY:P,R,O,B,A' )
+                          await userEvent.keyboard ( 'proba' )
+                          await wait ( 500 )
+                          await waitFor ( () => {
+                                      expect ( b ).to.be.equal ( true )
+                               }, { timeout: 1000, interval: 30 })
+            }) // it pause and resume
 
 })
