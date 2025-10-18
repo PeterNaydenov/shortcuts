@@ -22,6 +22,7 @@ function pluginClick ( dependencies, state, options ) {
                         }
                 , pluginState = {
                                   currentContext
+                                , active : false
                                 , shortcuts
                                 , listenOptions  : {
                                                       mouseWait     : options.mouseWait ? options.mouseWait : 320   // 320 ms
@@ -55,7 +56,10 @@ function pluginClick ( dependencies, state, options ) {
                                                                 mouseListener.start ()
                                                     }
                                         }
-                            , mute    : () => mouseListener.stop ()
+                            , mute    : () => {
+                                          
+                                          mouseListener.stop ()
+                                      }
                             , unmute  : () => mouseListener.start ()
                             , destroy : () => mouseListener.stop ()
                         }; // pluginAPI
