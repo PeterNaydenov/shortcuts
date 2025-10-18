@@ -57,11 +57,7 @@ function pluginClick ( dependencies, state, options ) {
                                         }
                             , mute    : () => mouseListener.stop ()
                             , unmute  : () => mouseListener.start ()
-                            , destroy : () => {
-                                                mouseListener.stop ()
-                                                pluginState = null
-                                                pluginAPI = null
-                                        }
+                            , destroy : () => mouseListener.stop ()
                         }; // pluginAPI
         Object.freeze ( pluginAPI )
         return pluginAPI

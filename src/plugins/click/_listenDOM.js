@@ -95,14 +95,14 @@ function _listenDOM ( dependencies, state ) {
             
         function start () {
                         if ( state.active  )   return
-                          window.addEventListener ( 'contextmenu', listenRightClick )
+                        window.addEventListener ( 'contextmenu', listenRightClick )
                         document.addEventListener ( 'click'      , listenLeftClick  )
                         state.active = true
                 } // start func.
 
         function stop () {
                         if ( !state.active )   return
-                         window.removeEventListener  ( 'contextmenu', listenRightClick )
+                        window.removeEventListener  ( 'contextmenu', listenRightClick )
                         document.removeEventListener ( 'click'      , listenLeftClick  )
                         state.active = false
                 } // stop func.

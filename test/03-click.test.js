@@ -71,7 +71,8 @@ const contextDefinition = {
       }
 
 
-let short;
+let short = shortcuts ();
+
 
 
 describe ( 'Click plugin', () => {
@@ -79,9 +80,7 @@ describe ( 'Click plugin', () => {
 
 
       beforeEach ( async  () => {
-                    short = shortcuts ();
                     short.load ( contextDefinition )
-
                     let container = document.createElement ( 'div' );
                     container.id = 'app'
                     document.body.appendChild ( container )

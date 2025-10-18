@@ -59,11 +59,7 @@ function pluginKey ( dependencies, state, options={} ) {
                                         }
                              , mute          : () => keysListener.stop ()
                              , unmute        : () => keysListener.start ()
-                             , destroy       : () => {
-                                                        keysListener.stop ()
-                                                        pluginState = null
-                                                        pluginAPI = null
-                                                }
+                             , destroy       : () => keysListener.stop ()
                         };
         Object.freeze ( pluginAPI )
         return pluginAPI

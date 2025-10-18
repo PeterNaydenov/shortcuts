@@ -63,7 +63,7 @@ const contextDefinition = {
                     }
       }
 
-let short;
+let short = shortcuts ();
 
 
 
@@ -72,7 +72,6 @@ let short;
 describe ( 'Key plugin', () => {
 
       beforeEach ( async  () => {
-                    short = shortcuts ();
                     short.load ( contextDefinition )
                     let container = document.createElement ( 'div' )
                     container.id = 'app'
