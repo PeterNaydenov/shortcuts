@@ -9,9 +9,10 @@ function _readShortcutWithPlugins ( dependencies, state ) {
 return function _readShortcutWithPlugins ( shortcut ) {
     const 
           {  inAPI } = dependencies
-        , pluginName = shortcut.split(':')[0]
+        , pluginName = shortcut.split(':')[0].toLowerCase().trim()
         , ix = inAPI._systemAction ( pluginName, 'none' )  // Find a index. Don't call any method.
         ;
+       
         let pausedEvent = shortcut;
         if ( ix !== -1 )    pausedEvent = state.plugins[ix].shortcutName ( shortcut )
         return pausedEvent
