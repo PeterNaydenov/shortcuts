@@ -126,6 +126,19 @@ function _listenDOM ( dependencies, state ) {
                         document.removeEventListener ( 'keydown' , listenForSpecialKeys )
                         document.removeEventListener ( 'keypress', listenForRegularKeys )
                         state.active = false
+                        // Clear any pending timers to prevent state pollution between tests
+                        if ( keyTimer ) {
+                                clearTimeout ( keyTimer )
+                                keyTimer = null
+                        }
+                        if ( listenOptions.keyIgnore ) {
+                                clearTimeout ( listenOptions.keyIgnore )
+                                listenOptions.keyIgnore = null
+                        }
+                        // Reset all state variables to prevent interference between tests
+                        r = []
+                        sequence = true
+                        ignore = false
         }
     
     return { start, stop }
