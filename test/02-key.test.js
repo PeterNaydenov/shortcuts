@@ -134,6 +134,39 @@ describe ( 'Key plugin', () => {
         }) // it key sequence
 
 
+
+    it ( 'Mute key plugin', async () => {
+                          short.enablePlugin ( pluginKey )
+                          const result = [];
+                          let i = 0;
+                          result.push ( 'init' )
+
+                          short.setDependencies ({ result })
+                          short.load ({
+                                'local': {
+                                        'key: g,t,i ' : ({dependencies}) => {
+                                                  let { result } = dependencies;
+                                                  result.push ( i++ )
+                                              }
+                                      }
+                              })
+                          
+                          short.changeContext ( 'local' )
+                          await userEvent.keyboard ( 'gti' )
+                          await waitFor ( () => {
+                                    // We checking if the shortcut works
+                                    expect ( result ).to.have.lengthOf ( 2 )
+                                    expect ( i ).to.equal ( 1 )
+                              }, { timeout: 1000, interval: 12 })
+
+                          short.mutePlugin ( 'key' )
+                          await userEvent.keyboard ( 'gti' )
+                          await waitFor ( () => {
+                                    // Plugin is muted, so we don't expect any changes
+                                    expect ( result ).to.have.lengthOf ( 2 )
+                                    expect ( i ).to.equal ( 1 )
+                              }, { timeout: 1000, interval: 12 })
+        }) // it mute key plugin
     
     
 
