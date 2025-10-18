@@ -42,7 +42,7 @@ function main ( options = {} ) {
                     , shortcuts        : {}   // shortcuts = { contextName : { shortcut :  callback[] } }
                     , plugins          : [] // Array of active plugins
                     , exposeShortcut   : (options.onShortcut && ( typeof options.onShortcut === 'function')) ? options.onShortcut : false   // Keyboard shortcut log function
-                    , ERROR_EVENT_NAME : ( options.errorEventName ) ? error.eventName : '@shortcuts-error'
+                    , ERROR_EVENT_NAME : ( options.errorEventName ) ? options.errorEventName : '@shortcuts-error'
               } // state
         ;
     let dependencies = { 
