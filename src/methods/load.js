@@ -19,9 +19,11 @@ return function load ( shortcutsUpdate ) {
     let hasChanges = false;
     
     Object.entries ( shortcutsUpdate ).forEach ( ([contextName, contextShortcuts]) => {
-                    if ( contextName === currentContextName ) hasChanges = true;   // If changes in current context will need to reload it
+                    // If changes in current context will need to reload it
+                    if ( contextName === currentContextName ) hasChanges = true;
                     shortcuts [ contextName ] = {}
-                    Object.entries ( contextShortcuts ).forEach ( ([ title, callbackList ]) => {
+
+                    Object.entries ( contextShortcuts ).forEach ( ([ title, payload ]) => {
                                     let 
                                           name = title
                                         , test = title.toUpperCase().trim()
@@ -31,8 +33,8 @@ return function load ( shortcutsUpdate ) {
                                                 let id = pluginIndexList[0];
                                                 name = plugins[id].shortcutName ( title )
                                         }
-                                    if ( callbackList instanceof Function ) callbackList = [ callbackList ]
-                                    shortcuts [contextName][ name ] = callbackList
+                                    if ( payload instanceof Function ) payload = [ payload ]
+                                    shortcuts [contextName][ name ] = payload
                             }) // contextShortcuts.forEach
         }) // shortcutsUpdate.forEach
      if ( hasChanges ) {  // Reload context shortcuts after loading process if context was active
