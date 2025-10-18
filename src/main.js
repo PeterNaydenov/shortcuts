@@ -59,15 +59,15 @@ function main ( options = {} ) {
      * @description Enable a plugin
      * @returns {void}
      */
-    API.enablePlugin = ( plugin,options={}) => {
+    API.enablePlugin = ( plugin, options={}) => {
                 const 
-                      name = plugin.name
+                      name = plugin.name.replace ( 'plugin', '' ).toLowerCase ()
                     , ix = inAPI._systemAction ( name, 'none' )
                     ;
 
                 if ( ix === -1 ) {   // If plugin is not registered
-                            let plugApp;   // Started instance of the plugin
-                            plugApp = plugin ( dependencies, state, options )
+                            // Started instance of the plugin
+                            let plugApp = plugin ( dependencies, state, options )
                             state.plugins.push ( plugApp )
                     }
       } // enable func.
