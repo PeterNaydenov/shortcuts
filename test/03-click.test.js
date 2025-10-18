@@ -154,14 +154,14 @@ describe ( 'Click plugin', () => {
                           short.enablePlugin ( pluginClick )
                           const hitItem = document.querySelector ( '#rspan' );
                           expect ( a ).to.equal ( false )
+                          short.changeContext ( 'touch' )
                           // Load will restart the selected context
                           short.load ({ 
                                       // load will overwrite existing 'touch' context definition
-                                      'mama' : {   
+                                      'touch' : {   
                                                   'click: left-3' : () => a = true
                                               } 
                                 })
-                          short.changeContext ( 'mama' )
                           await wait ( 12 )
                           await userEvent.tripleClick ( hitItem )
                           // Default wait mouse timeout is 320 ms, but maxClicks is set to 3, 
