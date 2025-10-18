@@ -5,6 +5,7 @@ const
           { 
                 shortcuts
               , currentContext
+              , ERROR_EVENT_NAME
           } = state
         , { ev } = dependencies
         ;
@@ -37,7 +38,7 @@ return function changeContext ( contextName = false ) {
                 }
         if ( current === contextName ) return   // Do nothing if contextName is the same as current
         if ( !shortcuts [ contextName ] ) {   // If contextName is not defined
-                        ev.emit ( '@shortcuts-error', `Context '${ contextName }' does not exist` )
+                        ev.emit ( ERROR_EVENT_NAME, `Context '${ contextName }' does not exist` )
                         return
                 }
         if ( shortcuts[current] ) {

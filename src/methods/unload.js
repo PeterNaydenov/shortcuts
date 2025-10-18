@@ -2,7 +2,7 @@
 
 function unload ( dependencies, state ) {
 const 
-     { currentContext, shortcuts } = state
+     { currentContext, shortcuts, ERROR_EVENT_NAME } = state
    , { ev } = dependencies
    ;
 /**
@@ -14,11 +14,11 @@ const
 return function unload ( contextName ) {
         const current = currentContext.name;
         if ( current === contextName ) {
-                    ev.emit ( '@shortcuts-error', `Context '${ contextName }' can't be removed during is current active context. Change the context first` )
+                    ev.emit ( ERROR_EVENT_NAME, `Context '${ contextName }' can't be removed during is current active context. Change the context first` )
                     return
             }
         if ( !shortcuts [ contextName ] ) {
-                    ev.emit ( '@hortcuts-error', `Context '${ contextName }' does not exist` )
+                    ev.emit ( ERROR_EVENT_NAME, `Context '${ contextName }' does not exist` )
                     return
             }
         delete shortcuts [ contextName ]

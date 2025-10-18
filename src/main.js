@@ -38,10 +38,11 @@ function main ( options = {} ) {
     const
           ev = notice ()  // Event emitter instance
         , state = {
-                      currentContext : { name: null, note: null } // Context data container
-                    , shortcuts      : {}   // shortcuts = { contextName : { shortcut :  callback[] } }
-                    , plugins        : [] // Array of active plugins
-                    , exposeShortcut : (options.onShortcut && ( typeof options.onShortcut === 'function')) ? options.onShortcut : false   // Keyboard shortcut log function
+                      currentContext   : { name: null, note: null } // Context data container
+                    , shortcuts        : {}   // shortcuts = { contextName : { shortcut :  callback[] } }
+                    , plugins          : [] // Array of active plugins
+                    , exposeShortcut   : (options.onShortcut && ( typeof options.onShortcut === 'function')) ? options.onShortcut : false   // Keyboard shortcut log function
+                    , ERROR_EVENT_NAME : ( options.errorEventName ) ? error.eventName : '@shortcuts-error'
               } // state
         ;
     let dependencies = { 
