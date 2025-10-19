@@ -61,15 +61,19 @@ function main ( options = {} ) {
      * @returns {void}
      */
     API.enablePlugin = ( plugin, options={}) => {
+                if ( typeof plugin !== 'function' ) return
+                let plugApp = plugin ( dependencies, state, options )
                 const 
-                      name = plugin.name.replace ( 'plugin', '' ).toLowerCase ()
+                      name = plugApp.getPrefix ()
                     , ix = inAPI._systemAction ( name, 'none' )
                     ;
 
                 if ( ix === -1 ) {   // If plugin is not registered
                             // Started instance of the plugin
-                            let plugApp = plugin ( dependencies, state, options )
                             state.plugins.push ( plugApp )
+                    }
+                else {
+                            plugApp.destroy ()
                     }
       } // enable func.
 
@@ -101,8 +105,15 @@ function main ( options = {} ) {
     API.unmutePlugin = pluginName => inAPI._systemAction ( pluginName, 'unmute' )
 
 
-    
+    /**
+     * @function listPlugins
+     * @description List all enabled plugins
+     * @returns {string[]} - Array of plugin names
+     */
+    API.listPlugins = () => state.plugins.map ( plugin => plugin.getPrefix() )
 
+
+    
     // ----------------------  > PUBLIC METHODS < ---------------------- //
     /**
      * @function getContext
