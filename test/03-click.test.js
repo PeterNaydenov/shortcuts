@@ -256,75 +256,97 @@ describe ( 'Click plugin', () => {
 
 
       it ( 'Click on anchor', async () => {
-                // Click on anchor that don't have click-data attribute.
-                let result = 'none';
-                short.enablePlugin ( pluginClick )
-                short.load ({ 'extra' : { 
-                                        'click: 1 - left' : ({target, context, event }) => {   // Order of button name and number of click is not important
-                                                    event.preventDefault ()
-                                                    expect ( context ).to.be.equal ( 'extra' )
-                                                    expect ( target.nodeName ).to.be.equal ( 'A' )
-                                                    result = target.nodeName
-                                                }
-                                    } 
-                        })
-                short.changeContext ( 'extra' )
-                let loc = document.querySelector ( '#anchor' )  || false;
-                if ( loc )   await userEvent.click ( loc )
-                expect ( result ).to.be.equal ( 'A' )  
+                        // Click on anchor that don't have click-data attribute.
+                        let result = 'none';
+                        short.enablePlugin ( pluginClick )
+                        short.load ({ 'extra' : { 
+                                                'click: 1 - left' : ({target, context, event }) => {   // Order of button name and number of click is not important
+                                                            event.preventDefault ()
+                                                            expect ( context ).to.be.equal ( 'extra' )
+                                                            expect ( target.nodeName ).to.be.equal ( 'A' )
+                                                            result = target.nodeName
+                                                            }
+                                                } 
+                                    })
+                        short.changeContext ( 'extra' )
+                        let loc = document.querySelector ( '#anchor' )  || false;
+                        if ( loc )   await userEvent.click ( loc )
+                        expect ( result ).to.be.equal ( 'A' )  
           }) // it click on anchor
 
 
 
       it ( 'Mute and unmute click plugin', async () => {
-                                const 
-                                      result = []
-                                    , trg = document.querySelector ( '#rspan' ) 
-                                    ;
-                                
-                                let i = 0;
-                                result.push ( 'init' )
+                        const 
+                              result = []
+                        , trg = document.querySelector ( '#rspan' ) 
+                        ;
+                        
+                        let i = 0;
+                        result.push ( 'init' )
 
-                                
-                                short.load ({
-                                      'local' : {
-                                              'click: left-1 ' : ({dependencies}) => {
-                                                        let { result } = dependencies;
-                                                        result.push ( i++ )
-                                                    }
-                                            }
-                                    })
-                                short.setDependencies ({ result })
-                                short.enablePlugin ( pluginClick )
-                                short.changeContext ( 'local' )
+                        
+                        short.load ({
+                              'local' : {
+                                    'click: left-1 ' : ({dependencies}) => {
+                                                let { result } = dependencies;
+                                                result.push ( i++ )
+                                          }
+                                    }
+                              })
+                        short.setDependencies ({ result })
+                        short.enablePlugin ( pluginClick )
+                        short.changeContext ( 'local' )
 
 
-                                await userEvent.click ( trg )
-                                await wait( 330 )
-                                await waitFor ( () => {
-                                          // We checking if the shortcut works
-                                          expect ( result ).to.have.lengthOf ( 2 )
-                                          expect ( i ).to.equal ( 1 )
-                                    }, { timeout: 1000, interval: 12 })
+                        await userEvent.click ( trg )
+                        await wait( 330 )
+                        await waitFor ( () => {
+                              // We checking if the shortcut works
+                              expect ( result ).to.have.lengthOf ( 2 )
+                              expect ( i ).to.equal ( 1 )
+                        }, { timeout: 1000, interval: 12 })
 
-                                 short.mutePlugin ( 'click' )
+                        short.mutePlugin ( 'click' )
 
-                                 await userEvent.click ( trg )
-                                 await waitFor ( () => {
-                                           // Plugin is muted, so we don't expect any changes
-                                           expect ( result ).to.have.lengthOf ( 2 )
-                                           expect ( i ).to.equal ( 1 )
-                                     }, { timeout: 1000, interval: 12 })
+                        await userEvent.click ( trg )
+                        await waitFor ( () => {
+                                    // Plugin is muted, so we don't expect any changes
+                                    expect ( result ).to.have.lengthOf ( 2 )
+                                    expect ( i ).to.equal ( 1 )
+                              }, { timeout: 1000, interval: 12 })
 
-                                 short.unmutePlugin ( 'click' )
+                        short.unmutePlugin ( 'click' )
 
-                                 await userEvent.click ( trg )
-                                 await wait ( 330 )
-                                 await waitFor ( () => {
-                                           // Plugin is unmuted, should work again
-                                           expect ( result ).to.have.lengthOf ( 3 )
-                                           expect ( i ).to.equal ( 2 )
-                                     }, { timeout: 1000, interval: 12 })
+                        await userEvent.click ( trg )
+                        await wait ( 330 )
+                        await waitFor ( () => {
+                                    // Plugin is unmuted, should work again
+                                    expect ( result ).to.have.lengthOf ( 3 )
+                                    expect ( i ).to.equal ( 2 )
+                              }, { timeout: 1000, interval: 12 })
                }) // it mute and unmute click plugin
+
+
+
+      it ( 'Pause and resume', async () => {
+                        let target = document.querySelector ( '#rspan' )
+                        short.enablePlugin ( pluginClick )
+                        expect ( b ).to.be.equal ( false )
+                        short.changeContext ( 'touch' )
+                        short.pause ( 'click: left-1' )
+                        await userEvent.click ( target )
+                        await wait ( 400 )
+                        await waitFor ( () => {
+                                    expect ( b ).to.be.equal ( false )
+                              }, { timeout: 1000, interval: 30 })
+                        short.resume ( 'click: left-1' )
+                        await userEvent.click ( target )
+                        await wait ( 400 )
+                        await waitFor ( () => {
+                                    expect ( b ).to.be.equal ( true )
+                                    expect ( c ).to.be.equal ( 'red' )
+                             }, { timeout: 1000, interval: 30 })
+              }) // it pause and resume
   
 }) // describe
