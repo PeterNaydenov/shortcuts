@@ -8,20 +8,15 @@ import _defaults from './_defaults.js'
 
 
 
+/**
+ * @function pluginForm
+ * @description Plugin for form element shortcuts
+ * @param {Object} dependencies - Internal dependencies
+ * @param {Object} state - Library state
+ * @param {Object} [options={}] - Plugin options
+ * @returns {PluginAPI} Plugin API
+ */
 function pluginForm ( dependencies, state, options ) {
-  /**
-   * 'form: watch' - A function. Should return a string. Define a selection that will be watched for changes. example: 'input, select.color, textarea, #name'
-   * 'form: define' - A function that receives every watched element. Should return text value that represents the type of the
-   *                  element according custom specification. Types could be specific for every single form.
-   * 'form:action' - List of Callback objects.
-   *  Callback definition object:
-   * {
-   *   fn: function to be called
-   *   type: fn should be executed on type of the element
-   *   timing: 'in' | 'out' | 'instant' - when to execute the function 
-   *   wait: time in milliseconds to wait before executing the function again. Works only with mode 'instant'.
-   * }
-   */
 
     let 
                   { currentContext, shortcuts } = state

@@ -7,9 +7,10 @@ const
                 API : { changeContext, getContext }
           } = dependencies;
 /**
- *  Load a context with shortcuts object
- *  @param {Object} shortcutsUpdate - Context description object: { contextName : { shortcut : callback[] }
- *  @returns {void}
+ * @function load
+ * @description Load a context with shortcuts object
+ * @param {Object} shortcutsUpdate - Context description object: { contextName : { shortcut : callback[] } }
+ * @returns {void}
  */
 return function load ( shortcutsUpdate ) {
     const

@@ -10,7 +10,8 @@
     ".": {
       "import": "./dist/shortcuts.esm.mjs",
       "require": "./dist/shortcuts.cjs",
-      "default": "./dist/shortcuts.umd.js"
+      "default": "./dist/shortcuts.umd.js",
+      "types": "./dist/main.d.ts"
     },
     "./package.json": "./package.json",
     "./dist/*": "./dist/*",
@@ -18,10 +19,11 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "rollup -c",
+    "build": "rollup -c && npm run types",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "cover": "vitest run --coverage"
+    "cover": "vitest run --coverage",
+    "types": "tsc"
   },
   "repository": {
     "type": "git",
@@ -46,6 +48,7 @@
     "playwright": "^1.56.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "typescript": "^5.9.3",
     "vite": "^7.1.10",
     "vitest": "^3.2.4"
   },

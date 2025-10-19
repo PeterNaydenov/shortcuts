@@ -1,19 +1,52 @@
 'use strict'
 
 /**
- *  Shortcuts
- *  ========
- * 
- *  Create shortcuts for your web application based on keyboard and mouse and DOM events.
- *  Repository: https://github.com/PeterNaydenov/shortcuts
- * 
- *  History notes:
- *  - Development was started on June 21st, 2023
- *  - First version was published on August 14th, 2023
- *  - Method 'emit' was added on September 30st, 2023
- *  - Version 2.0.0 was published on October 16th, 2023
- *  - Version 3.0.0. Plugin system. Published on March 5th, 2024
- *  - Version 3.2.0. Added plugin 'form'. Published on August 15th, 2025
+ * @typedef {Object} PluginAPI
+ * @property {function(): string} getPrefix - Get plugin prefix
+ * @property {function(string): string} shortcutName - Format shortcut name
+ * @property {function(string): void} contextChange - Handle context change
+ * @property {function(): void} mute - Mute the plugin
+ * @property {function(): void} unmute - Unmute the plugin
+ * @property {function(): void} destroy - Destroy the plugin
+ */
+
+/**
+ * @typedef {Object} ShortcutsAPI
+ * @property {function(function, Object): void} enablePlugin - Enable a plugin
+ * @property {function(string): void} disablePlugin - Disable a plugin
+ * @property {function(string): number} mutePlugin - Mute a plugin
+ * @property {function(string): number} unmutePlugin - Unmute a plugin
+ * @property {function(): string[]} listPlugins - List enabled plugins
+ * @property {function(): string|null} getContext - Get current context name
+ * @property {function(): string|null} getNote - Get current context note
+ * @property {function(string|null): void} setNote - Set current context note
+ * @property {function(string): void} pause - Pause shortcuts in current context
+ * @property {function(string): void} resume - Resume shortcuts in current context
+ * @property {function(string, ...any): void} emit - Emit event for shortcut
+ * @property {function(): string[]} listContexts - List all context names
+ * @property {function(Object): void} setDependencies - Set external dependencies
+ * @property {function(): Object} getDependencies - Get external dependencies
+ * @property {function(): void} reset - Reset the library instance
+ * @property {function(string|boolean): void} changeContext - Change current context
+ * @property {function(string|null): string[]|Object[]} listShortcuts - List shortcuts
+ * @property {function(Object): void} load - Load shortcuts into contexts
+ * @property {function(string): void} unload - Unload a context
+ */
+
+/**
+ * Shortcuts
+ * =========
+ *
+ * Create shortcuts for your web application based on keyboard and mouse and DOM events.
+ * Repository: https://github.com/PeterNaydenov/shortcuts
+ *
+ * History notes:
+ * - Development was started on June 21st, 2023
+ * - First version was published on August 14th, 2023
+ * - Method 'emit' was added on September 30st, 2023
+ * - Version 2.0.0 was published on October 16th, 2023
+ * - Version 3.0.0. Plugin system. Published on March 5th, 2024
+ * - Version 3.2.0. Added plugin 'form'. Published on August 15th, 2025
  */
 
 
@@ -30,6 +63,14 @@ import pluginForm from './plugins/form/index.js'
 
 
 
+/**
+ * @function shortcuts
+ * @description Create a shortcuts instance
+ * @param {Object} [options={}] - Configuration options
+ * @param {function} [options.onShortcut] - Function to log shortcut events
+ * @param {string} [options.errorEventName='@shortcuts-error'] - Name for error events
+ * @returns {ShortcutsAPI} The shortcuts API
+ */
 function main ( options = {} ) {
     let  
           inAPI = {}      // API for internal methods
@@ -220,6 +261,7 @@ function main ( options = {} ) {
 
 
 
+/** @type {function} */
 export { main as shortcuts }
 export { 
             pluginKey

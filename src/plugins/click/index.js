@@ -9,6 +9,16 @@ import _registerShortcutEvents from "./_registerShortcutEvents"
 
 
 
+/**
+ * @function pluginClick
+ * @description Plugin for mouse click shortcuts
+ * @param {Object} dependencies - Internal dependencies
+ * @param {Object} state - Library state
+ * @param {Object} [options={}] - Plugin options
+ * @param {number} [options.mouseWait=320] - Time to wait for click sequence in ms
+ * @param {string} [options.clickTarget='click'] - Data attribute name for click targets
+ * @returns {PluginAPI} Plugin API
+ */
 function pluginClick ( dependencies, state, options ) {
         let 
                   { currentContext, shortcuts } = state
