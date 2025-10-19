@@ -1,6 +1,10 @@
 ## Release History
 
 
+### 3.5.0 ( 2025-10-19)
+- [x] Featire: New method 'listPlugins' to get list of enabled plugins;
+
+
 
 ### 3.4.0 ( 2025-10-18)
 - [x] Feature: New method 'reset' to reset the library instance;
