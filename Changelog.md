@@ -2,6 +2,11 @@
 
 
 
+### n ( 2025-??-?? )
+- [x] Update in package.json. Field 'types' was added;
+
+
+
 ### 3.5.0 ( 2025-10-19)
 - [x] Featire: New method 'listPlugins' to get list of enabled plugins;
 - [x] Upgrade: Improvment of type definitions. New d.ts files were added;
