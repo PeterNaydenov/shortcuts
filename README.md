@@ -6,14 +6,15 @@
 ![npm bundle size](https://img.shields.io/bundlephobia/minzip/%40peter.naydenov%2Fshortcuts)
 
 
- 
-Describe all page activities as list of shortcuts wrapped in contexts. Switch among available contexts.
-Library has a plugin system to extend the possible `shortcut names`/`event coverage`. Plugins role is to convert DOM events to shortcut strings, then the core part will trigger the action functions related to the shortcut. At the moment we have 3 plugins:
-- `key`   - converts keyboard events to shortcut names;
-- `click` - converts mouse events to shortcut names;
-- `form`  - watches for form elements changes;
 
-Planned work on the plugins for `scroll`, `drag-drop`, etc...
+A shortcut management library that wrappes shortcut definitions in a context and allows to switch between contexts. Shortcuts are events triggered by keyboard, mouse, and DOM events. The library has a plugin system that makes the library extensible.
+
+Currently existing plugins:
+- `key`   - Converts keyboard events to shortcuts;
+- `click` - Converts mouse events to shortcuts;
+- `form`  - Form element changes to shortcuts;
+
+Planned work on plugins: `scroll`, `drag-drop`, etc.
 
 
 
@@ -49,9 +50,9 @@ Load a shortcut definition by calling `load` method.
 
 ```js
 // for es6 module projects:
-include { shortcuts, pluginKey, pluginClick } from '@peter.naydenov/shortcuts'
+import { shortcuts, pluginKey, pluginClick, pluginForm } from '@peter.naydenov/shortcuts'
 // for commonjs projects:
-const { shortcuts, pluginKey, pluginClick } = require('@peter.naydenov/shortcuts')
+const { shortcuts, pluginKey, pluginClick, pluginForm } = require('@peter.naydenov/shortcuts')
 
 
 
@@ -483,6 +484,32 @@ Plugin options are provided as a second argument during the plugin enabling. It'
 ```
 
 
+
+## TypeScript Support
+
+The library includes TypeScript definitions. Install the package and TypeScript will automatically detect the types.
+
+```typescript
+import { shortcuts, pluginKey, pluginClick, pluginForm } from '@peter.naydenov/shortcuts';
+
+const short: ShortcutsAPI = shortcuts();
+short.enablePlugin(pluginKey);
+short.enablePlugin(pluginClick);
+short.enablePlugin(pluginForm);
+
+// Type-safe shortcut definitions
+const shortcutDefinition = {
+  myContext: {
+    'key:ctrl+s': () => console.log('Saved'),
+    'click:left-1': (args: { target: HTMLElement }) => console.log('Clicked', args.target)
+  }
+};
+
+short.load(shortcutDefinition);
+short.changeContext('myContext');
+```
+
+The `ShortcutsAPI` interface provides full type safety for all methods and their parameters.
 
 ## Links
 
