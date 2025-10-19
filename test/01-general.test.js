@@ -113,6 +113,38 @@ describe ( "Shortcuts", () => {
                       // Unload success
                       expect ( ls ).to.not.includes ( 'general' )
             }) // it load and unload context
+
+
+        
+        it ( 'List enabled plugins. Disable and enable plugins', async () => {
+                     expect ( short.listPlugins () ).to.be.deep.equal ( [] )
+                     // Enable list of plugins
+                     let myPlugins = [ pluginKey, pluginClick ]
+                     myPlugins.forEach ( plugin =>  short.enablePlugin ( plugin )   )
+                     expect ( short.listPlugins () ).to.be.deep.equal ( [ 'key', 'click' ] )
+                     // Method disablePlugin require plugin name (prefix)
+                     short.disablePlugin ( 'click' )
+                     expect ( short.listPlugins () ).to.be.deep.equal ( [ 'key' ] )
+                     // Method enablePlugin require the plugin as a function
+                     short.enablePlugin ( pluginClick )
+                     expect ( short.listPlugins () ).to.be.deep.equal ( [ 'key', 'click' ] )
+            }) // it list enabled plugins
+
+
+
+        it ( 'Unload non existing context', () => {
+                      let change = false;
+                      let ls = short.listContexts ()
+                      short.load ( {
+                              local : {
+                                      'click : leff-1' : () => console.log ( 'nothing' ),
+                                      '@shortcuts-error': () => change = true
+                                  }
+                          })
+                      short.changeContext ( 'local' )
+                      short.unload ( 'unknown' )
+                      expect ( change ).to.be.true
+            }) // it unload non existing context
         
         
         
