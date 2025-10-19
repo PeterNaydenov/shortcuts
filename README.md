@@ -393,6 +393,7 @@ Description of the methods of shortcut instance:
 , emit            : 'Trigger a shortcut or custom event programmatically.'
 , pause           : 'Stop listening for shortcuts.'
 , resume          : 'Resume listening for shortcuts.'
+, listPlugins     : "Return list of enabled plugins. Plugins are represented by plugin's prefixes."
 , listContexts    : 'Return list of available contexts.'
 , listShortcuts   : 'Return list of shortcuts per context.'
 , getNote         : `Return a name of current note or null if note isn't set`
