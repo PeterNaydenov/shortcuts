@@ -38,7 +38,7 @@ function _listenDOM ( dependencies, state ) {
                         ev.emit ( mouseEvent, data )
                         // Reset:
                         mouseTimer = null
-                        mouseIgnore = null
+                        mouseIgnore = null  // Timeout timer or null. Ignore mouse clicks until timer expires
                         mouseTarget = null
                         mouseDomEvent = null
                         count = 0
