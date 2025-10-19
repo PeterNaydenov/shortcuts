@@ -252,7 +252,8 @@ describe ( 'Key plugin', () => {
                           short.enablePlugin ( pluginKey )
                           expect ( b ).to.be.equal ( false )
                           short.changeContext ( 'extra' )
-                          short.pause ( 'KEY:P,R,O,B,A' )
+                          // Shortcut name will be normalized by the plugin
+                          short.pause ( 'key : p,r,o,b,a' )
                           // Execute key sequence: 'p,r,o,b,a'
                           await userEvent.keyboard ( 'proba' )
                           await wait ( 500 )
@@ -260,7 +261,7 @@ describe ( 'Key plugin', () => {
                                       expect ( b ).to.be.equal ( false )
                                 }, { timeout: 1000, interval: 30 })
 
-                          short.resume ( 'KEY:P,R,O,B,A' )
+                          short.resume ( 'key : p,r,o,b,a' )
                           await userEvent.keyboard ( 'proba' )
                           await wait ( 500 )
                           await waitFor ( () => {
