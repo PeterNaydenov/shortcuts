@@ -8,10 +8,10 @@
   "type": "module",
   "exports": {
     ".": {
+      "types": "./dist/main.d.ts",
       "import": "./dist/shortcuts.esm.mjs",
       "require": "./dist/shortcuts.cjs",
-      "default": "./dist/shortcuts.umd.js",
-      "types": "./dist/main.d.ts"
+      "default": "./dist/shortcuts.umd.js"
     },
     "./package.json": "./package.json",
     "./dist/*": "./dist/*",
