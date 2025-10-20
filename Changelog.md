@@ -2,6 +2,11 @@
 
 
 
+### 3.5.2 ( 2025-10-20 )
+- [x] Types update;
+
+
+
 ### 3.5.1 ( 2025-10-20 )
 - [x] Update in package.json. Field 'types' was added;
 
