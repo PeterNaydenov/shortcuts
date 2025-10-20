@@ -53,13 +53,13 @@ const contextDefinition = {
                 , extend : {
                               'form : watch' : () => 'input'
                             , 'form : define' : () => 'input'
-                            , 'form : action' : () => [
-                                {
-                                      fn : (e) => console.log ( e.target )
-                                    , type : 'input'
-                                    , mode : 'in'
-                                }
-                            ]
+                             , 'form : action' : () => [
+                                 {
+                                       fn : (e) => console.log ( e.target )
+                                     , type : 'input'
+                                     , timing : 'in'
+                                 }
+                             ]
                     }
       }
 
@@ -67,7 +67,7 @@ let short = shortcuts ();
 
 
 
-describe.skip ( 'Form plugin', () => {
+describe.only ( 'Form plugin', () => {
 
       beforeEach ( async  () => {
                   short.load ( contextDefinition )
@@ -86,5 +86,48 @@ describe.skip ( 'Form plugin', () => {
           }) // afterEach
 
 
+      it ( 'Shortcut when plugin is not installed', async () => {
+                  const ls = short.listShortcuts ( 'extend' )
+                  expect ( ls ).to.includes ( 'form : action' )
+          }) // it Shortcuts when plugin is not installed
 
+      
+      it ( 'Shortcuts when plugin is enabled', async () => {
+                  short.enablePlugin ( pluginForm )
+                  const ls = short.listShortcuts ( 'extend' )
+                  expect ( ls ).to.includes ( 'FORM:WATCH' )
+                  // Shortcut names are normalized by the plugins!               
+                  expect ( ls ).to.not.includes ( 'form : watch' )                  
+          }) // it Shortcuts when plugin is enabled
+
+
+
+      it ( 'Simpler form listener. Only "form:action" defined', async () => {
+                  // Uses predefined 'watch' and 'define' functions
+                  short.enablePlugin ( pluginForm )
+                  let edit = 'none';
+
+                  const contextExtension = {
+                                  'local' : {
+                                          'form: action' : () => [{
+                                                                    fn : () => edit = 'changed'
+                                                                  , type : 'input'
+                                                                  , timing : 'instant'
+                                                                }]
+                                        }
+                            };
+                  short.load ( contextExtension )
+                  short.changeContext ( 'local' )
+                  let input = document.getElementById ( 'name' )
+                  input.focus ()
+                  await userEvent.keyboard ( 'hello' )
+                  await wait ( 50 )
+                  await waitFor ( () => {
+                              expect ( edit ).to.equal ( 'changed' )
+                      }, { timeout: 1000, interval: 12 })
+          }) // it Simpler form listener
+
+
+
+      
 }) // describe
