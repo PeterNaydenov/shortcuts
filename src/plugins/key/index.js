@@ -1,5 +1,15 @@
 'use strict'
 
+/**
+ * @typedef {Object} PluginAPI
+ * @property {function(): string} getPrefix - Get plugin prefix
+ * @property {function(string): string} shortcutName - Format shortcut name
+ * @property {function(string): void} contextChange - Handle context change
+ * @property {function(): void} mute - Mute the plugin
+ * @property {function(): void} unmute - Unmute the plugin
+ * @property {function(): void} destroy - Destroy the plugin
+ */
+
 // import all plugin files here
 import _listenDOM              from './_listenDOM.js'
 import _normalizeShortcutName  from './_normalizeShortcutName.js'
