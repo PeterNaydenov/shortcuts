@@ -22,7 +22,7 @@
     "dev": "vite",
     "build": "rollup -c && npm run types",
     "test": "vitest",
-    "test:ui": "vitest --ui",
+    "test:ui": "vitest --ui --open",
     "cover": "vitest run --coverage",
     "types": "tsc"
   },
@@ -50,7 +50,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "typescript": "^5.9.3",
-    "vite": "^7.1.10",
+    "vite": "^7.1.11",
     "vitest": "^3.2.4"
   },
   "keywords": [
