@@ -2,7 +2,7 @@
 
 
 
-### n ( 2025-??-?? )
+### 3.5.1 ( 2025-10-20 )
 - [x] Update in package.json. Field 'types' was added;
 
 
