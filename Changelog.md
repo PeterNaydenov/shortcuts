@@ -2,6 +2,11 @@
 
 
 
+### 3.5.3 ( 2025-10-21 )
+- [x] Code: Plugin 'form' upgrade. Now you can take 'dependencies' on 'form:action' level. It's higher level that all declared actions can use. Minimize 'dependencies' declarations. Other named arguments are not available on top level;
+
+
+
 ### 3.5.2 ( 2025-10-20 )
 - [x] Types update;
 
