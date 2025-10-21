@@ -29,7 +29,7 @@ import _defaults from './_defaults.js'
 function pluginForm ( dependencies, state, options ) {
 
     let 
-                  { currentContext, shortcuts } = state
+                  { currentContext, shortcuts, ERROR_EVENT_NAME } = state
                 , { inAPI } = dependencies
                 , deps = {
                                ev: dependencies.ev
@@ -44,6 +44,7 @@ function pluginForm ( dependencies, state, options ) {
                                 , typeFn    : '' // Type definition function
                                 , watchList : [] // list of watched elements
                                 , wait      : {} // wait time for 'instant' mode
+                                , ERROR_EVENT_NAME
                             } // pluginState
                 ;
     function resetState () {

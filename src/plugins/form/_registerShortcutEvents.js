@@ -7,6 +7,7 @@ const
                   currentContext : { name: contextName }
                 , shortcuts 
                 , callbacks
+                , ERROR_EVENT_NAME
            } = pluginState
         ;
         let watch=[], define=[], action=[];
@@ -36,14 +37,14 @@ const
         
         action.forEach ( act => {
                         if ( !(act instanceof Function)) {  
-                                console.warn ( `Warning: The 'form:action' should be a function.` )
+                                ev.emit ( ERROR_EVENT_NAME, `The 'form:action' should be a function.` )
                                 return false
                            }
                         
                         let list = act ({ dependencies : dependencies.mainDependencies.extra })
                         
                         if ( !(list instanceof Array) ) {
-                                console.warn ( `Warning: The 'form:action' function should RETURN an array.` )
+                                ev.emit ( ERROR_EVENT_NAME, `Warning: The 'form:action' function should RETURN an array.` )
                                 return false
                            }
                         list.forEach ( ({fn, type, timing, wait=0 }) => {
