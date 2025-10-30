@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, it, test, expect } from 'vitest'
-import { userEvent } from '@vitest/browser/context'
+import { userEvent } from 'vitest/browser'
 import {
   getByLabelText,
   getByText,
@@ -86,12 +86,14 @@ describe ( 'Form plugin', () => {
                 }) // afterEach
 
 
+                
       it ( 'Shortcut when plugin is not installed', async () => {
                         const ls = short.listShortcuts ( 'extend' )
                         expect ( ls ).to.includes ( 'form : action' )
                 }) // it Shortcuts when plugin is not installed
 
-      
+
+                
       it ( 'Shortcuts when plugin is enabled', async () => {
                         short.enablePlugin ( pluginForm )
                         const ls = short.listShortcuts ( 'extend' )
@@ -162,6 +164,64 @@ describe ( 'Form plugin', () => {
                                  expect ( last.target.value ).toBe ( 'hello' )
                          })
              }) // it arguments for action function
+
+
+        
+        it ( 'Arguments for "form:watch"', async () => {
+                         short.enablePlugin ( pluginForm )
+                         let storage = [];
+                         short.setDependencies ({ storage })
+                         const contextExtension = {
+                                         local: {
+                                                         'form:watch' : ({ dependencies}) => {
+                                                                        const { storage } = dependencies;
+                                                                        storage.push ( 'watch' )      
+                                                                        return 'input'
+                                                                },
+                                                         'form:action' : ({ dependencies }) => [{ 
+                                                                                 fn : ({ target }) => {
+                                                                                         const { storage } = dependencies;
+                                                                                         storage.push ({ target })
+                                                                                     }
+                                                                                 , type : 'input'
+                                                                                 , timing : 'instant'
+                                                                         }]
+                                                 }
+                                 } // contextExtension
+                         short.load ( contextExtension )
+                         short.changeContext ( 'local' )
+                         let last = storage[storage.length - 1]
+                         expect ( last ).to.equal ( 'watch' )
+            }) // it arguments for "form:watch"
+        
+
+        
+        it ( 'Arguments for "form:define"', async () => {
+                         short.enablePlugin ( pluginForm )
+                         let storage = [];
+                         short.setDependencies ({ storage })
+                         const contextExtension = {
+                                         local: {
+                                                         'form:define' : ({ dependencies, target }) => {
+                                                                        const { storage } = dependencies;                                                                        
+                                                                        storage.push ( 'define' )      
+                                                                        return 'input'
+                                                                },
+                                                         'form:action' : ({ dependencies }) => [{ 
+                                                                                 fn : ({ target }) => {
+                                                                                         const { storage } = dependencies;
+                                                                                         storage.push ({ target })
+                                                                                     }
+                                                                                 , type : 'input'
+                                                                                 , timing : 'instant'
+                                                                         }]
+                                                 }
+                                 } // contextExtension
+                         short.load ( contextExtension )
+                         short.changeContext ( 'local' )
+                         let last = storage[storage.length - 1]
+                         expect ( last ).to.equal ( 'define' )
+            }) // it arguments for "form:watch"
 
 
 

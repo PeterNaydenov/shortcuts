@@ -11,7 +11,7 @@ const
             } = pluginState
         ;
 
-if ( contextName == null )   return 0
+if ( contextName == null )   return count
 Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {   // Enable new context shortcuts and set a listenOptions 'maxSequence'      
                 let isClickEv = regex.test ( shortcutName );
                 if ( !isClickEv ) return

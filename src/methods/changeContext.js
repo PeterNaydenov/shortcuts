@@ -45,7 +45,7 @@ return function changeContext ( contextName = false ) {
                         ev.reset ()   // Disable all shortcuts from current context
                 }
 
-        currentContext.name = contextName 
+        currentContext.name = contextName
         state.plugins.forEach ( plugin => plugin.contextChange ( contextName )    )        // Inform plugins for context change
         Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {   // Enable new context shortcuts
                         list.forEach ( fn => ev.on ( shortcutName, fn )    )

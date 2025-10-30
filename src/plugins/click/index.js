@@ -50,41 +50,22 @@ function pluginClick ( dependencies, state, options ) {
                                                     , clickTarget   : options.clickTarget ? options.clickTarget :  'click' // Data-attribute name for click target ( data-click )
                                                 }
                             } // pluginState
-                ; 
+                ;
 
-        // Read shortcuts names from all context entities and normalize entries related to the plugin
-        inAPI._normalizeWithPlugins ( _normalizeShortcutName )
-        
-        let 
-             mouseListener = _listenDOM ( deps, pluginState )
-           , countShortcuts = _registerShortcutEvents ( deps, pluginState )
-           ;
-      
-        if ( countShortcuts > 0 )   mouseListener.start ()
-       
-        let pluginAPI = {
-                               getPrefix      : () => 'click'
-                             , shortcutName  : key => {   // Format a key string according plugin needs
-                                                        return _normalizeShortcutName ( key )
-                                                }
-                             , contextChange : () => {
-                                                countShortcuts = _registerShortcutEvents ( deps, pluginState )
-                                                if ( countShortcuts < 1 ) {  // Remove DOM listener if there are no shortcuts in the current context
-                                                                mouseListener.stop ()
-                                                    } 
-                                                if ( countShortcuts > 0 ) {  // Add DOM listener if there are shortcuts in the current context
-                                                                mouseListener.start ()
-                                                    }
-                                        }
-                            , mute    : () => {
-                                          
-                                          mouseListener.stop ()
-                                      }
-                            , unmute  : () => mouseListener.start ()
-                            , destroy : () => mouseListener.stop ()
-                        }; // pluginAPI
-        Object.freeze ( pluginAPI )
-        return pluginAPI
+        function resetState () {
+                  // TODO: No reset available at the moment
+            } // resetState func.
+        deps.resetState = resetState
+                
+        return inAPI._setupPlugin ({
+                                          prefix: 'click'
+                                        , _normalizeShortcutName
+                                        , _registerShortcutEvents
+                                        , _listenDOM
+
+                                        , pluginState
+                                        , deps
+                                })
 } // pluginClick func.
 
 

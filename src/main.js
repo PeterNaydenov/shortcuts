@@ -55,9 +55,11 @@ import notice  from '@peter.naydenov/notice'   // Docs: https://github.com/Peter
 import methods from './methods/index.js'
 
 // Plugins
-import pluginKey from './plugins/key/index.js'
-import pluginClick from './plugins/click/index.js'
-import pluginForm from './plugins/form/index.js'
+import pluginKey    from './plugins/key/index.js'
+import pluginClick  from './plugins/click/index.js'
+import pluginForm   from './plugins/form/index.js'
+import pluginHover  from './plugins/hover/index.js'
+import pluginScroll from './plugins/scroll/index.js'
 
 
 
@@ -267,6 +269,8 @@ export {
             pluginKey
           , pluginClick
           , pluginForm
+          , pluginHover
+          , pluginScroll
         }
 
 

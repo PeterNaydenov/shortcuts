@@ -20,11 +20,13 @@ function _listenDOM ( dependencies, state ) {
            ;
 
         function mouseSequenceEnd () {   // Execute when mouse sequence ends
-                        const 
+                        if ( !mouseTarget ) return  // No valid target found
+
+                        const
                                   mouseEvent = _readClickEvent ( mouseDomEvent, count )
-                                , data = { 
+                                , data = {
                                           target : mouseTarget
-                                        , targetProps : mouseTarget ? mouseTarget.getBoundingClientRect() : null
+                                        , targetProps : mouseTarget.getBoundingClientRect()
                                         , x       : mouseDomEvent.clientX
                                         , y       : mouseDomEvent.clientY
                                         , context : currentContext.name

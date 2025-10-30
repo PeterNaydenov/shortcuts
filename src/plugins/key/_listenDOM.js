@@ -9,6 +9,7 @@ function _listenDOM ( dependencies, state ) {
                 , _specialChars
                 , _readKeyEvent
                 , mainDependencies
+                , resetState
             } = dependencies
         , {
                   currentContext
@@ -50,20 +51,28 @@ function _listenDOM ( dependencies, state ) {
                                     , dependencies : mainDependencies.extra
                                     , type : 'key'
                             };
+
                     if ( !sequence ) {
-                            let signal = res.at(-1);
-                            ev.emit ( signal, data )    
-                            if ( ignore ) {
-                                        res = res.slice ( 0, -1 )
-                                        ignore = false
-                                }
+                             let signal = `KEY:${res.at(-1).join('+')}`;
+                             ev.emit ( signal, data )
+                             if ( ignore ) {
+                                         r = r.slice ( 0, -1 )
+                                         ignore = false
+                                 }
                         }
                             
                     if ( sequence ) {
                             const signal = `KEY:${res.join(',')}`
                             ev.emit ( signal, data )
+                            if ( ignore ) {
+                                         r = r.slice ( 0, -1 )
+                                         ignore = false
+                                 }
                             // Reset:
                             r = []
+                            clearTimeout ( listenOptions.keyIgnore )
+                            listenOptions.keyIgnore = null
+                            clearTimeout ( keyTimer )
                             keyTimer = null
                         }
         } // keySequeceEnd func.
@@ -74,11 +83,12 @@ function _listenDOM ( dependencies, state ) {
                 clearTimeout ( keyTimer )
                 let _sp = _specialChars ()
                 if ( _sp.hasOwnProperty(event.code) )   r.push ( _readKeyEvent ( event, _specialChars ))
-                else                                             return
+                else                                    return
                 if ( streamKeys )   streamKeys ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
                 if ( listenOptions.keyIgnore ) {
                             clearTimeout ( listenOptions.keyIgnore )
                             listenOptions.keyIgnore = setTimeout ( () => listenOptions.keyIgnore=null, keyWait )
+                            r.pop ()
                             return 
                     }
                 if ( sequence && r.length === listenOptions.maxSequence ) {      
@@ -93,7 +103,7 @@ function _listenDOM ( dependencies, state ) {
     
 
     function listenForRegularKeys ( event ) {  // Listen for regular keyboard keys
-                if ( _specialChars().hasOwnProperty(event.code) )   return            
+                if ( _specialChars().hasOwnProperty ( event.code ))   return            
                 clearTimeout ( keyTimer )
                 if ( streamKeys )   streamKeys ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
                 if ( listenOptions.keyIgnore ) {

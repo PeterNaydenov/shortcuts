@@ -117,4 +117,6 @@ declare function main(options?: {
 import pluginKey from './plugins/key/index.js';
 import pluginClick from './plugins/click/index.js';
 import pluginForm from './plugins/form/index.js';
-export { main as shortcuts, pluginKey, pluginClick, pluginForm };
+import pluginHover from './plugins/hover/index.js';
+import pluginScroll from './plugins/scroll/index.js';
+export { main as shortcuts, pluginKey, pluginClick, pluginForm, pluginHover, pluginScroll };

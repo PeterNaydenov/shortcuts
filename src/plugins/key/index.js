@@ -52,37 +52,22 @@ function pluginKey ( dependencies, state, options={} ) {
                           , streamKeys     : (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false   // Keyboard stream function
                           , exposeShortcut
                 }; // state
-                
-        // Read shortcuts names from all context entities and normalize entries related to the plugin
-        inAPI._normalizeWithPlugins ( _normalizeShortcutName )
-                
-        let 
-             keysListener   = _listenDOM ( deps, pluginState )
-           , countShortcuts = _registerShortcutEvents ( deps, pluginState )
-           ;
-           
-        if ( countShortcuts > 0 )   keysListener.start ()
-       
-        let pluginAPI = {
-                               getPrefix      : () => 'key'
-                             , shortcutName  : key => {   // Format a key string according plugin needs
-                                                     return _normalizeShortcutName ( key )   
-                                                }
-                             , contextChange : contextName  => {
-                                                countShortcuts = _registerShortcutEvents ( deps, pluginState )
-                                                if ( countShortcuts < 1 ) {  // Remove DOM listener if there are no shortcuts in the current context
-                                                                keysListener.stop ()
-                                                        }
-                                                if ( countShortcuts > 0 ) { // Add DOM listener if there are shortcuts in the current context
-                                                                keysListener.start ()
-                                                        }
-                                        }
-                             , mute          : () => keysListener.stop ()
-                             , unmute        : () => keysListener.start ()
-                             , destroy       : () => keysListener.stop ()
-                        };
-        Object.freeze ( pluginAPI )
-        return pluginAPI
+        
+        function resetState () {
+                    pluginState.active = false
+                    pluginState.listenOptions.keyIgnore = null
+                    pluginState.listenOptions.maxSequence = 1
+            } // resetState func.
+        deps.resetState = resetState
+
+        return inAPI._setupPlugin ( {
+                                prefix : 'key'
+                              , _normalizeShortcutName  
+                              , _registerShortcutEvents 
+                              , _listenDOM              
+                              , pluginState             
+                              , deps                    
+                        })
 } // pluginKey func.
 
 

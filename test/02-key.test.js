@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, it, expect } from 'vitest'
-import { userEvent } from '@vitest/browser/context'
+import { userEvent } from 'vitest/browser'
 import {
   getByLabelText,
   getByText,
@@ -245,28 +245,159 @@ describe ( 'Key plugin', () => {
                             expect ( result.context ).to.be.equal ( 'local' )
                             expect ( result.type ).to.be.equal ( 'key' )
                       }, { timeout: 1000, interval: 12 })
-          }) // it arguments of key handler
+            }) // it arguments of key handler
 
 
-     it ( 'Pause and resume', async () => {
-                          short.enablePlugin ( pluginKey )
-                          expect ( b ).to.be.equal ( false )
-                          short.changeContext ( 'extra' )
-                          // Shortcut name will be normalized by the plugin
-                          short.pause ( 'key : p,r,o,b,a' )
-                          // Execute key sequence: 'p,r,o,b,a'
-                          await userEvent.keyboard ( 'proba' )
-                          await wait ( 500 )
-                          await waitFor ( () => {
-                                      expect ( b ).to.be.equal ( false )
+      
+      it ( 'Pause and resume', async () => {
+                           short.enablePlugin ( pluginKey )
+                           expect ( b ).to.be.equal ( false )
+                           short.changeContext ( 'extra' )
+                           // Shortcut name will be normalized by the plugin
+                           short.pause ( 'key : p,r,o,b,a' )
+                           // Execute key sequence: 'p,r,o,b,a'
+                           await userEvent.keyboard ( 'proba' )
+                           await wait ( 500 )
+                           await waitFor ( () => {
+                                       expect ( b ).to.be.equal ( false )
+                                 }, { timeout: 1000, interval: 30 })
+
+                           short.resume ( 'key : p,r,o,b,a' )
+                           await userEvent.keyboard ( 'proba' )
+                           await wait ( 500 )
+                           await waitFor ( () => {
+                                       expect ( b ).to.be.equal ( true )
                                 }, { timeout: 1000, interval: 30 })
-
-                          short.resume ( 'key : p,r,o,b,a' )
-                          await userEvent.keyboard ( 'proba' )
-                          await wait ( 500 )
-                          await waitFor ( () => {
-                                      expect ( b ).to.be.equal ( true )
-                               }, { timeout: 1000, interval: 30 })
             }) // it pause and resume
+
+
+      
+      it ( 'Wait and ignore in key sequence', async () => {
+                        let emitted = [];
+                        short.setDependencies ({ emitted })
+                        short.load ({
+                              'waittest' : {
+                                            'key: a' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  if ( !isWaiting () ) {
+                                                                              // Switch sequence timer off and wait for edit the sequence
+                                                                              wait ()
+                                                                              ignore ()
+                                                                              return
+                                                                        }
+                                                                  // Sequence was ended. Proceed
+                                                                  dependencies.emitted.push ( 'a' )
+                                                                  end ()
+                                                            },
+                                            'key: b' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  dependencies.emitted.push ( 'b' )
+                                                            },
+                                            'key: r' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  // Ignore 'r' in the sequence
+                                                                  ignore ()
+                                                            },
+                                            'key: b,a' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  dependencies.emitted.push ( 'b,a' )                                                                  
+                                                            },
+                                            'key: esc' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  // Ignore 'escape in the sequence'
+                                                                  ignore ()
+                                                            }
+                                          }
+                              })
+
+                        short.enablePlugin ( pluginKey )
+                        short.changeContext ( 'waittest' )
+                        // Press 'a' - should call handler, set wait and ignore
+                        await userEvent.keyboard ( 'a' )
+                        await wait ( 500  )
+
+                        await userEvent.keyboard ('{Escape}')
+                        // Then press 'b' - since waiting, should emit 'b'
+                        await userEvent.keyboard ( 'b' )
+                        // Then press 'r' - will ignore 'r' in sequence because of use of 'ignore' in a handler
+                        await userEvent.keyboard ( 'r' )
+                        await userEvent.keyboard ( 'a' )
+                        await waitFor ( () => {
+                                  expect ( emitted ).to.deep.equal ( [ 'b', 'a', 'b,a'] )
+                        }, { timeout: 1000, interval: 12 })
+            }) // it wait and ignore in key sequence
+
+
+      
+      it ( 'Ignore keys after sequence', async () => {
+                        let emitted = [];
+                        short.setDependencies ({ emitted })
+                        short.load ({
+                              'waittest' : {
+                                            'key: a,b,esc' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  dependencies.emitted.push ( 'a,b,esc' )
+                                                            },
+                                            'key: r' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  dependencies.emitted.push ( 'r' )
+                                                            },
+                                            'key : s' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  dependencies.emitted.push ( 's' )
+                                                            },
+                                            'key: esc' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  dependencies.emitted.push ( 'esc' )
+                                                            }
+                                          }
+                              })
+
+                        
+                        short.enablePlugin ( pluginKey )
+                        short.changeContext ( 'waittest' )
+                        
+                        await userEvent.keyboard ( 'a' )
+                        await userEvent.keyboard ( 'b' )
+                        await userEvent.keyboard ( '{Escape}' )
+
+                        // Will be ignored
+                        await userEvent.keyboard ( 'r' )
+                        await userEvent.keyboard ( 'r' )
+                        await userEvent.keyboard ( '{Escape}' )
+
+                        // Wait above keyWait time to activate sequence again
+                        await wait ( 500 )
+                        // New sequence - will emit 'key: s'
+                        await userEvent.keyboard ( 's' )
+                        await wait ( 500 )
+                        await waitFor ( () => {
+                                    expect ( emitted ).to.deep.equal ( [ 'a,b,esc', 's' ] )
+                              }, { timeout: 1000, interval: 12 })
+            }) // it ignore keys after sequence
+
+      
+
+      it ( 'Stop a plugin durring a sequence', async () => {
+                        let emitted = [];
+                        short.setDependencies ({ emitted })
+                        short.load ({
+                              'waittest' : {
+                                            'key: a,b,esc' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  dependencies.emitted.push ( 'a,b,esc' )
+                                                            },
+                                            'key: r' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  dependencies.emitted.push ( 'r' )
+                                                            },
+                                            'key : s' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  dependencies.emitted.push ( 's' )
+                                                            },
+                                            'key: esc' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  dependencies.emitted.push ( 'esc' )
+                                                            }
+                                          }
+                              })
+
+                        
+                        short.enablePlugin ( pluginKey )
+                        short.changeContext ( 'waittest' )
+                        
+                        await userEvent.keyboard ( 'a' )
+                        await userEvent.keyboard ( 'b' )
+                        short.disablePlugin ( 'key' )
+                        await userEvent.keyboard ( '{Escape}' )
+                        expect ( emitted ).to.deep.equal ( [] )
+            }) // it stop a plugin durring a sequence
 
 })

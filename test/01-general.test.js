@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, it, expect } from 'vitest'
-import { userEvent } from '@vitest/browser/context'
+import { userEvent } from 'vitest/browser'
 import {
   getByLabelText,
   getByText,
@@ -125,10 +125,22 @@ describe ( "Shortcuts", () => {
                      // Method disablePlugin require plugin name (prefix)
                      short.disablePlugin ( 'click' )
                      expect ( short.listPlugins () ).to.be.deep.equal ( [ 'key' ] )
-                     // Method enablePlugin require the plugin as a function
-                     short.enablePlugin ( pluginClick )
-                     expect ( short.listPlugins () ).to.be.deep.equal ( [ 'key', 'click' ] )
-            }) // it list enabled plugins
+                      // Method enablePlugin require the plugin as a function
+                      short.enablePlugin ( pluginClick )
+                      expect ( short.listPlugins () ).to.be.deep.equal ( [ 'key', 'click' ] )
+
+                      // Try to enable non-function plugins - should do nothing
+                      short.enablePlugin ( 'not a function' )
+                      expect ( short.listPlugins () ).to.be.deep.equal ( [ 'key', 'click' ] )
+                      short.enablePlugin ( 123 )
+                      expect ( short.listPlugins () ).to.be.deep.equal ( [ 'key', 'click' ] )
+                      short.enablePlugin ( {} )
+                      expect ( short.listPlugins () ).to.be.deep.equal ( [ 'key', 'click' ] )
+
+                      // Try to disable a plugin that is not enabled - should do nothing
+                      short.disablePlugin ( 'scroll' )
+                      expect ( short.listPlugins () ).to.be.deep.equal ( [ 'key', 'click' ] )
+             }) // it list enabled plugins
 
 
 
@@ -144,11 +156,63 @@ describe ( "Shortcuts", () => {
                       short.changeContext ( 'local' )
                       short.unload ( 'unknown' )
                       expect ( change ).to.be.true
-            }) // it unload non existing context
-        
-        
-        
-        it ( 'Emit custom event', () => {
+             }) // it unload non existing context
+
+
+
+         it ( 'Change to same context', () => {
+                       short.changeContext ( 'general' )
+                       expect ( short.getContext() ).to.be.equal ( 'general' )
+                       // Changing to the same context should do nothing
+                       short.changeContext ( 'general' )
+                       expect ( short.getContext() ).to.be.equal ( 'general' )
+                       // No error should be emitted
+                       expect ( c ).to.be.null
+              }) // it change to same context
+
+
+
+          it ( 'Switch off all shortcuts', () => {
+                        short.enablePlugin ( pluginKey )
+                        short.changeContext ( 'general' )
+                        expect ( short.getContext() ).to.be.equal ( 'general' )
+
+                        // Switch off all shortcuts
+                        short.changeContext ( false )
+                        expect ( short.getContext() ).to.be.null
+
+                        // Try to trigger a shortcut - should not work
+                        // But since it's key plugin, hard to test without DOM events
+                        // Just check context is null
+                        expect ( short.getContext() ).to.be.null
+               }) // it switch off all shortcuts
+
+
+
+          it ( 'Set note with invalid types', () => {
+                        short.changeContext ( 'general' )
+                        // Set valid note
+                        short.setNote ( 'valid note' )
+                        expect ( short.getNote() ).to.be.equal ( 'valid note' )
+
+                        // Try invalid types - should not change
+                        short.setNote ( 123 )
+                        expect ( short.getNote() ).to.be.equal ( 'valid note' )
+
+                        short.setNote ( {} )
+                        expect ( short.getNote() ).to.be.equal ( 'valid note' )
+
+                        short.setNote ( [] )
+                        expect ( short.getNote() ).to.be.equal ( 'valid note' )
+
+                        // Valid null should work
+                        short.setNote ( null )
+                        expect ( short.getNote() ).to.be.null
+              }) // it set note with invalid types
+
+
+
+          it ( 'Emit custom event', () => {
                             // TODO: Check arguments for the custom event handlers
                             let result = null;
                             short.enablePlugin ( pluginClick )
@@ -175,10 +239,16 @@ describe ( "Shortcuts", () => {
                       expect ( general ).to.have.lengthOf ( 2 )
                       expect ( general ).to.include ( 'KEY:A+SHIFT' )
                       
-                      let fail = short.listShortcuts ( 'somethingNotExisting' );
-                      expect ( fail ).to.be.null
-                  
-                      let all = short.listShortcuts ();
+                       let fail = short.listShortcuts ( 'somethingNotExisting' );
+                       expect ( fail ).to.be.null
+
+                       // Edge cases for invalid context types
+                       expect ( short.listShortcuts ( 123 ) ).to.be.null
+                       expect ( short.listShortcuts ( {} ) ).to.be.null
+                       expect ( short.listShortcuts ( [] ) ).to.be.null
+                       expect ( short.listShortcuts ( undefined ) ).to.be.an ( 'array' )  // undefined == null, so lists all
+
+                       let all = short.listShortcuts ();
                       expect ( all ).to.be.an ( 'array' )
                    
                       expect ( all ).to.have.lengthOf ( 4 )

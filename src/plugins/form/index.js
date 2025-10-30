@@ -53,37 +53,17 @@ function pluginForm ( dependencies, state, options ) {
             pluginState.watchList = []
             pluginState.wait      = {}
       } // resetState func.
+    deps.resetState = resetState
 
-    // Read shortcuts names from all context entities and normalize entries related to the plugin
-    inAPI._normalizeWithPlugins ( _normalizeShortcutName )
-    let formListener = _listenDOM ( deps, pluginState );
-    
-    if ( currentContext.name ) {
-          let hasFormShortcuts = _registerShortcutEvents ( deps, pluginState )
-          if ( hasFormShortcuts )    formListener.start ()
-      }
-       
-    let pluginAPI = {
-                       getPrefix     : ( ) => 'form'
-                     , shortcutName  : key => {   // Format a key string according plugin needs
-                                             return _normalizeShortcutName ( key )   
-                                        }
-                     , contextChange : ( )  => {
-                                        resetState ()
-                                        let hasFormShortcuts = _registerShortcutEvents ( deps, pluginState )
-                                        if ( hasFormShortcuts )    formListener.start ()
-                                        else                       formListener.stop ()                                          
-                                }
-                     , mute          : () => formListener.stop ()
-                     , unmute        : () => formListener.start ()
-                     , destroy       : () => {
-                                          formListener.stop ()
-                                          // TODO: Clean up state of the plugin
-                                }
-                                        
-              }; // pluginAPI
-        Object.freeze ( pluginAPI )
-        return pluginAPI
+
+    return inAPI._setupPlugin ({
+                        prefix : 'form'
+                      , _normalizeShortcutName
+                      , _registerShortcutEvents
+                      , _listenDOM
+                      , pluginState
+                      , deps
+                  })
 } // pluginForm func.
 
 
