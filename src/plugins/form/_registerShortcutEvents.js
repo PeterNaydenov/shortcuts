@@ -10,7 +10,7 @@ const
                 , ERROR_EVENT_NAME
            } = pluginState
         ;
-        let watch=[], define=[], action=[];
+        let watch=[], define=[], action=[], count = 0;
         if ( contextName == null )   return false
         Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {   
                         let isFormEv = regex.test ( shortcutName );
@@ -20,18 +20,22 @@ const
                         if ( shortcutName === 'FORM:ACTION' )   action = list
                 })
         
-        if ( action.length === 0 )   return false
-        
+        if ( action.length === 0 )   return count
+   
         let setTypes = new Set ();
         if ( define.length === 0 )  define = [ _defaults.define ]
         if ( watch.length === 0  )  watch  = [ _defaults.watch ] 
-        let watchList = watch.map ( el => el() )
+        let watchList = watch.map ( el => el({ dependencies : dependencies.mainDependencies.extra }) )
                                         .reduce ( ( res, el) => {
                                                 res.push ( el ) 
                                                 return res
                                         }, [])
         pluginState.watchList = document.querySelectorAll ( watchList )
-        pluginState.watchList.forEach ( el => setTypes.add (define[0](el)) ) 
+        pluginState.watchList.forEach ( el => setTypes.add ( define[0]({
+                                                                   dependencies : dependencies.mainDependencies.extra
+                                                                 , target : el
+                                                                })
+                                ) ) 
 
         pluginState.typeFn = define[0] ? define[0] : _defaults.define
         
@@ -63,8 +67,8 @@ const
                                         if ( timing === 'instant' )   pluginState.wait[`${type}`] = wait
                                 }) // for each act
                 }) // for each action
-        if ( Object.keys(pluginState.callbacks).length > 0 )   return true
-        else                                                   return false
+        count = Object.keys ( pluginState.callbacks ).length
+        return count
 } // _registerShortcutEvents func.
 
 

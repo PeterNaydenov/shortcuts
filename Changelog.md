@@ -2,25 +2,28 @@
 
 
 
-### 3.5.3 ( 2025-10-21 )
+### 4.0.0 ( 2025-10-?? )
 - [x] Code: Plugin 'form' upgrade. Now you can take 'dependencies' on 'form:action' level. It's higher level that all declared actions can use. Minimize 'dependencies' declarations. Other named arguments are not available on top level;
 - [x] Code: Plugin 'form' uses general app error event;
+- [x] Code: Plugin 'form'. Event 'form:watch' has named argument 'dependencies';
+- [x] Fix: Plugin 'form' on event 'form:define' - argument should be a named argument;
 
 
 
 ### 3.5.2 ( 2025-10-20 )
 - [x] Types update;
-
+- [ ] Bug: Plugin 'form' on event 'form:define' - argument should be a named argument;
 
 
 ### 3.5.1 ( 2025-10-20 )
 - [x] Update in package.json. Field 'types' was added;
-
+- [ ] Bug: Plugin 'form' on event 'form:define' - argument should be a named argument;
 
 
 ### 3.5.0 ( 2025-10-19)
 - [x] Featire: New method 'listPlugins' to get list of enabled plugins;
 - [x] Upgrade: Improvment of type definitions. New d.ts files were added;
+- [ ] Bug: Plugin 'form' on event 'form:define' - argument should be a named argument;
 
 
 
@@ -35,6 +38,7 @@
 - [x] Fix: Cleaning plugin-state variables on plugin stop;
 - [x] Fix: Wrong plugin name detection in 'enablePlugin' method;
 - [x] Fix: Custom events for plugins with works only with nomrmalized event-names. Fixed - event name normalization could be done from the enabled plugins;
+- [ ] Bug: Plugin 'form' on event 'form:define' - argument should be a named argument;
 
 
 
@@ -43,6 +47,7 @@
 - [ ] Bug: Cleaning plugin-state variables on plugin stop;
 - [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
 - [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
+- [ ] Bug: Plugin 'form' on event 'form:define' - argument should be a named argument;
 
 
 
@@ -52,6 +57,8 @@
 - [ ] Bug: Cleaning plugin-state variables on plugin stop;
 - [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
 - [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
+- [ ] Bug: Plugin 'form' on event 'form:define' - argument should be a named argument;
+
 
 
 ### 3.2.1 ( 2025-08-15)
@@ -60,6 +67,8 @@
 - [ ] Bug: Cleaning plugin-state variables on plugin stop;
 - [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
 - [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
+- [ ] Bug: Plugin 'form' on event 'form:define' - argument should be a named argument;
+
 
 
 ### 3.2.0 ( 2025-08-15)
@@ -69,6 +78,7 @@
 - [ ] Bug: Cleaning plugin-state variables on plugin stop;
 - [ ] Bug: Wrong plugin name detection in 'enablePlugin' method;
 - [ ] Bug: Custom events for plugins with works only with nomrmalized event-names;
+- [ ] Bug: Plugin 'form' on event 'form:define' - argument should be a named argument;
 
 
 

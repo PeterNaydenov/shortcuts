@@ -22,8 +22,8 @@ function _listenDOM ( dependencies, state ) {
                 const 
                       { callbacks, typeFn } = state
                     , target = event.target
-                    , type = typeFn ( target )
-                    , prop = setupData ( dependencies, state, event, type )
+                    , prop = setupData ( dependencies, state, event, "form-in" )
+                    , type = typeFn ( prop )
                     , key = `${type}/in`
                     ;
                 if ( callbacks[key] == null )  return
@@ -34,8 +34,7 @@ function _listenDOM ( dependencies, state ) {
                 const
                       { callbacks, typeFn } = state
                     , prop   = setupData ( dependencies, state, event, "form-out" )
-                    , target = event.target
-                    , type   = typeFn ( target )
+                    , type   = typeFn ( prop )
                     , key    = `${type}/out`
                     ;
                 if ( callbacks[key] == null )  return
@@ -47,8 +46,7 @@ function _listenDOM ( dependencies, state ) {
                 const 
                       { callbacks, typeFn } = state
                     , prop   = setupData ( dependencies, state, event, "form-instant" )
-                    , target = event.target
-                    , type   = typeFn ( target )
+                    , type   = typeFn ( prop )
                     , wait   = state.wait[`${type}`]
                     , key    = `${type}/instant`
                     ;

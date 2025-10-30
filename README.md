@@ -274,8 +274,8 @@ Definition Example:
 ```js
 const shortcutScope = {
 ...
-, 'form : watch' : () => 'input, button' // Will select all inputs and buttons elements on the page.
-, 'form : define' : ( target ) => { // Target is a DOM element selected by 'form: watch'
+, 'form : watch' : ({dependencies}) => 'input, button' // Will select all inputs and buttons elements on the page.
+, 'form : define' : ({ target, dependencies }) => { // Target is a DOM element selected by 'form: watch'
                     if ( target.tagName === 'INPUT' ) { // Will define inputs as 'input' type
                             return 'input' // (String) Custom according your preference
                         }
@@ -283,14 +283,15 @@ const shortcutScope = {
                             return 'button'
                         }
             }
-, 'form : action' : () =>  [
+, 'form : action' : ({ dependencies}) =>  [
                     {
                         fn: ({target}) => { console.log ( target)}
                       , type : 'input' // According to 'form: define'
                       , timing : 'in' // on focus in
                     },
                     {
-                        fn: ({target}) => { console.log ( 'extra')}
+                        // Dependecies is available in action functions
+                        fn: ({target, dependencies }) => { console.log ( 'extra')}
                       , type : 'input'
                       , timing : 'in' // on focus in
                     },
@@ -314,11 +315,11 @@ Plugin `form` has a default versions for `form:watch` and `form:define` function
 ```js
 const _defaults = {
       watch : () => 'input, select, textarea, button, a'
-    , define: (el) => {
-            if ( el.type === 'checkbox' || el.type === 'radio' ) {
+    , define: ({target}) => {
+            if ( target.type === 'checkbox' || target.type === 'radio' ) {
                     return 'checkbox'
                 }
-            if ( el.type == 'button' || el.type=='submit' ) {
+            if ( target.type == 'button' || target.type=='submit' ) {
                     return 'button'
                 }
             return 'input'

@@ -1,10 +1,10 @@
 const _defaults = {
       watch : () => 'input, select, textarea, button, a'
-    , define: (el) => {
-            if ( el.type === 'checkbox' || el.type === 'radio' ) {
+    , define: ({ target }) => {
+            if ( target.type === 'checkbox' || target.type === 'radio' ) {
                     return 'checkbox'
                 }
-            if ( el.type == 'button' || el.type=='submit' ) {
+            if ( target.type == 'button' || target.type=='submit' ) {
                     return 'button'
                 }
             return 'input'
