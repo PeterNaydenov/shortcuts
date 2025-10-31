@@ -2,7 +2,10 @@
 
 
 
-### 4.0.0 ( 2025-10-?? )
+### 4.0.0 ( 2025-11-?? )
+- [x] New plugin 'hover';
+- [x] New plugin 'scroll';
+- [x] Refactoring on plugin API. New method for building plugin interface;
 - [x] Code: Plugin 'form' upgrade. Now you can take 'dependencies' on 'form:action' level. It's higher level that all declared actions can use. Minimize 'dependencies' declarations. Other named arguments are not available on top level;
 - [x] Code: Plugin 'form' uses general app error event;
 - [x] Code: Plugin 'form'. Event 'form:watch' has named argument 'dependencies';
