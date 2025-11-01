@@ -53,8 +53,13 @@ const contextDefinition = {
                                                 b = true
                                                 c = target.dataset.click
                                           },
+                               // Just for have definition for more then 2 clicks
+                               'click: left-3': () => {},
                                // Single click with right button
-                               'click: right-1': () => c = 'right',
+                               'click: right-1': () => {
+                                                c = 'right'
+                                          },
+                              ' click: right-2': () => d = 'clicked',
                                // Click with modifier
                                 'click: left-1-alt': () => d = 'alt-clicked',
                                 'click: left-1-ctrl': () => d = 'ctrl-clicked',
@@ -224,6 +229,53 @@ describe ( 'Click plugin', () => {
                                      expect ( d ).to.equal ( 'double right' )
                                }, { timeout: 1000, interval: 12 })
            }) // it double right click
+
+
+
+      it ( 'Ignore clicks on elements that are not a target', async () => {
+                            short.enablePlugin ( pluginClick )
+                            let 
+                                hidden = document.getElementById ( 'hidden' )
+                              , name = document.getElementById ( 'name' )
+                              , hitItem = document.querySelector ( '#rspan' )
+                              ;
+                            hidden.classList.remove ( 'hide' )
+                            short.changeContext ( 'touch' )
+
+                            // Click on element without data-click property. Should be ignored
+                            await userEvent.click ( name , { button:'right' })
+                            // Click on element with data-click property
+                            await userEvent.click ( hitItem , { button:'right' })
+                            await wait ( 330 )
+                            await waitFor ( () => {
+                                      // Click should be read as single right click
+                                      expect ( c ).to.equal ( 'right' )                                    
+                              }, { timeout: 1000, interval: 12 })
+            }) // it ignore clicks on elements that are not a target
+
+
+      
+      it ( 'Multiple right clicks', async () => {
+                            short.enablePlugin ( pluginClick )
+                            // Reload because in testcase 'Double right click' context  'touch' was changed;
+                            short.load ( contextDefinition )
+                            let hitItem = document.querySelector ( '#rspan' );
+                            short.changeContext ( 'touch' )
+                            
+                            await userEvent.click ( hitItem , { button:'right' })
+                            await userEvent.click ( hitItem , { button:'right' })
+                            // This click should be ignored
+                            await userEvent.click ( hitItem , { button:'right' })
+                            await wait ( 330 )
+                            await userEvent.click ( hitItem , { button:'right' })
+                            
+                            await wait ( 500 )
+                            await waitFor ( () => {
+                                      // Click should be read as double right click, then single right click
+                                      expect ( c ).to.equal ( 'right' )
+                                      expect ( d ).to.equal ( 'clicked' )                                    
+                              }, { timeout: 1000, interval: 12 })
+            }) // it multiple right clicks
 
 
 

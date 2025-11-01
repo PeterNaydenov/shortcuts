@@ -5,6 +5,7 @@ return <>
     <p>Some text with <a href="#" target="_blank">link <span id="anchor">in</span></a> it</p>
     <p><input id="name" type="text" /></p>
     <p><input type="text" id="age" /></p>
+    <p><button id="hidden" className="hide" data-click="hidden">Hidden button</button></p>
 </> 
 }
 

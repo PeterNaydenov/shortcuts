@@ -225,5 +225,45 @@ describe ( 'Form plugin', () => {
 
 
 
+        it ( 'Reveal and click', async () => {
+                        short.enablePlugin ( pluginForm )
+                        short.enablePlugin ( pluginClick )
+                        let sum = 0;
+                        const contextExtension = {
+                                        local: {
+                                                        'form:action' : ({ dependencies }) => [
+                                                                        {
+                                                                                fn : ({ target }) => {
+                                                                                        // dependencies are available here as named argument as well
+                                                                                        // But if I have 20 actions, I need to add 20 times 'dependencies'
+                                                                                         if ( target.id === 'name' ) {
+                                                                                                 const hidden = document.getElementById ( 'hidden' )
+                                                                                                 hidden.classList.remove ( 'hide' )
+                                                                                            } // if target.id === name
+                                                                                         
+                                                                                     }
+                                                                                , type : 'input'
+                                                                                , timing : 'instant'
+                                                                        }] , // form:action
+                                                        'click:left-1': ({ dependencies, target }) => {
+                                                                                if ( target.id === 'hidden' )    sum = 1
+                                                                        } // click:left-1
+                                                }
+                                };
+                        short.load ( contextExtension )
+                        short.changeContext ( 'local' )
+                        let 
+                             input = document.getElementById ( 'name' )
+                           , hidden = document.getElementById ( 'hidden' )
+                           ;
+                        input.focus ()
+                        await userEvent.keyboard ( 'hello' )
+                        await userEvent.click ( hidden )
+                        await wait ( 300 )
+                        await waitFor ( () => {
+                                        expect ( sum ).to.equal ( 1 )
+                                        expect ( hidden.classList.contains ( 'hide' ) ).to.be.false
+                                }, { timeout: 1000, interval: 20 })
+             }) // it Reveal and click
       
 }) // describe
