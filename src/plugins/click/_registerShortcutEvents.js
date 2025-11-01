@@ -16,9 +16,9 @@ Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {
                 let isClickEv = regex.test ( shortcutName );
                 if ( !isClickEv ) return
                 count++
-                
-                let [ ,numberClicks ] = shortcutName.slice(6).split('-');
-                if ( listenOptions.maxClicks < numberClicks )   listenOptions.maxClicks = numberClicks
+                let [ button,numberClicks ] = shortcutName.slice(6).split('-');
+                if ( button === 'LEFT' && listenOptions.maxLeftClicks < numberClicks      )   listenOptions.maxLeftClicks = numberClicks
+                if ( button === 'RIGHT' &&listenOptions.maxRightClicks < numberClicks )   listenOptions.maxRightClicks = numberClicks
         })
 return count
 } // _registerShortcutEvents func.

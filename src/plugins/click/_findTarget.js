@@ -1,7 +1,6 @@
 'use strict'
 
 function _findTarget ( dependencies, state, target ) {
-    
     const { listenOptions : {clickTarget}} = state;
 
     let t = target;

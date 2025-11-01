@@ -49,7 +49,7 @@ function _listenDOM ( dependencies, state ) {
 
 
         function listenLeftClick ( event ) {
-                        let targetMax = listenOptions.maxClicks;  // Maximum number of clicks per target
+                        let targetMax = listenOptions.maxLeftClicks;  // Maximum number of clicks per target
                         clearTimeout ( mouseTimer )
                         if ( mouseIgnore ) {
                                     clearTimeout ( mouseIgnore )
@@ -57,6 +57,7 @@ function _listenDOM ( dependencies, state ) {
                                     return
                             }
                         mouseTarget = _findTarget ( dependencies, state, event.target )
+                        if ( mouseTarget == null )   return
                         if ( mouseTarget && mouseTarget.dataset.hasOwnProperty('quickClick'))   targetMax = 1
                         if ( mouseTarget && mouseTarget.tagName === 'A'                     )   targetMax = 1
                         mouseDomEvent = event
@@ -72,7 +73,7 @@ function _listenDOM ( dependencies, state ) {
 
 
         function listenRightClick ( event ) {
-                        let targetMax = listenOptions.maxClicks;  // Maximum number of clicks per target
+                        let targetMax = listenOptions.maxRightClicks;  // Maximum number of clicks per target
                         clearTimeout ( mouseTimer )
                         if ( mouseIgnore ) {
                                     clearTimeout ( mouseIgnore )
@@ -80,11 +81,12 @@ function _listenDOM ( dependencies, state ) {
                                     return
                             }
                         mouseTarget = _findTarget ( dependencies, state, event.target )
+                        if ( mouseTarget == null )   return
                         if ( mouseTarget && mouseTarget.dataset.hasOwnProperty('quickClick'))   targetMax = 1
                         if ( mouseTarget && mouseTarget.tagName === 'A'                     )   targetMax = 1
                         mouseDomEvent = event
                         count++
-                        if ( count >= targetMax ) {  
+                        if ( count >= targetMax ) {
                                     mouseSequenceEnd ()
                                     if ( targetMax > 1 )   mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
                                     return
