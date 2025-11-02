@@ -29,43 +29,42 @@ import _specialChars           from './_specialChars.js'
  * @param {function} [options.streamKeys] - Function to stream key presses
  * @returns {PluginAPI} Plugin API
  */
-function pluginKey ( dependencies, state, options={} ) {
+function pluginKey ( setupPlugin, options = {} ) {
         let 
-                  { currentContext, shortcuts, exposeShortcut } = state
-                , { inAPI } = dependencies
-                , deps = {
-                             ev: dependencies.ev
-                             , _specialChars
+                  deps = {
+                               _specialChars
                              , _readKeyEvent
-                             , mainDependencies : dependencies
                              , regex : /KEY\s*\:/i
                         }
                 , pluginState = {
-                            currentContext
-                          , shortcuts
-                          , active : false
+                            active : false
+                          , maxSequence   : 1  // How many keys can be pressed in a sequence. Controlled automatically by 'changeContext' function.
+                          , keyIgnore     : null   // Timer for ignoring key presses after max sequence or null. Not a public option.
+                          , defaultOptions : {
+                                        keyWait : 480 // 480 ms
+                                } 
                           , listenOptions  : {
-                                                  keyWait       : options.keyWait ? options.keyWait : 480   // 480 ms
-                                                , maxSequence   : 1  // How many keys can be pressed in a sequence. Controlled automatically by 'changeContext' function.
-                                                , keyIgnore     : null   // Timer for ignoring key presses after max sequence or null. Not a public option.
-                                        }
+                                        // Filled from 'key: setup' event in the context
+                                        // or getting from the plugin the defaults
+                                        keyWait : 480 // 480 ms // TODO: WHY is need initialization? Register function should fullfill it
+                                }
                           , streamKeys     : (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false   // Keyboard stream function
-                          , exposeShortcut
-                }; // state
+                        } // state
+                ;
         
         function resetState () {
                     pluginState.active = false
-                    pluginState.listenOptions.keyIgnore = null
-                    pluginState.listenOptions.maxSequence = 1
+                    pluginState.keyIgnore = null
+                    pluginState.maxSequence = 1
             } // resetState func.
         deps.resetState = resetState
 
-        return inAPI._setupPlugin ( {
+        return setupPlugin ( {
                                 prefix : 'key'
                               , _normalizeShortcutName  
                               , _registerShortcutEvents 
                               , _listenDOM              
-                              , pluginState             
+                              , pluginState          
                               , deps                    
                         })
 } // pluginKey func.

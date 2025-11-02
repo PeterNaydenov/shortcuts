@@ -6,26 +6,25 @@ import _registerShortcutEvents from "./_registerShortcutEvents"
 
 
 
-function pluginScroll ( dependencies, state, options ) {
+function pluginScroll ( setupPlugin, options={} ) {
     // up, down, left, right
         let 
-                  { currentContext, shortcuts } = state
-                , { inAPI } = dependencies
-                , deps = {
-                              ev: dependencies.ev
-                            , mainDependencies : dependencies
-                            , regex : /SCROLL\s*\:/i
+                 deps = {
+                          regex : /SCROLL\s*\:/i
                         }
                 , pluginState = {
-                                  currentContext        // Reference to current context (from global state)
-                                , active : false        // Is plugin active?
+                                  active : false        // Is plugin active?
                                 , lastPosition  : null  // Last scroll position
                                 , lastDirection : null  // Last scroll direction
-                                , shortcuts             // Reference to shortcuts (from global state)
+                                , defaultOptions : {
+                                                scrollWait    : 50  // 50 ms. Delay between scroll events 
+                                              , endScrollWait : 400 // 400 ms. When scroll was stopped.
+                                              , minSpace      : 40  // 40 px. Minimum distance between scroll events
+                                    }
                                 , listenOptions  : {
-                                                  scrollWait    : 50  // 50 ms. Delay between scroll events 
-                                                , endScrollWait : 400 // 400 ms. When scroll was stopped.
-                                                , minSpace      : 40  // 40 px. Minimum distance between scroll events
+                                                scrollWait    : 50  // 50 ms. Delay between scroll events 
+                                              , endScrollWait : 400 // 400 ms. When scroll was stopped.
+                                              , minSpace      : 40  // 40 px. Minimum distance between scroll events
                                         }
                             } // pluginState
                 ;
@@ -35,7 +34,7 @@ function pluginScroll ( dependencies, state, options ) {
             } // resetState func.
         deps.resetState = resetState
 
-        return inAPI._setupPlugin ( {
+        return setupPlugin ( {
                                   prefix : 'scroll'
                                 , _normalizeShortcutName
                                 , _registerShortcutEvents

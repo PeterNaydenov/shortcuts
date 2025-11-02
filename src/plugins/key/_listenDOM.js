@@ -3,12 +3,12 @@
 
 
 function _listenDOM ( dependencies, state ) {
-// Listen for input signals and generate event titles  
+// Listen for input signals and generate event titles
     const { 
-                ev
+                  ev
                 , _specialChars
                 , _readKeyEvent
-                , mainDependencies
+                , extra
                 , resetState
             } = dependencies
         , {
@@ -24,7 +24,7 @@ function _listenDOM ( dependencies, state ) {
     let 
           r = []
         , keyTimer = null    // Timer for key sequence or null
-        , sequence = true
+        , sequence = true    // Is false only when time limitter is off - waitKeys ()
         , ignore   = false   // Use to trigger a single callback without adding the key to the sequence.
         ;
 
@@ -48,7 +48,7 @@ function _listenDOM ( dependencies, state ) {
                                     , isWaiting:waitingKeys
                                     , note: currentContext.note
                                     , context: currentContext.name
-                                    , dependencies : mainDependencies.extra
+                                    , dependencies : extra
                                     , type : 'key'
                             };
 
@@ -70,8 +70,8 @@ function _listenDOM ( dependencies, state ) {
                                  }
                             // Reset:
                             r = []
-                            clearTimeout ( listenOptions.keyIgnore )
-                            listenOptions.keyIgnore = null
+                            clearTimeout ( state.keyIgnore )
+                            state.keyIgnore = null
                             clearTimeout ( keyTimer )
                             keyTimer = null
                         }
@@ -85,15 +85,15 @@ function _listenDOM ( dependencies, state ) {
                 if ( _sp.hasOwnProperty(event.code) )   r.push ( _readKeyEvent ( event, _specialChars ))
                 else                                    return
                 if ( streamKeys )   streamKeys ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
-                if ( listenOptions.keyIgnore ) {
-                            clearTimeout ( listenOptions.keyIgnore )
-                            listenOptions.keyIgnore = setTimeout ( () => listenOptions.keyIgnore=null, keyWait )
+                if ( state.keyIgnore ) {
+                            clearTimeout ( state.keyIgnore )
+                            state.keyIgnore = setTimeout ( () => state.keyIgnore=null, keyWait )
                             r.pop ()
                             return 
                     }
-                if ( sequence && r.length === listenOptions.maxSequence ) {      
+                if ( sequence && r.length === state.maxSequence ) {      
                             keySequenceEnd ()
-                            listenOptions.keyIgnore = setTimeout ( () => listenOptions.keyIgnore=null, keyWait )
+                            state.keyIgnore = setTimeout ( () => state.keyIgnore=null, keyWait )
                             return
                     }
                 if ( sequence   )   keyTimer = setTimeout ( keySequenceEnd, keyWait )
@@ -106,15 +106,15 @@ function _listenDOM ( dependencies, state ) {
                 if ( _specialChars().hasOwnProperty ( event.code ))   return            
                 clearTimeout ( keyTimer )
                 if ( streamKeys )   streamKeys ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
-                if ( listenOptions.keyIgnore ) {
-                            clearTimeout ( listenOptions.keyIgnore )
-                            listenOptions.keyIgnore = setTimeout ( () => listenOptions.keyIgnore=null, keyWait )
+                if ( state.keyIgnore ) {
+                            clearTimeout ( state.keyIgnore )
+                            state.keyIgnore = setTimeout ( () => state.keyIgnore=null, keyWait )
                             return 
                     }
                 r.push ( _readKeyEvent ( event, _specialChars ))
-                if ( sequence && r.length === listenOptions.maxSequence ) {
+                if ( sequence && r.length === state.maxSequence ) {
                             keySequenceEnd ()
-                            listenOptions.keyIgnore = setTimeout ( () => listenOptions.keyIgnore=null, keyWait )
+                            state.keyIgnore = setTimeout ( () => state.keyIgnore=null, keyWait )
                             return
                     }
                 if ( sequence )   keyTimer = setTimeout ( keySequenceEnd, keyWait )
@@ -141,9 +141,9 @@ function _listenDOM ( dependencies, state ) {
                                 clearTimeout ( keyTimer )
                                 keyTimer = null
                         }
-                        if ( listenOptions.keyIgnore ) {
-                                clearTimeout ( listenOptions.keyIgnore )
-                                listenOptions.keyIgnore = null
+                        if ( state.keyIgnore ) {
+                                clearTimeout ( state.keyIgnore )
+                                state.keyIgnore = null
                         }
                         // Reset all state variables to prevent interference between tests
                         r = []

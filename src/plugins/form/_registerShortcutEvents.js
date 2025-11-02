@@ -18,6 +18,9 @@ const
                         if ( shortcutName === 'FORM:WATCH' )    watch = list
                         if ( shortcutName === 'FORM:DEFINE' )   define = list
                         if ( shortcutName === 'FORM:ACTION' )   action = list
+                        if ( shortcutName === 'FORM:SETUP' )    {
+                                        // TODO: Setup fn not ready...
+                                }
                 })
         
         if ( action.length === 0 )   return count
@@ -25,27 +28,27 @@ const
         let setTypes = new Set ();
         if ( define.length === 0 )  define = [ _defaults.define ]
         if ( watch.length === 0  )  watch  = [ _defaults.watch ] 
-        let watchList = watch.map ( el => el({ dependencies : dependencies.mainDependencies.extra }) )
+        let watchList = watch.map ( el => el({ dependencies : dependencies.extra }) )
                                         .reduce ( ( res, el) => {
                                                 res.push ( el ) 
                                                 return res
                                         }, [])
         pluginState.watchList = document.querySelectorAll ( watchList )
         pluginState.watchList.forEach ( el => setTypes.add ( define[0]({
-                                                                   dependencies : dependencies.mainDependencies.extra
+                                                                   dependencies : dependencies.extra
                                                                  , target : el
                                                                 })
                                 ) ) 
 
         pluginState.typeFn = define[0] ? define[0] : _defaults.define
-        
+     
         action.forEach ( act => {
                         if ( !(act instanceof Function)) {  
                                 ev.emit ( ERROR_EVENT_NAME, `The 'form:action' should be a function.` )
                                 return false
                            }
                         
-                        let list = act ({ dependencies : dependencies.mainDependencies.extra })
+                        let list = act ({ dependencies : dependencies.extra })
                         
                         if ( !(list instanceof Array) ) {
                                 ev.emit ( ERROR_EVENT_NAME, `Warning: The 'form:action' function should RETURN an array.` )

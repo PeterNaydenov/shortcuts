@@ -29,27 +29,26 @@ import _registerShortcutEvents from "./_registerShortcutEvents"
  * @param {string} [options.clickTarget='click'] - Data attribute name for click targets
  * @returns {PluginAPI} Plugin API
  */
-function pluginClick ( dependencies, state, options ) {
+function pluginClick ( setupPlugin, options = {}) {
         let 
-                  { currentContext, shortcuts } = state
-                , { inAPI } = dependencies
-                , deps = {
-                                ev: dependencies.ev
-                             , _findTarget
+                  deps = {
+                                _findTarget
                              , _readClickEvent
-                             , mainDependencies : dependencies
                              , regex : /CLICK\s*\:/i
                         }
                 , pluginState = {
-                                  currentContext
-                                , active : false
-                                , shortcuts
+                                  active : false
+                                , defaultOptions : {
+                                          mouseWait   : 320     // 320 ms
+                                        , clickTarget : 'click' // Data-attribute name for click target ( data-click )
+                                    }
                                 , listenOptions  : {
-                                                      mouseWait     : options.mouseWait ? options.mouseWait : 320   // 320 ms
+                                                      mouseWait     : 320   // 320 ms
                                                     , maxLeftClicks : 1  // How many clicks can be pressed in a sequence. Controlled automatically by '_registerShortcutEvents' function.
                                                     , maxRightClicks: 1  // How many right clicks can be pressed in a sequence. Controlled automatically by '_registerShortcutEvents' function.
-                                                    , clickTarget   : options.clickTarget ? options.clickTarget :  'click' // Data-attribute name for click target ( data-click )
+                                                    , clickTarget   : 'click' // Data-attribute name for click target ( data-click )
                                                 }
+                                , streamKeys     : (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false   // Keyboard stream function
                             } // pluginState
                 ;
 
@@ -58,15 +57,15 @@ function pluginClick ( dependencies, state, options ) {
             } // resetState func.
         deps.resetState = resetState
                 
-        return inAPI._setupPlugin ({
-                                          prefix: 'click'
-                                        , _normalizeShortcutName
-                                        , _registerShortcutEvents
-                                        , _listenDOM
+        return setupPlugin ({
+                                prefix: 'click'
+                              , _normalizeShortcutName
+                              , _registerShortcutEvents
+                              , _listenDOM
 
-                                        , pluginState
-                                        , deps
-                                })
+                              , pluginState
+                              , deps
+                      })
 } // pluginClick func.
 
 

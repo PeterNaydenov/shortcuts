@@ -1,6 +1,11 @@
 
 function _listenDOM ( dependencies, state ) {
-    const { ev, _findTarget, resetState } = dependencies;
+    const { 
+              ev
+            , _findTarget
+            , resetState
+            , extra 
+           } = dependencies;
 
     function inside ( rect,  x,  y ) {
         if ( !rect ) return false;
@@ -39,7 +44,7 @@ function listenForHover ( event ) {
                     , context: state.currentContext.name
                     , note   : state.currentContext.note
                     , event
-                    , dependencies : dependencies.mainDependencies.extra
+                    , dependencies : extra
                     , type: 'hover'
                 }
         if ( target !== hovered ) {

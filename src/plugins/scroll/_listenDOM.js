@@ -1,7 +1,11 @@
 
 
 function _listenDOM ( dependencies, state ) {
-    const { ev, resetState, mainDependencies } = dependencies;
+    const { 
+              ev
+            , resetState
+            , extra 
+          } = dependencies;
     let 
           waitForScroll = null    // Timeout for reducing scroll events 
         , waitForEndScroll = null // Timeout for setting scroll end event
@@ -47,7 +51,7 @@ function listenForScroll ( event ) {
                         , direction
                         , context: currentContext.name
                         , note: currentContext.note
-                        , dependencies: dependencies.mainDependencies.extra
+                        , dependencies: extra
                         , type: 'scroll'
                     })
 

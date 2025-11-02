@@ -13,7 +13,7 @@ function _listenDOM ( dependencies, state ) {
                         , context : state.currentContext.name
                         , note    : state.currentContext.note
                         , event   
-                        , dependencies : dependencies.mainDependencies.extra
+                        , dependencies : dependencies.extra
                         , type
                     }
         } // setupData func.
@@ -76,6 +76,11 @@ function _listenDOM ( dependencies, state ) {
                 document.removeEventListener ( 'focusout', listenFocusOut );
                 document.removeEventListener ( 'input', listenInput );
                 state.active = false
+                // Clear any pending timeout to prevent state pollution between tests
+                if ( timeout ) {
+                        clearTimeout ( timeout )
+                        timeout = null
+                }
             } // stop func.
 
         return { start, stop }

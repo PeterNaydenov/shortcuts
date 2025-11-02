@@ -6,7 +6,8 @@ function _listenDOM ( dependencies, state ) {
                    ev
                 , _findTarget 
                 , _readClickEvent
-                , mainDependencies
+                , extra
+                , resetState
                         } = dependencies
         const { listenOptions, currentContext } = state
         const { mouseWait } = listenOptions
@@ -21,7 +22,6 @@ function _listenDOM ( dependencies, state ) {
 
         function mouseSequenceEnd () {   // Execute when mouse sequence ends
                         if ( !mouseTarget ) return  // No valid target found
-
                         const
                                   mouseEvent = _readClickEvent ( mouseDomEvent, count )
                                 , data = {
@@ -32,7 +32,7 @@ function _listenDOM ( dependencies, state ) {
                                         , context : currentContext.name
                                         , note    : currentContext.note
                                         , event   : mouseDomEvent
-                                        , dependencies : mainDependencies.extra
+                                        , dependencies : extra
                                         , type   : 'click'
                                 }
                                 ;
@@ -113,11 +113,14 @@ function _listenDOM ( dependencies, state ) {
                         if ( mouseTimer ) {
                                 clearTimeout ( mouseTimer )
                                 mouseTimer = null
-                        }
+                            }
                         if ( mouseIgnore ) {
                                 clearTimeout ( mouseIgnore )
                                 mouseIgnore = null
-                        }
+                            }
+                        // Reset all state variables to prevent pollution between tests
+                        mouseTarget = null
+                        mouseDomEvent = null
                         count = 0
                 } // stop func.
                 

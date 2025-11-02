@@ -26,25 +26,18 @@ import _defaults from './_defaults.js'
  * @param {Object} [options={}] - Plugin options
  * @returns {PluginAPI} Plugin API
  */
-function pluginForm ( dependencies, state, options ) {
+function pluginForm ( setupPlugin, options={} ) {
 
     let 
-                  { currentContext, shortcuts, ERROR_EVENT_NAME } = state
-                , { inAPI } = dependencies
-                , deps = {
-                               ev: dependencies.ev
-                             , mainDependencies : dependencies
+                 deps = {
+                               _defaults
                              , regex : /FORM\s*\:/i
-                             , _defaults
                         }
                 , pluginState = {
-                                  currentContext
-                                , shortcuts
-                                , callbacks : {} // Functions callbacks arranged by 'type/timing' : [ callback, ...otherCallbacks ]
+                                  callbacks : {} // Functions callbacks arranged by 'type/timing' : [ callback, ...otherCallbacks ]
                                 , typeFn    : '' // Type definition function
                                 , watchList : [] // list of watched elements
                                 , wait      : {} // wait time for 'instant' mode
-                                , ERROR_EVENT_NAME
                             } // pluginState
                 ;
     function resetState () {
@@ -55,12 +48,12 @@ function pluginForm ( dependencies, state, options ) {
       } // resetState func.
     deps.resetState = resetState
 
-
-    return inAPI._setupPlugin ({
+    return setupPlugin ({
                         prefix : 'form'
                       , _normalizeShortcutName
                       , _registerShortcutEvents
                       , _listenDOM
+                      
                       , pluginState
                       , deps
                   })

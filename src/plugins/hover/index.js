@@ -7,26 +7,25 @@ import _registerShortcutEvents from "./_registerShortcutEvents"
 
 
 
-function pluginHover ( dependencies, state, options ) {
+function pluginHover ( setupPlugin, options={} ) {
         let 
-                  { currentContext, shortcuts } = state
-                , { inAPI } = dependencies
-                , deps = {
-                                ev: dependencies.ev
-                             , _findTarget
-                             , mainDependencies : dependencies
+                 deps = {
+                               _findTarget
                              , regex : /HOVER\s*\:/i
                         }
                 , pluginState = {
-                                  currentContext          // { name, note } of the current context
-                                , active : false          // Plugin activity state
+                                //   currentContext       // { name, note } of the current context
+                                  active : false          // Plugin activity state
                                 , hovered : false         // False or the hovered HTML element
                                 , hoverRectangle : null   // Hovered HTML element rectangle
                                 , hoverTimer : null       // Timeout for reducing hover on events
                                 , leaveTimer : null       // Timeout for reducing hover off events
                                 , lastEvent  : ''         // 'on' or 'off'. Last executed hover event 
                                 , lastHoverTarget : null  // Last hovered HTML element or null
-                                , shortcuts
+                                , defaultOptions : {
+                                                hoverTarget : 'hover',
+                                                wait : 320  // 320 ms
+                                                }
                                 , listenOptions  : {
                                                 hoverTarget : 'hover',
                                                 wait : 320  // 320 ms
@@ -46,7 +45,7 @@ function pluginHover ( dependencies, state, options ) {
             } // resetState func.
         deps.resetState = resetState
 
-        return inAPI._setupPlugin ( {
+        return setupPlugin ({
                                   prefix : 'hover'
                                 , _normalizeShortcutName
                                 , _registerShortcutEvents
