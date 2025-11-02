@@ -76,7 +76,9 @@ describe ( 'Scroll plugin', () => {
 
       afterEach ( async  () => {
                   short.reset ();
+                  html.destroy ()
                   a = false, b = false, c = null;
+                  document.body.querySelector ( '#app' ).remove ()
           }) // afterEach
 
 

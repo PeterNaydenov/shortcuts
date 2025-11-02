@@ -100,6 +100,15 @@ describe ( 'Click plugin', () => {
           }) // beforeEach
 
 
+      afterEach ( async  () => {
+                  short.reset ();
+                  short.disablePlugin ( 'click' )
+                  html.destroy ();
+                   a = false, b = false, c = null, d = null;
+                  document.body.querySelector ( '#app' ).remove ()
+          }) // afterEach
+
+
 
       afterEach ( async  () => {
                   short.reset ();

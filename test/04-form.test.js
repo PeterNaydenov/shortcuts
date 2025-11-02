@@ -7,7 +7,8 @@ import {
   queryByTestId,
   // Tip: all queries are also exposed on an object
   // called "queries" which you could import here as well
-  waitFor
+  waitFor,
+  fireEvent
 } from '@testing-library/dom'
 
 
@@ -81,8 +82,12 @@ describe ( 'Form plugin', () => {
 
 
       afterEach ( async  () => {
+                        html.destroy ()
                         short.reset ()
+                        short.disablePlugin ( 'form' )
+                        short.disablePlugin ( 'click' )
                         a = false, b = false, c = null;
+                        document.body.querySelector ( '#app' ).remove ()
                 }) // afterEach
 
 
@@ -173,7 +178,7 @@ describe ( 'Form plugin', () => {
                          short.setDependencies ({ storage })
                          const contextExtension = {
                                          local: {
-                                                         'form:watch' : ({ dependencies}) => {
+                                                         'form:watch' : ({ dependencies }) => {
                                                                         const { storage } = dependencies;
                                                                         storage.push ( 'watch' )      
                                                                         return 'input'
@@ -226,44 +231,54 @@ describe ( 'Form plugin', () => {
 
 
         it ( 'Reveal and click', async () => {
+                        // Clear any existing plugins first to ensure clean state
                         short.enablePlugin ( pluginForm )
-                        short.enablePlugin ( pluginClick )
+                        let x = short.enablePlugin ( pluginClick )
+
                         let sum = 0;
                         const contextExtension = {
-                                        local: {
-                                                        'form:action' : ({ dependencies }) => [
+                                        reveal : {
+
+                                                          'click : left-1': ({ dependencies, target }) => {
+                                                                                if ( target.dataset.click === 'red' )    sum = 1
+                                                                        } // click:left-1
+                                                        , 'form:action' : ({ dependencies }) => [
                                                                         {
                                                                                 fn : ({ target }) => {
                                                                                         // dependencies are available here as named argument as well
                                                                                         // But if I have 20 actions, I need to add 20 times 'dependencies'
                                                                                          if ( target.id === 'name' ) {
-                                                                                                 const hidden = document.getElementById ( 'hidden' )
-                                                                                                 hidden.classList.remove ( 'hide' )
-                                                                                            } // if target.id === name
-                                                                                         
+                                                                                                    const hidden = document.getElementById ( 'hidden' )
+                                                                                                    hidden.classList.remove ( 'hide' )
+                                                                                                } 
                                                                                      }
                                                                                 , type : 'input'
                                                                                 , timing : 'instant'
-                                                                        }] , // form:action
-                                                        'click:left-1': ({ dependencies, target }) => {
-                                                                                if ( target.id === 'hidden' )    sum = 1
-                                                                        } // click:left-1
+                                                                        }] // form:action
                                                 }
                                 };
                         short.load ( contextExtension )
-                        short.changeContext ( 'local' )
+                        short.changeContext ( 'reveal' )
                         let 
                              input = document.getElementById ( 'name' )
                            , hidden = document.getElementById ( 'hidden' )
+                           , red = document.getElementById ( 'rspan' )
                            ;
+                           
                         input.focus ()
                         await userEvent.keyboard ( 'hello' )
-                        await userEvent.click ( hidden )
-                        await wait ( 300 )
                         await waitFor ( () => {
+                                        expect ( getComputedStyle(hidden).display ).to.not.equal ( 'none' )
+                                })
+                        // Wait for any pending timers from previous tests to clear
+                        await wait ( 350 )
+                
+                        await userEvent.click ( red )
+                        await wait ( 350 )
+                        await waitFor ( () => {
+                                        // console.log ( sum )
                                         expect ( sum ).to.equal ( 1 )
-                                        expect ( hidden.classList.contains ( 'hide' ) ).to.be.false
-                                }, { timeout: 1000, interval: 20 })
+                                }, { timeout: 1000, interval: 12 })
              }) // it Reveal and click
       
 }) // describe

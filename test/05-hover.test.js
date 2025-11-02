@@ -90,6 +90,15 @@ describe ( 'Hover plugin', () => {
           }) // beforeEach
 
 
+      afterEach ( async  () => {
+                  short.reset ();
+                  short.disablePlugin ( 'hover' )
+                  html.destroy ()
+                  a = false, b = false, c = null;
+                  document.body.querySelector ( '#app' ).remove ()
+          }) // afterEach
+
+
 
       afterEach ( async  () => {
                   short.reset ();

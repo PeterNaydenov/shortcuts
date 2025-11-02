@@ -30,6 +30,7 @@ let
        a = false
      , b = false
      , c = null
+     , container
      ;
 
 const contextDefinition = {
@@ -71,21 +72,25 @@ let short = shortcuts ();
 
 describe ( 'Key plugin', () => {
 
-      beforeEach ( async  () => {
-                    short.load ( contextDefinition )
-                    let container = document.createElement ( 'div' )
-                    container.id = 'app'
-                    document.body.appendChild ( container )
-                    await html.publish ( Block, {}, 'app' )
-                    a = false, b = false
-          }) // beforeEach
+       beforeEach ( async  () => {
+                     short.load ( contextDefinition )
+                     container = document.createElement ( 'div' )
+                     container.id = 'app'
+                     document.body.appendChild ( container )
+                     await html.publish ( Block, {}, 'app' )
+                     a = false, b = false
+           }) // beforeEach
 
 
 
-      afterEach ( async  () => {
-                  short.reset ()
-                  a = false, b = false, c = null;
-          }) // afterEach
+       afterEach ( async  () => {
+                   short.reset ()
+                   short.disablePlugin ( 'key' )
+                   if (container && document.body.contains(container)) {
+                              document.body.removeChild(container);
+                        }
+                   a = false, b = false, c = null;
+           }) // afterEach
 
 
 
@@ -156,6 +161,7 @@ describe ( 'Key plugin', () => {
 
                 // Test 1: Plugin should work normally
                 await userEvent.keyboard ( 'xyz' )
+                await wait ( 480 ) 
                 await waitFor ( () => {
                           // We checking if the shortcut works
                           expect ( result ).to.have.lengthOf ( 2 )
@@ -171,9 +177,11 @@ describe ( 'Key plugin', () => {
                           expect ( i ).to.equal ( 1 )
                     }, { timeout: 1000, interval: 12 })
 
+                    
                 // Test 3: Unmute plugin - should work again
                 short.unmutePlugin ( 'key' )
                 await userEvent.keyboard ( 'xyz' )
+                await wait ( 480 )
                 await waitFor ( () => {
                           // Plugin is unmuted, should work again
                           expect ( result ).to.have.lengthOf ( 3 )
@@ -399,5 +407,30 @@ describe ( 'Key plugin', () => {
                         await userEvent.keyboard ( '{Escape}' )
                         expect ( emitted ).to.deep.equal ( [] )
             }) // it stop a plugin durring a sequence
+
+
+
+      it ( 'Key setup event', async () => {
+                        let emitted = [];
+                        short.setDependencies ({ emitted })
+                        short.load ({
+                              'local' : {
+                                            'key: a' : ({ wait, ignore, dependencies, isWaiting, type, end }) => {
+                                                                  dependencies.emitted.push ( 'a' )
+                                                      }
+                                            , 'key: setup' : ({ dependencies, defaults }) => {
+                                                                  dependencies.emitted.push ( 'setup' )
+                                                                  expect ( defaults.keyWait ).to.equal ( 480 )
+                                                                  // Setup should return an object with required param changes
+                                                                  return { keyWait: 410 }
+                                                      }
+                                          }
+                              })
+                         
+                        short.enablePlugin ( pluginKey )
+                        short.changeContext ( 'local' )
+                        await userEvent.keyboard ( 'a' )
+                        expect ( emitted ).to.deep.equal ( [ 'setup', 'a' ] )
+            }) // it key setup
 
 })
