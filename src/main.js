@@ -95,8 +95,6 @@ function main ( options = {} ) {
                             , extra : {}
                         };
 
-
-
     // ----------------------  > PLUGIN METHODS < ---------------------- //
     /**
      * @function enablePlugin
@@ -105,18 +103,20 @@ function main ( options = {} ) {
      */
     API.enablePlugin = ( plugin, options={}) => {
                 if ( typeof plugin !== 'function' ) return
-                let plugApp = plugin ( dependencies, state, options )
+                const setupPlugin = inAPI._setupPlugin
+                let plugApp = plugin ( setupPlugin, options )
                 const 
                       name = plugApp.getPrefix ()
                     , ix = inAPI._systemAction ( name, 'none' )
                     ;
-
                 if ( ix === -1 ) {   // If plugin is not registered
                             // Started instance of the plugin
                             state.plugins.push ( plugApp )
+                            plugApp.unmute ()
                     }
                 else {
                             plugApp.destroy ()
+                            state.plugins[ix].unmute ()
                     }
       } // enable func.
 
@@ -129,7 +129,7 @@ function main ( options = {} ) {
      */
     API.disablePlugin = pluginName => { 
                 const ix = inAPI._systemAction ( pluginName, 'destroy' );
-                if ( ix !== -1 )   state.plugins = state.plugins.filter ( (plugin, i) => i !== ix )
+                if ( ix !== -1 )   state.plugins.splice ( ix, 1 )
       } // disable func.
 
 
@@ -227,7 +227,7 @@ function main ( options = {} ) {
      * @param {object} deps - Enumerate external dependencies
      * @returns {void}
      */
-    API.setDependencies = deps => dependencies.extra = { ...dependencies.extra, ...deps }
+    API.setDependencies = deps => Object.assign ( dependencies.extra, deps ) 
 
     /**
      * @function getDependencies
