@@ -29,6 +29,7 @@ return function load ( shortcutsUpdate ) {
                                           name = title
                                         , test = title.toUpperCase().trim()
                                         ;
+                                        
                                     let pluginIndexList = pluginPrefixList.map ( (prefix,i) => test.startsWith ( prefix ) ? i : null ).filter ( i => i !== null );
                                     if ( pluginIndexList.length ) {
                                                 let id = pluginIndexList[0];
