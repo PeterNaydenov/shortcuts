@@ -2,6 +2,13 @@ function _setupPlugin ( dependencies, state ) {
     
 const { inAPI } = dependencies;
 
+const { 
+          currentContext
+        , shortcuts
+        , exposeShortcut 
+        , ERROR_EVENT_NAME
+    } = state
+
 return function _setupPlugin ( settings ) {
     const {
                    prefix                 // Plugin prefix (string)
@@ -14,17 +21,26 @@ return function _setupPlugin ( settings ) {
             } = settings
         , { resetState } = deps  // Reset plugin state (function)
         ;
+
+    pluginState.currentContext = currentContext
+    pluginState.shortcuts = shortcuts
+    pluginState.exposeShortcut = exposeShortcut
+    pluginState.ERROR_EVENT_NAME = ERROR_EVENT_NAME
+
+    
+    
+    const plugDeps = {
+                ev: dependencies.ev
+              , extra: dependencies.extra
+              , ...deps
+        }
     
     // Read shortcuts names from all context entities and normalize entries related to the plugin
     inAPI._normalizeWithPlugins ( _normalizeShortcutName )
 
-    let 
-             listener = _listenDOM ( deps, pluginState )   // DOM listener object with 'start' and 'stop' methods
-           , countShortcuts = _registerShortcutEvents ( deps, pluginState )
-           ;
-
-     if ( countShortcuts > 0 )   listener.start ()
-
+    let countShortcuts = _registerShortcutEvents ( plugDeps, pluginState );
+    let listener       = _listenDOM ( plugDeps, pluginState )   // DOM listener object with 'start' and 'stop' methods
+    if ( countShortcuts > 0 )   listener.start ()
 
     let pluginAPI = {
                               getPrefix       : () => prefix
@@ -33,7 +49,7 @@ return function _setupPlugin ( settings ) {
                                                 }
                             , contextChange : () => {
                                                 resetState ()
-                                                countShortcuts = _registerShortcutEvents ( deps, pluginState )
+                                                countShortcuts = _registerShortcutEvents ( plugDeps, pluginState )
                                                 if ( countShortcuts < 1 ) {  // Remove DOM listener if there are no shortcuts in the current context
                                                                 listener.stop ()
                                                     } 
