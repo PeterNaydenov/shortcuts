@@ -1,5 +1,12 @@
 'use strict'
 
+/**
+ * @function load
+ * @description Load a context with shortcuts object
+ * @param {dependencies} dependencies - Dependencies object containing API with changeContext and getContext
+ * @param {state} state - State object containing shortcuts and plugins
+ * @returns {function} - Returns a function that loads shortcuts
+ */
 function load ( dependencies, state ) {
 const 
           { shortcuts, plugins } = state

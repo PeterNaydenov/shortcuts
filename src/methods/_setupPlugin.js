@@ -1,3 +1,10 @@
+/**
+ * @function _setupPlugin
+ * @description Setup a plugin with provided settings and dependencies
+ * @param {dependencies} dependencies - Dependencies object containing ev, extra, inAPI, API
+ * @param {state} state - State object containing currentContext, shortcuts, exposeShortcut, ERROR_EVENT_NAME
+ * @returns {function} - Returns a function that takes plugin settings and returns plugin API
+ */
 function _setupPlugin ( dependencies, state ) {
     
 const { inAPI } = dependencies;
@@ -9,6 +16,18 @@ const {
         , ERROR_EVENT_NAME
     } = state
 
+/**
+ * @function _setupPlugin
+ * @description Setup a plugin with provided settings
+ * @param {Object} settings - Plugin configuration object
+ * @param {string} settings.prefix - Plugin prefix
+ * @param {function} settings._normalizeShortcutName - Normalize shortcut plugin method
+ * @param {function} settings._registerShortcutEvents - Register shortcut plugin method
+ * @param {function} settings._listenDOM - DOM listener plugin method
+ * @param {Object} settings.pluginState - Plugin state object
+ * @param {Object} settings.deps - Plugin dependencies object
+ * @returns {PluginAPI} - Plugin API object with methods
+ */
 return function _setupPlugin ( settings ) {
     const {
                    prefix                 // Plugin prefix (string)

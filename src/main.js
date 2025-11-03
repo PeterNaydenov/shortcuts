@@ -1,6 +1,23 @@
 'use strict'
 
 /**
+ * @typedef {Object} dependencies
+ * @property {Object} ev - Event emitter instance
+ * @property {Object} inAPI - Internal API object
+ * @property {Object} API - Public API object
+ * @property {Object} extra - Extra dependencies object
+ */
+
+/**
+ * @typedef {Object} state
+ * @property {Object} currentContext - Current context data container with name and note properties
+ * @property {Object} shortcuts - Shortcuts object: { contextName : { shortcut : callback[] } }
+ * @property {Array} plugins - Array of active plugins
+ * @property {Function|null} exposeShortcut - Keyboard shortcut log function
+ * @property {string} ERROR_EVENT_NAME - Name for error events
+ */
+
+/**
  * @typedef {Object} PluginAPI
  * @property {function(): string} getPrefix - Get plugin prefix
  * @property {function(string): string} shortcutName - Format shortcut name
@@ -11,8 +28,14 @@
  */
 
 /**
+ * @typedef {Object} contextShortcuts
+ * @property {string} context - Context name
+ * @property {string[]} shortcuts - List of shortcuts in a context
+ */
+
+/**
  * @typedef {Object} ShortcutsAPI
- * @property {function(function, Object): void} enablePlugin - Enable a plugin
+ * @property {function(Function, Object): void} enablePlugin - Enable a plugin
  * @property {function(string): void} disablePlugin - Disable a plugin
  * @property {function(string): number} mutePlugin - Mute a plugin
  * @property {function(string): number} unmutePlugin - Unmute a plugin
@@ -28,7 +51,7 @@
  * @property {function(): Object} getDependencies - Get external dependencies
  * @property {function(): void} reset - Reset the library instance
  * @property {function(string|boolean): void} changeContext - Change current context
- * @property {function(string|null): string[]|Object[]} listShortcuts - List shortcuts
+ * @property {function(string|null): string[]|contextShortcuts[]|null} listShortcuts - List shortcuts
  * @property {function(Object): void} load - Load shortcuts into contexts
  * @property {function(string): void} unload - Unload a context
  */
@@ -99,6 +122,8 @@ function main ( options = {} ) {
     /**
      * @function enablePlugin
      * @description Enable a plugin
+     * @param {Function} plugin - Plugin function to enable
+     * @param {Object} [options={}] - Plugin configuration options
      * @returns {void}
      */
     API.enablePlugin = ( plugin, options={}) => {
@@ -125,6 +150,7 @@ function main ( options = {} ) {
     /**
      * @function disablePlugin
      * @description Disable a plugin
+     * @param {string} pluginName - Name of the plugin to disable
      * @returns {void}
      */
     API.disablePlugin = pluginName => { 
@@ -136,14 +162,16 @@ function main ( options = {} ) {
     /**
      * @function mutePlugin
      * @description Mute a plugin
-     * @returns number - Index of the plugin in the plugins array ( -1 if not found ).
+     * @param {string} pluginName - Name of the plugin to mute
+     * @returns {number} - Index of the plugin in the plugins array ( -1 if not found )
      */
     API.mutePlugin = pluginName => inAPI._systemAction ( pluginName, 'mute'   )
 
     /**
-     * @function unmute
+     * @function unmutePlugin
      * @description Unmute a plugin
-     * @returns number - Index of the plugin in the plugins array ( -1 if not found ).
+     * @param {string} pluginName - Name of the plugin to unmute
+     * @returns {number} - Index of the plugin in the plugins array ( -1 if not found )
      */
     API.unmutePlugin = pluginName => inAPI._systemAction ( pluginName, 'unmute' )
 
@@ -224,7 +252,7 @@ function main ( options = {} ) {
     /**
      * @function setDependencies
      * @description Set a dependency package that will be provided to each action function
-     * @param {object} deps - Enumerate external dependencies
+     * @param {Object} deps - Enumerate external dependencies
      * @returns {void}
      */
     API.setDependencies = deps => Object.assign ( dependencies.extra, deps ) 
@@ -232,7 +260,7 @@ function main ( options = {} ) {
     /**
      * @function getDependencies
      * @description Get a dependency package that will be provided to each action function
-     * @returns {object} - Enumerate external dependencies
+     * @returns {Object} - Enumerate external dependencies
      **/
     API.getDependencies = () => dependencies.extra
 

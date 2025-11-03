@@ -7,6 +7,15 @@ import _registerShortcutEvents from "./_registerShortcutEvents"
 
 
 
+/**
+ * @function pluginHover
+ * @description Plugin for mouse hover shortcuts
+ * @param {function} setupPlugin - Plugin setup function from the library
+ * @param {Object} [options={}] - Plugin options
+ * @param {string} [options.hoverTarget='hover'] - Data attribute name for hover targets
+ * @param {number} [options.wait=320] - Time to wait for hover sequence in ms
+ * @returns {PluginAPI} Plugin API
+ */
 function pluginHover ( setupPlugin, options={} ) {
         let 
                  deps = {

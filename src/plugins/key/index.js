@@ -1,14 +1,6 @@
 'use strict'
 
-/**
- * @typedef {Object} PluginAPI
- * @property {function(): string} getPrefix - Get plugin prefix
- * @property {function(string): string} shortcutName - Format shortcut name
- * @property {function(string): void} contextChange - Handle context change
- * @property {function(): void} mute - Mute the plugin
- * @property {function(): void} unmute - Unmute the plugin
- * @property {function(): void} destroy - Destroy the plugin
- */
+
 
 // import all plugin files here
 import _listenDOM              from './_listenDOM.js'
@@ -22,8 +14,7 @@ import _specialChars           from './_specialChars.js'
 /**
  * @function pluginKey
  * @description Plugin for keyboard shortcuts
- * @param {Object} dependencies - Internal dependencies
- * @param {Object} state - Library state
+ * @param {function} setupPlugin - Plugin setup function from the library
  * @param {Object} [options={}] - Plugin options
  * @param {number} [options.keyWait=480] - Time to wait for key sequence in ms
  * @param {function} [options.streamKeys] - Function to stream key presses

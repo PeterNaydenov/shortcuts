@@ -1,5 +1,11 @@
 'use strict'
 
+/**
+ * @function _normalizeShortcutName
+ * @description Normalize click shortcut name to standard format
+ * @param {string} name - Raw shortcut name
+ * @returns {string} - Normalized shortcut name
+ */
 function _normalizeShortcutName ( name ) {
             const 
                   upperCase = name.toUpperCase ()

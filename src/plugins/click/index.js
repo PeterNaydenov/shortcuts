@@ -1,14 +1,6 @@
 'use strict'
 
-/**
- * @typedef {Object} PluginAPI
- * @property {function(): string} getPrefix - Get plugin prefix
- * @property {function(string): string} shortcutName - Format shortcut name
- * @property {function(string): void} contextChange - Handle context change
- * @property {function(): void} mute - Mute the plugin
- * @property {function(): void} unmute - Unmute the plugin
- * @property {function(): void} destroy - Destroy the plugin
- */
+
 
 import _findTarget              from "./_findTarget"
 import _listenDOM              from "./_listenDOM"
@@ -22,11 +14,11 @@ import _registerShortcutEvents from "./_registerShortcutEvents"
 /**
  * @function pluginClick
  * @description Plugin for mouse click shortcuts
- * @param {Object} dependencies - Internal dependencies
- * @param {Object} state - Library state
+ * @param {function} setupPlugin - Plugin setup function from the library
  * @param {Object} [options={}] - Plugin options
  * @param {number} [options.mouseWait=320] - Time to wait for click sequence in ms
  * @param {string} [options.clickTarget='click'] - Data attribute name for click targets
+ * @param {function} [options.streamKeys] - Function to stream key presses
  * @returns {PluginAPI} Plugin API
  */
 function pluginClick ( setupPlugin, options = {}) {
