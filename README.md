@@ -13,13 +13,42 @@ Currently existing plugins:
 - `key`   - Converts keyboard events to shortcuts;
 - `click` - Converts mouse events to shortcuts;
 - `form`  - Form element changes to shortcuts;
-
-Planned work on plugins: `scroll`, `drag-drop`, etc.
+- `hover` - Mouse hover events to shortcuts;
+- `scroll` - Scroll events to shortcuts;
 
 
 
 ## Shortcut Description Rules
 The shortcuts definition includes a context name and a set of rules(object). The rules are a set of key-value pairs. The key is a shortcut name and the value is a function or array of functions, to be executed when the shortcut is triggered (action function).
+
+### Per-Context Plugin Setup (Preferred Method)
+Every plugin supports a `setup` event (e.g., `key:setup`, `click:setup`, `hover:setup`, `scroll:setup`) that allows you to configure plugin settings specifically for that context. This is the **preferred method** for customizing plugins as it provides:
+
+- **Context-specific configuration** - Different settings for different contexts
+- **Cleaner code** - No global plugin options needed
+- **Better maintainability** - Settings are defined alongside the shortcuts they affect
+
+The setup function receives:
+- `dependencies` - External dependencies set via `setDependencies()`
+- `defaults` - Default plugin options as a starting point
+
+Example pattern:
+```js
+const shortcutDefinition = {
+    context1: {
+        'plugin:setup': ({ dependencies, defaults }) => {
+            return {
+                // Override specific options for this context
+                option1: 'customValue1',
+                option2: 123
+            };
+        },
+        'plugin:event': () => { /* your action */ }
+    }
+};
+```
+
+See individual plugin sections for specific setup examples.
 
 ```js
 // { context: { shortcutName: actionFunction } }
@@ -50,9 +79,9 @@ Load a shortcut definition by calling `load` method.
 
 ```js
 // for es6 module projects:
-import { shortcuts, pluginKey, pluginClick, pluginForm } from '@peter.naydenov/shortcuts'
+import { shortcuts, pluginKey, pluginClick, pluginForm, pluginHover, pluginScroll } from '@peter.naydenov/shortcuts'
 // for commonjs projects:
-const { shortcuts, pluginKey, pluginClick, pluginForm } = require('@peter.naydenov/shortcuts')
+const { shortcuts, pluginKey, pluginClick, pluginForm, pluginHover, pluginScroll } = require('@peter.naydenov/shortcuts')
 
 
 
@@ -76,7 +105,228 @@ To deactivate a context without starting other context, call `changeContext` met
 
 ```js
 short.changeContext ()
-``` 
+```
+
+
+## Plugin 'hover' Shortcut Descriptions
+`Hover` plugin is used to detect when mouse enters or leaves specific HTML elements. The plugin supports two main events: hover on and hover off.
+
+```js
+hover:on    // Triggered when mouse enters a target element
+hover:off   // Triggered when mouse leaves a target element
+```
+
+### Define Hover Targets
+Target HTML elements for `hover` plugin are defined by `data-hover` attribute. The value of the attribute is the name of the target. Example:
+
+```html
+<div data-hover="menu">Menu content</div>
+<!-- target name is 'menu' -->
+```
+
+Attribute is customizable by setting `hoverTarget` hover plugin option. Read more in section `Options`.
+
+
+
+### Hover Action Functions
+Hover plugin action functions receive the following arguments:
+
+```js
+function myHoverHandler ({
+                  context     // (string) Name of the current context;
+                , note        // (string) Name of the note or null if note isn't set;
+                , dependencies // (object) Object with dependencies that you have set by calling `setDependencies` method;
+                , target      // (DOM element). Target element of the hover event;
+                , targetProps // (object). Coordinates of the target element (top, left, right, bottom, width, height) or null if target element is not available;
+                , x           // (number). X coordinate of the target element;
+                , y           // (number). Y coordinate of the target element;
+                , event       // (object). Original hover event object;
+          }) {
+    // Body of the handler. Do something...
+}
+```
+
+### Hover Detection Timing
+Hover events are detected with a delay to avoid triggering when mouse quickly moves over elements. The default delay is 320ms but you can change it by setting `wait` hover plugin option.
+
+```js
+short.enablePlugin ( pluginHover, { wait: 500 }) // set the delay to 500ms
+```
+
+### Per-Context Setup (Preferred Method)
+Instead of global plugin options, you can use `hover:setup` event to configure plugin settings per context. This is the preferred method for customization.
+
+```js
+const shortcutDefinition = {
+    navigation: {
+        'hover:setup': ({ dependencies, defaults }) => {
+            // Customize hover settings for this context only
+            return {
+                wait: 200,           // Faster hover detection for navigation
+                hoverTarget: 'nav-item' // Custom attribute name
+            };
+        },
+        'hover:on': ({ target }) => {
+            target.classList.add('active');
+        },
+        'hover:off': ({ target }) => {
+            target.classList.remove('active');
+        }
+    },
+    slowTooltips: {
+        'hover:setup': ({ dependencies, defaults }) => {
+            // Slower hover detection for tooltips
+            return {
+                wait: 800,           // Slower hover detection
+                hoverTarget: 'tooltip' // Different attribute for tooltips
+            };
+        },
+        'hover:on': ({ target }) => {
+            // Show tooltip with delay
+            setTimeout(() => target.classList.add('visible'), 100);
+        }
+    }
+};
+
+short.enablePlugin(pluginHover);
+short.load(shortcutDefinition);
+short.changeContext('navigation'); // Uses navigation settings
+// short.changeContext('slowTooltips'); // Uses tooltip settings
+```
+
+The `hover:setup` function receives:
+- `dependencies` - External dependencies set via `setDependencies()`
+- `defaults` - Default plugin options as a starting point or just for reference
+
+Example usage:
+
+```js
+const shortcutDefinition = {
+    navigation: {
+        'hover:on': ({ target }) => {
+            // Mouse entered the target
+            target.classList.add('active');
+        },
+        'hover:off': ({ target }) => {
+            // Mouse left the target
+            target.classList.remove('active');
+        }
+    }
+};
+
+short.enablePlugin(pluginHover);
+short.load(shortcutDefinition);
+short.changeContext('navigation');
+```
+
+## Plugin 'scroll' Shortcut Descriptions
+`Scroll` plugin is used to detect scroll events on the page. The plugin supports four main scroll directions:
+
+```js
+scroll:up     // Triggered when scrolling up
+scroll:down   // Triggered when scrolling down
+scroll:left   // Triggered when scrolling left
+scroll:right  // Triggered when scrolling right
+scroll:end    // Triggered when scrolling stops (after endScrollWait timeout)
+```
+
+### Scroll Detection Settings
+Scroll events are detected with specific timing and distance thresholds to avoid excessive triggering. The default settings are:
+
+- `scrollWait`: 50ms - Delay between scroll events
+- `endScrollWait`: 400ms - Delay when scroll was stopped
+- `minSpace`: 40px - Minimum distance between scroll events
+
+These can be customized by setting scroll plugin options:
+
+```js
+short.enablePlugin ( pluginScroll, { 
+    scrollWait: 100,      // set delay to 100ms
+    endScrollWait: 600,   // set end scroll delay to 600ms
+    minSpace: 60          // set minimum distance to 60px
+})
+```
+
+### Per-Context Setup (Preferred Method)
+Instead of global plugin options, you can use `scroll:setup` event to configure plugin settings per context. This is preferred method for customization.
+
+```js
+const shortcutDefinition = {
+    sensitiveScrolling: {
+        'scroll:setup': ({ dependencies, defaults }) => {
+            // High sensitivity for gaming or precise interactions
+            return {
+                scrollWait: 20,       // Very responsive
+                endScrollWait: 200,   // Quick end detection
+                minSpace: 20          // Small movements trigger
+            };
+        },
+        'scroll:up': () => console.log('Sensitive scroll up'),
+        'scroll:down': () => console.log('Sensitive scroll down'),
+        'scroll:end': () => console.log('Sensitive scroll ended')
+    },
+    lazyScrolling: {
+        'scroll:setup': ({ dependencies, defaults }) => {
+            // Low sensitivity for reading or casual browsing
+            return {
+                scrollWait: 150,      // Less responsive
+                endScrollWait: 800,   // Slow end detection
+                minSpace: 80          // Larger movements needed
+            };
+        },
+        'scroll:up': () => console.log('Lazy scroll up'),
+        'scroll:down': () => console.log('Lazy scroll down'),
+        'scroll:end': () => console.log('Lazy scroll ended')
+    }
+};
+
+short.enablePlugin(pluginScroll);
+short.load(shortcutDefinition);
+short.changeContext('sensitiveScrolling'); // Uses sensitive settings
+// short.changeContext('lazyScrolling'); // Uses lazy settings
+```
+
+The `scroll:setup` function receives:
+- `dependencies` - External dependencies set via `setDependencies()`
+- `defaults` - Default plugin options as a starting point
+
+### Scroll Action Functions
+Scroll plugin action functions receive the following arguments:
+
+```js
+function myScrollHandler ({
+                  context     // (string) Name of the current context;
+                , note        // (string) Name of the note or null if note isn't set;
+                , dependencies // (object) Object with dependencies that you have set by calling `setDependencies` method;
+                , event       // (object). Original scroll event object;
+          }) {
+    // Body of the handler. Do something...
+}
+```
+
+Example usage:
+
+```js
+const shortcutDefinition = {
+    scrollView: {
+        'scroll:up': () => {
+            console.log('User scrolled up');
+        },
+        'scroll:down': () => {
+            console.log('User scrolled down');
+        },
+        'scroll:end': () => {
+            console.log('User stopped scrolling');
+        }
+    }
+};
+
+short.enablePlugin(pluginScroll);
+short.load(shortcutDefinition);
+short.changeContext('scrollView');
+```
+
+```
 
 Shortcuts context has `note` that works like sub-contexts. Every shortcut function receives a context and note as arguments, so you can have fine control over the context.
 
@@ -150,6 +400,50 @@ Multiple clicks are detected automatically by time interval between clicks. The 
 ```js
  short.enablePlugin ( pluginClick, { mouseWait: 500 }) // set the interval to 500ms
 ```
+
+### Per-Context Setup (Preferred Method)
+Instead of global plugin options, you can use `click:setup` event to configure plugin settings per context. This is preferred method for customization.
+
+```js
+const shortcutDefinition = {
+    fastClicking: {
+        'click:setup': ({ dependencies, defaults }) => {
+            // Fast clicking for gaming or rapid interactions
+            return {
+                mouseWait: 150,      // Very fast click detection
+                clickTarget: 'game-btn' // Custom attribute for game buttons
+            };
+        },
+        'click:left-1': ({ target }) => {
+            console.log('Fast single click');
+        },
+        'click:left-2': ({ target }) => {
+            console.log('Fast double click');
+        }
+    },
+    slowClicking: {
+        'click:setup': ({ dependencies, defaults }) => {
+            // Slower clicking for form submissions or important actions
+            return {
+                mouseWait: 600,      // Slower click detection
+                clickTarget: 'form-action' // Custom attribute for form actions
+            };
+        },
+        'click:left-1': ({ target }) => {
+            console.log('Deliberate single click');
+        }
+    }
+};
+
+short.enablePlugin(pluginClick);
+short.load(shortcutDefinition);
+short.changeContext('fastClicking'); // Uses fast settings
+// short.changeContext('slowClicking'); // Uses slow settings
+```
+
+The `click:setup` function receives:
+- `dependencies` - External dependencies set via `setDependencies()`
+- `defaults` - Default plugin options as a starting point
 
 Read more in section `Options`.
 
@@ -225,6 +519,45 @@ Order of describing keyboard event and modifier keys is not important, but seque
 
 Keyboard sequence is detected automatically by time interval between key presses. The default interval is 480ms but you can change it by setting `keyWait` key plugin option. Read more in section `Options`. 
 
+### Per-Context Setup (Preferred Method)
+Instead of global plugin options, you can use `key:setup` event to configure plugin settings per context. This is preferred method for customization.
+
+```js
+const shortcutDefinition = {
+    fastTyping: {
+        'key:setup': ({ dependencies, defaults }) => {
+            // Fast key detection for gaming or rapid input
+            return {
+                keyWait: 200,       // Very fast sequence detection
+                streamKeys: (key) => console.log('Key pressed:', key) // Enable key streaming
+            };
+        },
+        'key:a,b,c': () => console.log('Fast sequence triggered'),
+        'key:ctrl+s': () => console.log('Fast save')
+    },
+    slowTyping: {
+        'key:setup': ({ dependencies, defaults }) => {
+            // Slower key detection for accessibility or careful input
+            return {
+                keyWait: 800,       // Slower sequence detection
+                streamKeys: false    // Disable key streaming
+            };
+        },
+        'key:a,b,c': () => console.log('Slow sequence triggered'),
+        'key:ctrl+s': () => console.log('Careful save')
+    }
+};
+
+short.enablePlugin(pluginKey);
+short.load(shortcutDefinition);
+short.changeContext('fastTyping'); // Uses fast settings
+// short.changeContext('slowTyping'); // Uses slow settings
+```
+
+The `key:setup` function receives:
+- `dependencies` - External dependencies set via `setDependencies()`
+- `defaults` - Default plugin options as a starting point
+
 There is a way to disable automatic sequence detection and mark the begining and the end of the sequense by using a keyboard action functions. Read more in section `Keyboard Action Functions`.
 
 Special characters that are available for your shortcut descriptions:
@@ -290,7 +623,7 @@ const shortcutScope = {
                       , timing : 'in' // on focus in
                     },
                     {
-                        // Dependecies is available in action functions
+                        // Dependencies is available in action functions
                         fn: ({target, dependencies }) => { console.log ( 'extra')}
                       , type : 'input'
                       , timing : 'in' // on focus in
@@ -328,6 +661,11 @@ const _defaults = {
 ```
 
 If you want to pause of resume event from `form` plugin, call `short.pause(eventName)` and `short.resume(eventName)` where eventName is a `${type}/${timing}`. Take type and timing from action definitions.
+
+### Per-Context Setup (Coming Soon)
+The `form:setup` event is planned for future versions to allow per-context configuration of form plugin settings. Currently, form plugin uses default settings or global plugin options.
+
+**Note**: In version 4.0.0, the `form:action` event now has access to `dependencies` at the top level, allowing you to minimize dependency declarations. Other named arguments are not available at the top level of `form:action`.
 
 
 
@@ -445,6 +783,19 @@ const short = shortcut ({onShortcut: (shortcut) => console.log(shortcut) }) // L
 , clickTarget   : 'Data attribute name to recognize click items in HTML. Default value - click' // data attribute 'click' means attribute ( data-click='someName' )
 ```
 
+### Plugin 'hover' options
+```js
+  wait          : 'Time to wait for hover sequence in ms. Default value - 320.'
+, hoverTarget   : 'Data attribute name to recognize hover items in HTML. Default value - hover' // data attribute 'hover' means attribute ( data-hover='someName' )
+```
+
+### Plugin 'scroll' options
+```js
+  scrollWait    : 'Delay between scroll events in ms. Default value - 50.'
+, endScrollWait : 'Delay when scroll was stopped in ms. Default value - 400.'
+, minSpace      : 'Minimum distance between scroll events in px. Default value - 40.'
+```
+
 Plugin options are provided as a second argument during the plugin enabling. It's look like this:
   
 ```js
@@ -456,6 +807,17 @@ Plugin options are provided as a second argument during the plugin enabling. It'
   short.enablePlugin ( pluginClick, {
                              mouseWait: 200     // set the interval between multiple clicks to 200ms
                            , clickTarget: 'puk' // data attribute 'puk' means attribute ( data-puk='someName' )
+                      })
+
+  short.enablePlugin ( pluginHover, {
+                             wait: 500         // set the hover delay to 500ms
+                           , hoverTarget: 'hover-me' // data attribute 'hover-me' means attribute ( data-hover-me='someName' )
+                      })
+
+  short.enablePlugin ( pluginScroll, {
+                             scrollWait: 100      // set the delay between scroll events to 100ms
+                           , endScrollWait: 600   // set the end scroll delay to 600ms
+                           , minSpace: 60         // set minimum distance to 60px
                       })
 
 ```
@@ -491,18 +853,22 @@ Plugin options are provided as a second argument during the plugin enabling. It'
 The library includes TypeScript definitions. Install the package and TypeScript will automatically detect the types.
 
 ```typescript
-import { shortcuts, pluginKey, pluginClick, pluginForm } from '@peter.naydenov/shortcuts';
+import { shortcuts, pluginKey, pluginClick, pluginForm, pluginHover, pluginScroll } from '@peter.naydenov/shortcuts';
 
 const short: ShortcutsAPI = shortcuts();
-short.enablePlugin(pluginKey);
-short.enablePlugin(pluginClick);
-short.enablePlugin(pluginForm);
+const shortcutPlugins = [ pluginKey, pluginClick, pluginForm, pluginHover, pluginScroll ];
+shortcutPlugins.forEach( plugin => short.enablePlugin(plugin) );
+
+
 
 // Type-safe shortcut definitions
 const shortcutDefinition = {
   myContext: {
     'key:ctrl+s': () => console.log('Saved'),
-    'click:left-1': (args: { target: HTMLElement }) => console.log('Clicked', args.target)
+    'click:left-1': (args: { target: HTMLElement }) => console.log('Clicked', args.target),
+    'hover:on': (args: { target: HTMLElement }) => console.log('Hovered', args.target),
+    'scroll:down': () => console.log('Scrolled down'),
+    'scroll:end': () => console.log('Scrolling ended')
   }
 };
 
