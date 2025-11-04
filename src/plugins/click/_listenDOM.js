@@ -29,10 +29,17 @@ function _listenDOM ( dependencies, state ) {
 
         function mouseSequenceEnd () {   // Execute when mouse sequence ends
                         if ( !mouseTarget ) return  // No valid target found
+                        let 
+                                  { left, top, width, height } = mouseTarget.target.getBoundingClientRect ()
+                                , scrollX = window.scrollX
+                                , scrollY = window.scrollY
+                                ;
                         const
                                   mouseEvent = _readClickEvent ( mouseDomEvent, count )
                                 , data = {
                                           target : mouseTarget
+                                          // TODO: Target props are delivered as viewport, sizes, position, pagePosition properties
+                                          // Should remove targetProps?
                                         , targetProps : mouseTarget.getBoundingClientRect()
                                         , x       : mouseDomEvent.clientX
                                         , y       : mouseDomEvent.clientY
@@ -40,6 +47,15 @@ function _listenDOM ( dependencies, state ) {
                                         , note    : currentContext.note
                                         , event   : mouseDomEvent
                                         , dependencies : extra
+                                        , viewport : {                                    // Viewport scroll positions and sizes
+                                                          X:scrollX
+                                                        , Y:scrollY 
+                                                        , width:window.innerWidth
+                                                        , height:window.innerHeight
+                                                }
+                                        , sizes    : { width, height }                     // Element sizes
+                                        , position : { x:left, y:top }                     // Position relative to viewport
+                                        , pagePosition : { x:left+scrollX, y:top+scrollY } // Position relative to page
                                         , type   : 'click'
                                 }
                                 ;

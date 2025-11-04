@@ -41,6 +41,7 @@ function _listenDOM ( dependencies, state ) {
 
     function keySequenceEnd () {   // Execute when key sequence ends
                     let res =  r.map ( x => ([x.join('+')])   )
+                    
                     const data = {
                                       wait: waitKeys
                                     , end:endKeys
@@ -49,6 +50,12 @@ function _listenDOM ( dependencies, state ) {
                                     , note: currentContext.note
                                     , context: currentContext.name
                                     , dependencies : extra
+                                    , viewport : { 
+                                              X : window.scrollX
+                                            , Y : window.scrollY
+                                            , width:window.innerWidth
+                                            , height:window.innerHeight 
+                                        }
                                     , type : 'key'
                             };
 

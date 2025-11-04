@@ -7,13 +7,26 @@ function _listenDOM ( dependencies, state ) {
         let timeout = null; 
 
         function setupData ( dependencies, state, event, type) {
+                let 
+                      { left, top, width, height } = event.target.getBoundingClientRect ()
+                    , scrollX = window.scrollX
+                    , scrollY = window.scrollY
+                    ;
                 return {
                           target : event.target
-                          // TODO: Find if is possible to add some size and positioning data
                         , context : state.currentContext.name
                         , note    : state.currentContext.note
                         , event   
                         , dependencies : dependencies.extra
+                        , viewport : {                                     // Viewport scroll positions and sizes
+                                  X:scrollX
+                                , Y:scrollY 
+                                , width:window.innerWidth
+                                , height:window.innerHeight
+                            }
+                        , sizes : { width, height }                        // Element sizes
+                        , position : { x:left, y:top }                     // Position relative to viewport
+                        , pagePosition : { x:left+scrollX, y:top+scrollY } // Position relative to page
                         , type
                     }
         } // setupData func.

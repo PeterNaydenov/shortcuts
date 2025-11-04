@@ -33,17 +33,21 @@ function listenForScroll ( event ) {
         if ( !lastPosition ) return; // No previous position to compare
 
         let direction = null;
-
         let
               currentX = window.scrollX
             , currentY = window.scrollY
             , verticalChange   = Math.abs ( currentY - lastPosition.y )
+            , horizontalChange = Math.abs ( currentX - lastPosition.x )
             ;
 
         // Reduce scroll events by space
         if ( verticalChange < minSpace )   return
         if ( currentY > lastPosition.y )   direction = 'down'
         else                               direction = 'up'
+
+        if ( horizontalChange < minSpace ) return
+        if ( currentX > lastPosition.x )   direction = 'right'
+        else                               direction = 'left'
 
         const getData = () => ({
                           x: currentX
@@ -52,6 +56,12 @@ function listenForScroll ( event ) {
                         , context: currentContext.name
                         , note: currentContext.note
                         , dependencies: extra
+                        , viewport : {                // Viewport scroll positions and sizes
+                                  X: currentX
+                                , Y: currentY
+                                , width: window.innerWidth
+                                , height: window.innerHeight
+                            }
                         , type: 'scroll'
                     })
 

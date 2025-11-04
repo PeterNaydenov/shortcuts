@@ -39,12 +39,27 @@ function listenForHover ( event ) {
             ;
 
         if ( inside( hoverRectangle, x, y ) )   return
+        let 
+              { left, top, width, height } = target.target.getBoundingClientRect ()
+            , scrollX = window.scrollX
+            , scrollY = window.scrollY
+            ;
+            
         const data = {
                       target
                     , context: state.currentContext.name
                     , note   : state.currentContext.note
                     , event
                     , dependencies : extra
+                    , viewport : {                                    // Viewport scroll positions
+                              X:scrollX
+                            , Y:scrollY
+                            , width : window.innerWidth
+                            , height : window.innerHeight 
+                        }
+                    , sizes : { width, height }                        // Element sizes
+                    , position : { x:left, y:top }                     // Position relative to viewport
+                    , pagePosition : { x:left+scrollX, y:top+scrollY } // Position relative to page
                     , type: 'hover'
                 }
         if ( target !== hovered ) {
