@@ -359,8 +359,63 @@ describe ( 'Hover plugin', () => {
                         await waitFor ( () => {
                                     expect ( b ).to.be.equal ( false )
                               }, { timeout: 1000, interval: 30 })
-            }) // it fast move over hover target
+            }) // it fast move over hover target 
+
+
+            
+      it ( 'Immediate hover switch between elements', async () => {
+                        // Test lines 91-93: immediate hover switch without delay
+                        let events = [];
+                        short.setDependencies ({ events })
+                        short.load ({
+                              'immediate' : {
+                                            'hover : on' : ({ target, dependencies }) => {
+                                                              let { events } = dependencies;
+                                                              events.push ( { type: 'on', target: target.dataset.hover || target.id } )
+                                                          }
+                                          , 'hover: off' : ({ target, dependencies }) => {
+                                                              let { events } = dependencies;
+                                                              events.push ( { type: 'off', target: target.dataset.hover || target.id } )
+                                                          }
+                                    }
+                              })
+                        
+                        short.enablePlugin ( pluginHover )
+                        short.changeContext ( 'immediate' )
+                        
+                        const 
+                                  firstTarget = document.querySelector ( '#rspan' )  // Has data-hover="red"
+                                , secondTarget = document.querySelector ( '[data-click="mega"]' )  // Has data-hover="blue"
+                                ;
+                        
+                        // Hover on first element
+                        await userEvent.hover ( firstTarget )
+                        await wait ( 320 )
+                        await waitFor ( () => {
+                                    expect ( events ).to.have.length ( 1 )
+                                    expect ( events[0] ).to.deep.equal ( { type: 'on', target: 'red' } )
+                              }, { timeout: 1000, interval: 12 })
+                        
+                        // Immediately hover on second element (tests lines 91-93)
+                        // This should trigger immediate HOVER:OFF for first element
+                        events.length = 0  // Reset events array
+                        await userEvent.hover ( secondTarget )
+                        await wait ( 50 )  // Very short wait to capture immediate events
+                        
+                        // Should have immediate OFF event for first element
+                        await waitFor ( () => {
+                                    expect ( events ).to.have.length ( 1 )
+                                    expect ( events[0] ).to.deep.equal ( { type: 'off', target: 'red' } )
+                              }, { timeout: 500, interval: 12 })
+                        
+                        // Wait for ON event for second element
+                        await wait ( 270 )  // Total 320ms wait
+                        await waitFor ( () => {
+                                    expect ( events ).to.have.length ( 2 )
+                                    expect ( events[1] ).to.deep.equal ( { type: 'on', target: 'blue' } )
+                              }, { timeout: 500, interval: 12 })
+            }) // it immediate hover switch between elements
 
       
    
-}) // describe
+ }) // describe
