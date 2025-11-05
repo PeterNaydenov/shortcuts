@@ -72,7 +72,7 @@ function _listenDOM ( dependencies, state ) {
 
 
         function listenLeftClick ( event ) {
-                        let targetMax = listenOptions.maxLeftClicks;  // Maximum number of clicks per target
+                        let targetMax = state.maxLeftClicks;  // Maximum number of clicks per target
                         clearTimeout ( mouseTimer )
                         if ( mouseIgnore ) {
                                     clearTimeout ( mouseIgnore )
@@ -96,7 +96,7 @@ function _listenDOM ( dependencies, state ) {
 
 
         function listenRightClick ( event ) {
-                        let targetMax = listenOptions.maxRightClicks;  // Maximum number of clicks per target
+                        let targetMax = state.maxRightClicks;  // Maximum number of clicks per target
                         clearTimeout ( mouseTimer )
                         if ( mouseIgnore ) {
                                     clearTimeout ( mouseIgnore )

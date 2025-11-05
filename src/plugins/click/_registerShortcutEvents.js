@@ -31,8 +31,8 @@ Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {
                     }
                 count++
                 let [ button,numberClicks ] = shortcutName.slice(6).split('-');
-                if ( button === 'LEFT' && listenOptions.maxLeftClicks < numberClicks      )   listenOptions.maxLeftClicks = numberClicks
-                if ( button === 'RIGHT' &&listenOptions.maxRightClicks < numberClicks )   listenOptions.maxRightClicks = numberClicks
+                if ( button === 'LEFT'  && pluginState.maxLeftClicks < numberClicks  )   pluginState.maxLeftClicks = numberClicks
+                if ( button === 'RIGHT' && pluginState.maxRightClicks < numberClicks )   pluginState.maxRightClicks = numberClicks
         })
 if ( !hasSetup )   Object.assign ( pluginState.listenOptions, df )
 return count
