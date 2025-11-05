@@ -41,18 +41,29 @@ function listenForScroll ( event ) {
             ;
 
         // Reduce scroll events by space
-        if ( verticalChange < minSpace )   return
-        if ( currentY > lastPosition.y )   direction = 'down'
-        else                               direction = 'up'
+        if ( verticalChange < minSpace && horizontalChange < minSpace )   return
+        
+        const directions = [];
+        
+        // Check vertical scroll
+        if ( verticalChange >= minSpace ) {
+                if ( currentY > lastPosition.y )   directions.push('down')
+                else                               directions.push('up')
+        }
+        
+        // Check horizontal scroll
+        if ( horizontalChange >= minSpace ) {
+                if ( currentX > lastPosition.x )   directions.push('right')
+                else                               directions.push('left')
+        }
+        
+        // Use first direction for single direction compatibility
+        direction = directions[0] || null;
 
-        if ( horizontalChange < minSpace ) return
-        if ( currentX > lastPosition.x )   direction = 'right'
-        else                               direction = 'left'
-
-        const getData = () => ({
+        const getData = (dir) => ({
                           x: currentX
                         , y: currentY
-                        , direction
+                        , direction: dir
                         , context: currentContext.name
                         , note: currentContext.note
                         , dependencies: extra
@@ -63,13 +74,20 @@ function listenForScroll ( event ) {
                                 , height: window.innerHeight
                             }
                         , type: 'scroll'
-                    })
+                })
 
-        const signal = `SCROLL:${direction.toUpperCase()}`
+        // Emit events for each direction detected
+        directions.forEach(dir => {
+                        const signal = `SCROLL:${dir.toUpperCase()}`
+                        ev.emit ( signal, getData(dir) )
+                })
+        
+        // Set up end scroll timeout (only once)
         clearTimeout ( waitForScroll )
         clearTimeout ( waitForEndScroll )
-        waitForScroll    = setTimeout ( () => ev.emit ( signal      , getData() ), scrollWait )
-        waitForEndScroll = setTimeout ( () => ev.emit ( 'SCROLL:END', getData() ), endScrollWait )
+        const finalDirection = directions[directions.length - 1] || null
+        waitForScroll    = setTimeout ( () => {}, scrollWait ) // Keep for compatibility
+        waitForEndScroll = setTimeout ( () => ev.emit ( 'SCROLL:END', getData(finalDirection) ), endScrollWait )
 
         // Update last position
         state.lastPosition = { x: currentX, y: currentY }
