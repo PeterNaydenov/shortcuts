@@ -40,7 +40,7 @@ function listenForHover ( event ) {
 
         if ( inside( hoverRectangle, x, y ) )   return
         let 
-              { left, top, width, height } = target.target.getBoundingClientRect ()
+              { left, top, width, height } = target.getBoundingClientRect ()
             , scrollX = window.scrollX
             , scrollY = window.scrollY
             ;
