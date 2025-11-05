@@ -514,7 +514,7 @@ describe ( 'Click plugin', () => {
                            const setupContext = {
                                          clickSetup : {
                                                // This should modify the plugin's mouseWait option from default 320ms to 100ms
-                                               'click:setup': ({ dependencies, defaults }) => {
+                                               ' click : setup ': ({ dependencies, defaults }) => {
                                                                    return {
                                                                            mouseWait: 100  // Reduce wait time for faster test
                                                                        }
