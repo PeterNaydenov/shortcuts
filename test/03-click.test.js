@@ -65,21 +65,29 @@ const contextDefinition = {
                                 'click: left-1-ctrl': () => d = 'ctrl-clicked',
                                 'click: left-1-shift': () => d = 'shift-clicked'
                         }
-                , extra : {    
-                            'key : p,r,o,b,a': () => b = true                        
-                        }
-                , extend : {
-                              'form : watch' : () => 'input'
-                            , 'form : define' : () => 'input'
-                            , 'form : action' : () => [
-                                {
-                                      fn : (e) => console.log ( e.target )
-                                    , type : 'input'
-                                    , mode : 'in'
-                                }
-                            ]
-                    }
-      }
+                 , extra : {    
+                             'key : p,r,o,b,a': () => b = true                        
+                         }
+                 , clickSetup : {
+                               // Test CLICK:SETUP event to modify plugin options
+                               'click:setup': ({ dependencies, defaults }) => {
+                                                                   return {
+                                                                           mouseWait: 100  // Reduce wait time for faster test
+                                                                       }
+                                                               }
+                         }
+                 , extend : {
+                               'form : watch' : () => 'input'
+                             , 'form : define' : () => 'input'
+                             , 'form : action' : () => [
+                                 {
+                                       fn : (e) => console.log ( e.target )
+                                     , type : 'input'
+                                     , mode : 'in'
+                                 }
+                             ]
+                     }
+       }
 
 
 let short = shortcuts ();
@@ -495,5 +503,53 @@ describe ( 'Click plugin', () => {
                                     expect ( c ).to.be.equal ( 'red' )
                              }, { timeout: 1000, interval: 30 })
               }) // it pause and resume
-  
-}) // describe
+
+
+              
+       it ( 'Click setup event', async () => {
+                           // Test that CLICK:SETUP can modify plugin options
+                           short.enablePlugin ( pluginClick )
+                           
+                           // Create a context with CLICK:SETUP to modify mouseWait to 100ms
+                           const setupContext = {
+                                         clickSetup : {
+                                               // This should modify the plugin's mouseWait option from default 320ms to 100ms
+                                               'click:setup': ({ dependencies, defaults }) => {
+                                                                   return {
+                                                                           mouseWait: 100  // Reduce wait time for faster test
+                                                                       }
+                                                               }
+                                               // Add a click handler to test the modified timing
+                                             , 'click: left-1': () => {
+                                                                   b = true
+                                                                   c = 'setup-worked'
+                                                               }
+                                         }
+                                   }
+                           
+                           short.load ( setupContext )
+                           short.changeContext ( 'clickSetup' )
+                           
+                           let 
+                                 target = document.querySelector ( '#rspan' )
+                               , startTime = performance.now()
+                               ;
+                           
+                           // Reset test variables
+                           b = false
+                           c = null
+                           
+                           // Click and measure time
+                           await userEvent.click ( target )
+                           
+                           await waitFor ( () => {
+                                       expect ( b ).to.equal ( true )
+                                       expect ( c ).to.equal ( 'setup-worked' )
+                                       // Verify that the setup was applied by checking that we got a response quickly
+                                       // If setup worked, mouseWait should be 100ms, so total time should be much less than default 320ms
+                                       const duration = performance.now() - startTime
+                                       expect ( duration ).to.be.lessThan ( 250 ) // Should be much less than default 320ms + test overhead
+                               }, { timeout: 1000, interval: 12 })
+            }) // it click setup event
+   
+ }) // describe
