@@ -38,64 +38,73 @@ function listenForHover ( event ) {
             , target = _findTarget ( dependencies, state, event.target )
             ;
 
-        if ( inside( hoverRectangle, x, y ) )   return
-        let 
-              { left, top, width, height } = target.getBoundingClientRect ()
-            , scrollX = window.scrollX
-            , scrollY = window.scrollY
-            ;
-            
-        const data = {
-                      target
-                    , context: state.currentContext.name
-                    , note   : state.currentContext.note
-                    , event
-                    , dependencies : extra
-                    , viewport : {                                    // Viewport scroll positions
-                              X:scrollX
-                            , Y:scrollY
-                            , width : window.innerWidth
-                            , height : window.innerHeight 
+        if ( inside ( hoverRectangle, x, y ) )   return
+
+        function  getData (tg) {
+                    let 
+                          { left, top, width, height } = tg.getBoundingClientRect ()
+                        , scrollX = window.scrollX
+                        , scrollY = window.scrollY
+                        ;
+
+                    return {
+                                target : tg
+                                , context: state.currentContext.name
+                                , note   : state.currentContext.note
+                                , event
+                                , dependencies : extra
+                                , viewport : {                                    // Viewport scroll positions
+                                        X:scrollX
+                                        , Y:scrollY
+                                        , width : window.innerWidth
+                                        , height : window.innerHeight 
+                                    }
+                                , sizes : { width, height }                        // Element sizes
+                                , position : { x:left, y:top }                     // Position relative to viewport
+                                , pagePosition : { x:left+scrollX, y:top+scrollY } // Position relative to page
+                                , type: 'hover'
                         }
-                    , sizes : { width, height }                        // Element sizes
-                    , position : { x:left, y:top }                     // Position relative to viewport
-                    , pagePosition : { x:left+scrollX, y:top+scrollY } // Position relative to page
-                    , type: 'hover'
-                }
-        if ( target !== hovered ) {
-                    if ( hovered ) {
+                } // getData func.
+        
+
+        
+        if ( target !== hovered ) {  // When target is different from hovered
+                    if ( hovered && !target ) { // We have 'hovered' but no new target
                             state.hovered = false
                             state.hoverRectangle = null
 
                             if ( hoverTimer ) {
                                     clearTimeout ( hoverTimer )
                                     state.hoverTimer = null
-                                    return
                                 }
                             if ( lastEvent === 'off' )  return
                             state.leaveTimer = setTimeout ( () => {
-                                                ev.emit ( 'HOVER:OFF', data )
+                                                ev.emit ( 'HOVER:OFF', getData(hovered) )
                                                 state.leaveTimer = null
                                                 state.lastEvent = 'off'
                                             }, listenOptions.wait )
                             return
                         } // if hovered
 
+                    if ( hovered ) {   // We have 'hovered' and new target
+                            // Close immediately the previous hover
+                            ev.emit ( 'HOVER:OFF', getData(hovered) ) 
+                            state.leaveTimer = null
+                            state.lastEvent = 'off'
+                        }
+                    
                     clearTimeout ( leaveTimer )
                     clearTimeout ( hoverTimer )
                                         
                     state.hovered = target
                     state.hoverRectangle = target.getBoundingClientRect ()
-
-                    if ( target ) {
-                            if ( lastEvent === 'on' && lastHoverTarget === target )  return
-                            state.hoverTimer = setTimeout ( () => {
-                                                ev.emit ( 'HOVER:ON', data)
-                                                state.hoverTimer = null
-                                                state.lastHoverTarget = target
-                                                state.lastEvent = 'on'
+                    state.hoverTimer = setTimeout ( () => {
+                                                    ev.emit ( 'HOVER:ON', getData(target))
+                                                    state.hoverTimer = null
+                                                    state.lastHoverTarget = target
+                                                    state.lastEvent = 'on'
                                             }, listenOptions.wait )
-                        } // if target
+
             } // if target !== hovered
     } // listenForHover func.
 
