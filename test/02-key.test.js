@@ -422,15 +422,25 @@ describe ( 'Key plugin', () => {
                                                                   dependencies.emitted.push ( 'setup' )
                                                                   expect ( defaults.keyWait ).to.equal ( 480 )
                                                                   // Setup should return an object with required param changes
-                                                                  return { keyWait: 410 }
+                                                                  // It's not possible to test...
+                                                                  return { keyWait: 100 }
                                                       }
                                           }
                               })
                          
                         short.enablePlugin ( pluginKey )
                         short.changeContext ( 'local' )
+                        let start = performance.now ()
                         await userEvent.keyboard ( 'a' )
-                        expect ( emitted ).to.deep.equal ( [ 'setup', 'a' ] )
+                        await wait ( 150 )
+                        await userEvent.keyboard ( 'a' )
+                        await waitFor ( () => {
+                              let end = performance.now ()
+                              expect ( end - start ).to.be.lessThan ( 200 )
+                              expect ( emitted ).to.deep.equal ( [ 'setup', 'a', 'a' ] )
+                        }, { timeout: 1000, interval: 12 })
+                        
+                        
             }) // it key setup
 
 })
