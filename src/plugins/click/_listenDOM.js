@@ -37,9 +37,6 @@ function _listenDOM ( dependencies, state ) {
                                   mouseEvent = _readClickEvent ( mouseDomEvent, count )
                                 , data = {
                                           target : mouseTarget
-                                          // TODO: Target props are delivered as viewport, sizes, position, pagePosition properties
-                                          // Should remove targetProps?
-                                        , targetProps : mouseTarget.getBoundingClientRect()
                                         , x       : mouseDomEvent.clientX
                                         , y       : mouseDomEvent.clientY
                                         , context : currentContext.name
