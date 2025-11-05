@@ -17,7 +17,6 @@ function _listenDOM ( dependencies, state ) {
                 , resetState
                         } = dependencies
         const { listenOptions, currentContext } = state
-        const { mouseWait } = listenOptions
 
         let 
              mouseTarget = null // Dom element or null
@@ -76,7 +75,7 @@ function _listenDOM ( dependencies, state ) {
                         clearTimeout ( mouseTimer )
                         if ( mouseIgnore ) {
                                     clearTimeout ( mouseIgnore )
-                                    mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
+                                    mouseIgnore = setTimeout ( () => mouseIgnore=null, listenOptions.mouseWait )
                                     return
                             }
                         mouseTarget = _findTarget ( dependencies, state, event.target )
@@ -87,10 +86,10 @@ function _listenDOM ( dependencies, state ) {
                         count++
                         if ( count >= targetMax ) {
                                     mouseSequenceEnd ()
-                                    if ( targetMax > 1 )   mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
+                                    if ( targetMax > 1 )   mouseIgnore = setTimeout ( () => mouseIgnore=null, listenOptions.mouseWait )
                                     return
                             }
-                        mouseTimer = setTimeout ( mouseSequenceEnd, mouseWait )
+                        mouseTimer = setTimeout ( mouseSequenceEnd, listenOptions.mouseWait )
             } // listenLeftClick func.
 
 
@@ -100,7 +99,7 @@ function _listenDOM ( dependencies, state ) {
                         clearTimeout ( mouseTimer )
                         if ( mouseIgnore ) {
                                     clearTimeout ( mouseIgnore )
-                                    mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
+                                    mouseIgnore = setTimeout ( () => mouseIgnore=null, listenOptions.mouseWait )
                                     return
                             }
                         mouseTarget = _findTarget ( dependencies, state, event.target )
@@ -111,10 +110,10 @@ function _listenDOM ( dependencies, state ) {
                         count++
                         if ( count >= targetMax ) {
                                     mouseSequenceEnd ()
-                                    if ( targetMax > 1 )   mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
+                                    if ( targetMax > 1 )   mouseIgnore = setTimeout ( () => mouseIgnore=null, listenOptions.mouseWait )
                                     return
                             }
-                        mouseTimer = setTimeout ( mouseSequenceEnd, mouseWait )
+                        mouseTimer = setTimeout ( mouseSequenceEnd, listenOptions.mouseWait )
             } // listenRightClick func.
 
 
