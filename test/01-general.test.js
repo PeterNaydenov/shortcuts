@@ -213,7 +213,6 @@ describe ( "Shortcuts", () => {
 
 
           it ( 'Emit custom event', () => {
-                            // TODO: Check arguments for the custom event handlers
                             let result = null;
                             short.enablePlugin ( pluginClick )
                             const myAllContext = { 

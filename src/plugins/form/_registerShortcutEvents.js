@@ -16,9 +16,7 @@ const
                         let isFormEv = regex.test ( shortcutName );
                         if ( !isFormEv ) return                
                         if ( shortcutName === 'FORM:WATCH' )    watch = list
-                        // FORM:DEFINE now is FORM:SETUP. Event is FORM:DEFINE is depricated but still available
                         if ( shortcutName === 'FORM:DEFINE' )   define = list
-                        if ( shortcutName === 'FORM:SETUP'  )   define = list
                         if ( shortcutName === 'FORM:ACTION' )   action = list
                         if ( shortcutName === 'FORM:SETUP' )    {
                                         // TODO: Setup fn not ready...
