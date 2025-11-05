@@ -28,12 +28,12 @@ function _listenDOM ( dependencies, state ) {
            ;
 
         function mouseSequenceEnd () {   // Execute when mouse sequence ends
-                        if ( !mouseTarget ) return  // No valid target found
+                        if ( !mouseTarget ) return  // No valid target found                        
                         let 
-                                  { left, top, width, height } = mouseTarget.target.getBoundingClientRect ()
-                                , scrollX = window.scrollX
-                                , scrollY = window.scrollY
-                                ;
+                                { left, top, width, height } = mouseTarget.getBoundingClientRect ()
+                              , scrollX = window.scrollX
+                              , scrollY = window.scrollY
+                              ;
                         const
                                   mouseEvent = _readClickEvent ( mouseDomEvent, count )
                                 , data = {
