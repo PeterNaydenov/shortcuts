@@ -132,11 +132,7 @@ function _listenDOM ( dependencies, state ) {
                         window.removeEventListener  ( 'contextmenu', listenRightClick )
                         document.removeEventListener ( 'click'      , listenLeftClick  )
                         state.active = false
-                        // Clear any pending timers to prevent state pollution between tests
-                        if ( mouseTimer ) {
-                                clearTimeout ( mouseTimer )
-                                mouseTimer = null
-                            }
+                        
                         if ( mouseIgnore ) {
                                 clearTimeout ( mouseIgnore )
                                 mouseIgnore = null
