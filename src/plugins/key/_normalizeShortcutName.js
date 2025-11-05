@@ -8,8 +8,8 @@ function _normalizeShortcutName ( name ) {
                 , sliceIndex = upperCase.indexOf ( ':' )
                 ;
             
-            if ( !isKeyboardShortcut       )   return name
-            if ( upperCase === 'KEY:SETUP' )   return upperCase
+            if ( !isKeyboardShortcut          )   return name
+            if ( upperCase.includes ( 'SETUP'))   return 'KEY:SETUP'
             let shortcut = upperCase
                                .slice(sliceIndex+1)
                                .split(',')
