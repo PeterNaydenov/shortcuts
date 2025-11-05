@@ -4,7 +4,7 @@ function _registerShortcutEvents ( dependencies, pluginState ) {
 const 
           { regex, _defaults, ev } = dependencies
         , { 
-                  currentContext : { name: contextName }
+                  currentContext : { name: contextName, note }
                 , shortcuts 
                 , callbacks
                 , ERROR_EVENT_NAME
@@ -16,7 +16,9 @@ const
                         let isFormEv = regex.test ( shortcutName );
                         if ( !isFormEv ) return                
                         if ( shortcutName === 'FORM:WATCH' )    watch = list
+                        // FORM:DEFINE now is FORM:SETUP. Event is FORM:DEFINE is depricated but still available
                         if ( shortcutName === 'FORM:DEFINE' )   define = list
+                        if ( shortcutName === 'FORM:SETUP'  )   define = list
                         if ( shortcutName === 'FORM:ACTION' )   action = list
                         if ( shortcutName === 'FORM:SETUP' )    {
                                         // TODO: Setup fn not ready...
@@ -28,17 +30,39 @@ const
         let setTypes = new Set ();
         if ( define.length === 0 )  define = [ _defaults.define ]
         if ( watch.length === 0  )  watch  = [ _defaults.watch ] 
-        let watchList = watch.map ( el => el({ dependencies : dependencies.extra }) )
+        let watchList = watch.map ( el => el ({ 
+                                                  dependencies : dependencies.extra 
+                                                , context : contextName 
+                                                , note
+                                        })   )
                                         .reduce ( ( res, el) => {
                                                 res.push ( el ) 
                                                 return res
                                         }, [])
         pluginState.watchList = document.querySelectorAll ( watchList )
-        pluginState.watchList.forEach ( el => setTypes.add ( define[0]({
-                                                                   dependencies : dependencies.extra
-                                                                 , target : el
-                                                                })
-                                ) ) 
+        pluginState.watchList.forEach ( el => {
+                                        let 
+                                                  { left, top, width, height } = el.getBoundingClientRect ()
+                                                , scrollX = window.scrollX
+                                                , scrollY = window.scrollY
+                                                ;
+                                        return setTypes.add ( define[0]({
+                                                                  target : el
+                                                                , context : contextName
+                                                                , note
+                                                                , dependencies : dependencies.extra
+                                                                , viewport : {
+                                                                                X: scrollX
+                                                                              , Y: scrollY
+                                                                              , width: window.innerWidth
+                                                                              , height: window.innerHeight
+                                                                        }
+                                                                , sizes : { width , height }
+                                                                , position : { x:left, y:top }
+                                                                , pagePosition : { x:left+scrollX, y:top+scrollY }
+                                                                }) 
+                                                ) // setTypes
+                        }) // forEach watchList 
 
         pluginState.typeFn = define[0] ? define[0] : _defaults.define
      
