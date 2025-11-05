@@ -16,9 +16,6 @@ function _listenDOM ( dependencies, state ) {
                 , streamKeys
                 , listenOptions
             } = state
-        , {
-                  keyWait
-            } = listenOptions
         ;
     
     let 
@@ -94,16 +91,16 @@ function _listenDOM ( dependencies, state ) {
                 if ( streamKeys )   streamKeys ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
                 if ( state.keyIgnore ) {
                             clearTimeout ( state.keyIgnore )
-                            state.keyIgnore = setTimeout ( () => state.keyIgnore=null, keyWait )
+                            state.keyIgnore = setTimeout ( () => state.keyIgnore=null, listenOptions.keyWait )
                             r.pop ()
                             return 
                     }
                 if ( sequence && r.length === state.maxSequence ) {      
                             keySequenceEnd ()
-                            state.keyIgnore = setTimeout ( () => state.keyIgnore=null, keyWait )
+                            state.keyIgnore = setTimeout ( () => state.keyIgnore=null, listenOptions.keyWait )
                             return
                     }
-                if ( sequence   )   keyTimer = setTimeout ( keySequenceEnd, keyWait )
+                if ( sequence   )   keyTimer = setTimeout ( keySequenceEnd, listenOptions.keyWait )
                 else                keySequenceEnd ()
         } // listenForSpecialKeys func.
 
@@ -115,16 +112,16 @@ function _listenDOM ( dependencies, state ) {
                 if ( streamKeys )   streamKeys ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
                 if ( state.keyIgnore ) {
                             clearTimeout ( state.keyIgnore )
-                            state.keyIgnore = setTimeout ( () => state.keyIgnore=null, keyWait )
+                            state.keyIgnore = setTimeout ( () => state.keyIgnore=null, listenOptions.keyWait )
                             return 
                     }
                 r.push ( _readKeyEvent ( event, _specialChars ))
                 if ( sequence && r.length === state.maxSequence ) {
                             keySequenceEnd ()
-                            state.keyIgnore = setTimeout ( () => state.keyIgnore=null, keyWait )
+                            state.keyIgnore = setTimeout ( () => state.keyIgnore=null, listenOptions.keyWait )
                             return
                     }
-                if ( sequence )   keyTimer = setTimeout ( keySequenceEnd, keyWait )
+                if ( sequence )   keyTimer = setTimeout ( keySequenceEnd, listenOptions.keyWait )
                 else              keySequenceEnd ()
         } // listenForRegularKeys func.
 

@@ -509,12 +509,15 @@ describe ( 'Click plugin', () => {
        it ( 'Click setup event', async () => {
                            // Test that CLICK:SETUP can modify plugin options
                            short.enablePlugin ( pluginClick )
+                           const emit = [];
+                           short.setDependencies ( { emit } )
                            
                            // Create a context with CLICK:SETUP to modify mouseWait to 100ms
                            const setupContext = {
                                          clickSetup : {
                                                // This should modify the plugin's mouseWait option from default 320ms to 100ms
                                                ' click : setup ': ({ dependencies, defaults }) => {
+                                                                   dependencies.emit.push ( 'setup' )
                                                                    return {
                                                                            mouseWait: 100  // Reduce wait time for faster test
                                                                        }
@@ -529,6 +532,7 @@ describe ( 'Click plugin', () => {
                            
                            short.load ( setupContext )
                            short.changeContext ( 'clickSetup' )
+                           expect ( emit[0] ).to.equal ( 'setup' )
                            
                            let 
                                  target = document.querySelector ( '#rspan' )
