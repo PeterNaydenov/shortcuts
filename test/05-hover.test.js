@@ -416,6 +416,49 @@ describe ( 'Hover plugin', () => {
                               }, { timeout: 500, interval: 12 })
             }) // it immediate hover switch between elements
 
+
+       it ( 'Extra parameters to plugin options', async () => {
+                        short.enablePlugin ( pluginHover )
+                        const emit = [];
+                        const setupContext = {
+                                    'hover:setup' : () => {
+                                          emit.push ( 'setup' )
+                                          return { wait: 100, customParam: 'test-value', emit }
+                                          },
+                                    'hover:on' : ({options}) => {
+                                          expect ( options.wait ).to.equal ( 100 )
+                                          expect ( options.customParam ).to.equal ( 'test-value' )
+                                          options.emit.push ( 'on' )
+                                          },
+                                    'hover:off' : ({options}) => {
+                                          expect ( options.wait ).to.equal ( 100 )
+                                          expect ( options.customParam ).to.equal ( 'test-value' )
+                                          options.emit.push ( 'off' )
+                                          }
+                            } // setupContext
+                        
+                        short.load ({ setupContext })
+                        short.changeContext ( 'setupContext' )
+
+                        // Setup event execution is on change context:
+                        expect ( emit[0] ).to.equal ( 'setup' )
+                        
+                        // Test hover on and off with modified options
+                        const target = document.querySelector ( '#rspan' )
+                        await userEvent.hover ( target )
+                        await wait ( 150 )  // Wait for modified hover time (100ms + buffer)
+                        await waitFor ( () => {
+                                    expect ( emit ).to.deep.equal ( [ 'setup', 'on' ] )
+                              }, { timeout: 1000, interval: 12 })
+                        
+                        // Test hover off
+                        await userEvent.hover ( document.querySelector ( '#name' ) )
+                        await wait ( 150 )
+                        await waitFor ( () => {
+                                    expect ( emit ).to.deep.equal ( [ 'setup', 'on', 'off' ] )
+                              }, { timeout: 1000, interval: 12 })
+            }) // it extra parameters to plugin options
+
       
    
  }) // describe
