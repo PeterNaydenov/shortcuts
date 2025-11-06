@@ -506,7 +506,7 @@ describe ( 'Click plugin', () => {
 
 
               
-       it ( 'Click setup event', async () => {
+      it ( 'Click setup event', async () => {
                            // Test that CLICK:SETUP can modify plugin options
                            short.enablePlugin ( pluginClick )
                            const emit = [];
@@ -555,5 +555,42 @@ describe ( 'Click plugin', () => {
                                        expect ( duration ).to.be.lessThan ( 250 ) // Should be much less than default 320ms + test overhead
                                }, { timeout: 1000, interval: 12 })
             }) // it click setup event
+
+
+
+      it ( 'Extra parameters to plugin options', async () => {
+                        short.enablePlugin ( pluginClick )
+
+                        const emit = [];
+                        const setupContext = {
+                                      clickSetup : {
+                                            // This should modify the plugin's mouseWait and add an extra plugin option
+                                            ' click : setup ': ({ dependencies, defaults, options }) => {
+                                                                emit.push ( 'setup' )
+                                                                return {
+                                                                          mouseWait: 100  // Reduce wait time for faster test
+                                                                        , emit
+                                                                    }
+                                                            }
+                                            // Add a click handler 
+                                          , 'click: left-1': ( {options }) => {
+                                                                options.emit.push ( 'clicked' )
+                                                            }
+                                      }
+                                }
+                        
+                        short.load ( setupContext )
+                        short.changeContext ( 'clickSetup' )
+                        // Setup event execution is on change context:
+                        expect ( emit[0] ).to.equal ( 'setup' )
+                        
+                        let target = document.querySelector ( '[data-hover="blue"]' );
+                        
+                        // Click and measure time
+                        await userEvent.click ( target )                        
+                        await waitFor ( () => {
+                                    expect ( emit ).to.deep.equal ( [ 'setup', 'clicked' ] )
+                              }, { timeout: 1000, interval: 12 })
+            }) // it extra parameters to plugin options
    
  }) // describe
