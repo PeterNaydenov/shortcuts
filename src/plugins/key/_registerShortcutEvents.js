@@ -23,7 +23,7 @@ const
                 , shortcuts 
            } = pluginState
         ;
-        
+
 if ( contextName == null )   return 0
 Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {   // Enable new context shortcuts and set a listenOptions 'maxSequence'      
                 let isKeyboardEv = regex.test ( shortcutName );
