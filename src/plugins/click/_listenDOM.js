@@ -14,7 +14,6 @@ function _listenDOM ( dependencies, state ) {
                 , _findTarget 
                 , _readClickEvent
                 , extra
-                , resetState
                         } = dependencies
         const { listenOptions, currentContext } = state
 
@@ -33,6 +32,7 @@ function _listenDOM ( dependencies, state ) {
                               , scrollX = window.scrollX
                               , scrollY = window.scrollY
                               ;
+                        
                         const
                                   mouseEvent = _readClickEvent ( mouseDomEvent, count )
                                 , data = {
@@ -41,6 +41,7 @@ function _listenDOM ( dependencies, state ) {
                                         , y       : mouseDomEvent.clientY
                                         , context : currentContext.name
                                         , note    : currentContext.note
+                                        , options : state.listenOptions
                                         , event   : mouseDomEvent
                                         , dependencies : extra
                                         , viewport : {                                    // Viewport scroll positions and sizes

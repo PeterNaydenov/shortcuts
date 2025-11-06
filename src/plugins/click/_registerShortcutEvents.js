@@ -22,7 +22,8 @@ Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {
                                 let updateOptions = list.reduce ( ( res, fn ) => {
                                                 let r = fn ({ 
                                                                 dependencies : dependencies.extra, 
-                                                                defaults     : structuredClone(pluginState.defaultOptions) 
+                                                                defaults     : structuredClone(pluginState.defaultOptions),
+                                                                options      : listenOptions 
                                                         })
                                                 return Object.assign ( res, r )
                                         }, df )

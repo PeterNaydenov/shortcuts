@@ -30,12 +30,12 @@ function pluginClick ( setupPlugin, options = {}) {
                         }
                 , pluginState = {
                                   active : false
+                                , maxLeftClicks : 1  // How many clicks can be pressed in a sequence. Controlled automatically by '_registerShortcutEvents' function.
+                                , maxRightClicks: 1  // How many right clicks can be pressed in a sequence. Controlled automatically by '_registerShortcutEvents' function.
                                 , defaultOptions : {
                                           mouseWait   : 320     // 320 ms
                                         , clickTarget : 'click' // Data-attribute name for click target ( data-click )
                                     }
-                                , maxLeftClicks : 1  // How many clicks can be pressed in a sequence. Controlled automatically by '_registerShortcutEvents' function.
-                                , maxRightClicks: 1  // How many right clicks can be pressed in a sequence. Controlled automatically by '_registerShortcutEvents' function.
                                 , listenOptions  : {
                                                       mouseWait     : 320   // 320 ms
                                                     , clickTarget   : 'click' // Data-attribute name for click target ( data-click )
