@@ -23,9 +23,8 @@ function _normalizeShortcutName ( name ) {
 
             // Click event format: CLICK:LEFT-2-ALT-SHIFT-CTRL
 
-            if ( !isClickShortcut )   return name
+            if ( !isClickShortcut            )   return name
             if ( upperCase.includes('SETUP') )   return 'CLICK:SETUP'
-            if ( upperCase === 'CLICK:SETUP' )   return upperCase
             let shortcutArray = upperCase.slice(sliceIndex+1).trim().split('-').map ( x => x.trim() );
             shortcutArray.forEach ( item => {
                         if ( mouseNames.includes ( item )) { 
