@@ -1,5 +1,17 @@
 'use strict'
 
+/**
+ * @function _registerShortcutEvents
+ * @description Register click shortcut events and handle setup
+ * @param {Object} dependencies - Dependencies object containing regex
+ * @param {Object} pluginState - Plugin state containing listenOptions, currentContext, shortcuts, etc.
+ * @returns {number} - Number of registered shortcuts
+ * 
+ * @typedef {Object} ClickSetupData
+ * @property {Object} dependencies - Extra dependencies object
+ * @property {Object} defaults - Default options (clone of pluginState.defaultOptions)
+ * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
+ */
 function _registerShortcutEvents ( dependencies, pluginState ) {
 let count = 0;
 let hasSetup = false;
