@@ -53,6 +53,7 @@ function listenForHover ( event ) {
                                 , note   : state.currentContext.note
                                 , event
                                 , dependencies : extra
+                                , options : state.listenOptions
                                 , viewport : {                                    // Viewport scroll positions
                                         X:scrollX
                                         , Y:scrollY

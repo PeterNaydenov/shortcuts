@@ -19,7 +19,8 @@ const
                                         let updateOptions = list.reduce ( ( res, fn ) => {
                                                         let r = fn ({ 
                                                                         dependencies : dependencies.extra, 
-                                                                        defaults     : structuredClone ( pluginState.defaultOptions ) 
+                                                                        defaults     : structuredClone ( pluginState.defaultOptions ),
+                                                                        options      : pluginState.listenOptions
                                                                 })
                                                         return Object.assign ( res, r )
                                                 }, df )
