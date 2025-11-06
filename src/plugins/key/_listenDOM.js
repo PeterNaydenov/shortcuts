@@ -47,6 +47,7 @@ function _listenDOM ( dependencies, state ) {
                                     , note: currentContext.note
                                     , context: currentContext.name
                                     , dependencies : extra
+                                    , options : state.listenOptions
                                     , viewport : { 
                                               X : window.scrollX
                                             , Y : window.scrollY
