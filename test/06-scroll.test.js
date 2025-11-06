@@ -304,14 +304,71 @@ describe ( 'Scroll plugin', () => {
 
 
 
-       it ( 'Disable a plugin', () => {
-                           // Enable the plugin
+it ( 'Disable a plugin', () => {
+                           // Enable plugin
                            short.enablePlugin ( pluginScroll )
                            expect ( short.listPlugins () ).to.include ( 'scroll' )
 
-                           // Disable the plugin
+                           // Disable plugin
                            short.disablePlugin ( 'scroll' )
                            expect ( short.listPlugins () ).to.not.include ( 'scroll' )
            }) // it disable a plugin
 
-}) // describe Scroll plugin
+
+       it ( 'Extra parameters to plugin options', async () => {
+                        short.enablePlugin ( pluginScroll )
+                        const emit = [];
+                        const setupContext = {
+                                    'scroll:setup' : () => {
+                                          emit.push ( 'setup' )
+                                          return { minSpace: 10, customParam: 'scroll-test', emit }
+                                          },
+                                    'scroll:down' : ({options}) => {
+                                          expect ( options.minSpace ).to.equal ( 10 )
+                                          expect ( options.customParam ).to.equal ( 'scroll-test' )
+                                          options.emit.push ( 'down' )
+                                          },
+                                    'scroll:up' : ({options}) => {
+                                          expect ( options.minSpace ).to.equal ( 10 )
+                                          expect ( options.customParam ).to.equal ( 'scroll-test' )
+                                          options.emit.push ( 'up' )
+                                          },
+                                    'scroll:right' : ({options}) => {
+                                          expect ( options.minSpace ).to.equal ( 10 )
+                                          expect ( options.customParam ).to.equal ( 'scroll-test' )
+                                          options.emit.push ( 'right' )
+                                          },
+                                    'scroll:left' : ({options}) => {
+                                          expect ( options.minSpace ).to.equal ( 10 )
+                                          expect ( options.customParam ).to.equal ( 'scroll-test' )
+                                          options.emit.push ( 'left' )
+                                          }
+                            } // setupContext
+                        
+                        short.load ({ setupContext })
+                        short.changeContext ( 'setupContext' )
+
+                        // Setup event execution is on change context:
+                        expect ( emit[0] ).to.equal ( 'setup' )
+                        
+                        // Reset scroll position to (0, 0) first
+                        window.scrollTo ( 0, 0 )
+                        await wait ( 200 ) // Wait for any pending scroll events
+                        
+                        // Test scroll with modified minSpace (smaller movements should trigger)
+                        // We just need to verify that the options are accessible and contain our custom parameters
+                        // The exact scroll behavior may vary in test environment
+                        window.scrollTo ( 0, 50 )  // 50px movement, should definitely trigger with minSpace=10
+                        await wait ( 100 )
+                        
+                        // At least one scroll event should have been triggered with our custom options
+                        expect ( emit.length ).to.be.greaterThan ( 1 )
+                        expect ( emit[0] ).to.equal ( 'setup' )
+                        
+                        // Verify that the scroll events have access to the custom parameters
+                        // We don't need to assert exact scroll directions since test environment may behave differently
+                        const scrollEvents = emit.filter(e => e !== 'setup')
+                        expect ( scrollEvents.length ).to.be.greaterThan ( 0 )
+            }) // it extra parameters to plugin options
+
+ }) // describe Scroll plugin
