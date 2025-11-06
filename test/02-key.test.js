@@ -439,8 +439,35 @@ describe ( 'Key plugin', () => {
                               expect ( end - start ).to.be.lessThan ( 200 )
                               expect ( emitted ).to.deep.equal ( [ 'setup', 'a', 'a' ] )
                         }, { timeout: 1000, interval: 12 })
-                        
-                        
             }) // it key setup
+
+
+
+      it ( 'Extra parameters to plugin options', async () => {
+                              short.enablePlugin ( pluginKey )
+                              const emit = [];
+                              const setupContext = {
+                                          'key:setup' : () => {
+                                                emit.push ( 'setup' )
+                                                return { keyWait: 100, emit }
+                                                },
+                                          'key:a' : ({options}) => {
+                                                      expect ( options.keyWait ).to.equal ( 100 )
+                                                      options.emit.push ( 'a' )
+                                                }
+                                      } // setupContext
+                              
+                              short.load ({ setupContext })
+                              short.changeContext ( 'setupContext' )
+
+                              // Setup event execution is on change context:
+                              expect ( emit[0] ).to.equal ( 'setup' )
+                              
+                              // Click and measure time
+                              await userEvent.keyboard ( 'a')                       
+                              await waitFor ( () => {
+                                          expect ( emit ).to.deep.equal ( [ 'setup', 'a' ] )
+                                    }, { timeout: 1000, interval: 12 })
+                  }) // it extra parameters to plugin options
 
 })
