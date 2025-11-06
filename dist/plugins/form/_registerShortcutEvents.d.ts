@@ -12,6 +12,10 @@ export type FormWatchData = {
      * - Current context note
      */
     note: string | null;
+    /**
+     * - Plugin state listenOptions (reference to pluginState.listenOptions)
+     */
+    options: any;
 };
 export type FormDefineData = {
     /**
@@ -46,12 +50,20 @@ export type FormDefineData = {
      * - Element position relative to page with x, y
      */
     pagePosition: any;
+    /**
+     * - Plugin state listenOptions (reference to pluginState.listenOptions)
+     */
+    options: any;
 };
 export type FormActionData = {
     /**
      * - Extra dependencies object
      */
     dependencies: any;
+    /**
+     * - Plugin state listenOptions (reference to pluginState.listenOptions)
+     */
+    options: any;
 };
 /**
  * @function _registerShortcutEvents
@@ -64,6 +76,7 @@ export type FormActionData = {
  * @property {Object} dependencies - Extra dependencies object
  * @property {string} context - Current context name
  * @property {string|null} note - Current context note
+ * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  *
  * @typedef {Object} FormDefineData
  * @property {Element} target - The DOM element being watched
@@ -74,8 +87,10 @@ export type FormActionData = {
  * @property {Object} sizes - Element dimensions with width, height
  * @property {Object} position - Element position relative to viewport with x, y
  * @property {Object} pagePosition - Element position relative to page with x, y
+ * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  *
  * @typedef {Object} FormActionData
  * @property {Object} dependencies - Extra dependencies object
+ * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  */
 declare function _registerShortcutEvents(dependencies: any, pluginState: any): number | false;

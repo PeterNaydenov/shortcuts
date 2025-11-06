@@ -11,6 +11,7 @@
  * @property {Object} dependencies - Extra dependencies object
  * @property {string} context - Current context name
  * @property {string|null} note - Current context note
+ * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  * 
  * @typedef {Object} FormDefineData
  * @property {Element} target - The DOM element being watched
@@ -21,9 +22,11 @@
  * @property {Object} sizes - Element dimensions with width, height
  * @property {Object} position - Element position relative to viewport with x, y
  * @property {Object} pagePosition - Element position relative to page with x, y
+ * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  * 
  * @typedef {Object} FormActionData
  * @property {Object} dependencies - Extra dependencies object
+ * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  */
 function _registerShortcutEvents ( dependencies, pluginState ) {
 const 
@@ -33,19 +36,30 @@ const
                 , shortcuts 
                 , callbacks
                 , ERROR_EVENT_NAME
+                , defaultOptions 
            } = pluginState
         ;
         let watch=[], define=[], action=[], count = 0;
         if ( contextName == null )   return false
         Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {   
                         let isFormEv = regex.test ( shortcutName );
-                        if ( !isFormEv ) return                
+                        if ( !isFormEv ) return
+                        if ( shortcutName.includes('SETUP' )) {
+                                        let updateOptions = list.reduce ( ( res, fn ) => {
+                                                        let r = fn ({ 
+                                                                        dependencies : dependencies.extra, 
+                                                                        defaults     : structuredClone ( pluginState.defaultOptions ),
+                                                                        options      : pluginState.listenOptions
+                                                                })
+                                                        return Object.assign ( res, r )
+                                                }, defaultOptions )
+                                        Object.assign ( pluginState.listenOptions, updateOptions )
+                                        return
+                                } 
                         if ( shortcutName === 'FORM:WATCH' )    watch = list
                         if ( shortcutName === 'FORM:DEFINE' )   define = list
                         if ( shortcutName === 'FORM:ACTION' )   action = list
-                        if ( shortcutName === 'FORM:SETUP' )    {
-                                        // TODO: Setup fn not ready...
-                                }
+                        
                 })
         
         if ( action.length === 0 )   return count
@@ -57,6 +71,7 @@ const
                                                   dependencies : dependencies.extra 
                                                 , context : contextName 
                                                 , note
+                                                , options : pluginState.listenOptions
                                         })   )
                                         .reduce ( ( res, el) => {
                                                 res.push ( el ) 
@@ -74,6 +89,7 @@ const
                                                                 , context : contextName
                                                                 , note
                                                                 , dependencies : dependencies.extra
+                                                                , options : pluginState.listenOptions
                                                                 , viewport : {
                                                                                 X: scrollX
                                                                               , Y: scrollY
@@ -95,7 +111,10 @@ const
                                 return false
                            }
                         
-                        let list = act ({ dependencies : dependencies.extra })
+                        let list = act ({ 
+                                 dependencies : dependencies.extra,
+                                 options      : pluginState.listenOptions
+                         })
                         
                         if ( !(list instanceof Array) ) {
                                 ev.emit ( ERROR_EVENT_NAME, `Warning: The 'form:action' function should RETURN an array.` )
