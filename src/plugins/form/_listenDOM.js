@@ -18,6 +18,7 @@ function _listenDOM ( dependencies, state ) {
                         , note    : state.currentContext.note
                         , event   
                         , dependencies : dependencies.extra
+                        , options : state.listenOptions
                         , viewport : {                                     // Viewport scroll positions and sizes
                                   X:scrollX
                                 , Y:scrollY 

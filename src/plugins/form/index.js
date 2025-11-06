@@ -25,10 +25,12 @@ function pluginForm ( setupPlugin, options={} ) {
                              , regex : /FORM\s*\:/i
                         }
                 , pluginState = {
-                                  callbacks : {} // Functions callbacks arranged by 'type/timing' : [ callback, ...otherCallbacks ]
-                                , typeFn    : '' // Type definition function
-                                , watchList : [] // list of watched elements
-                                , wait      : {} // wait time for 'instant' mode
+                                  callbacks      : {} // Functions callbacks arranged by 'type/timing' : [ callback, ...otherCallbacks ]
+                                , typeFn         : '' // Type definition function
+                                , watchList      : [] // list of watched elements
+                                , wait           : {} // wait time for 'instant' mode
+                                , defaultOptions : {}
+                                , listenOptions  : {}
                             } // pluginState
                 ;
     function resetState () {
