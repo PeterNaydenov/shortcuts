@@ -279,6 +279,49 @@ describe ( 'Form plugin', () => {
                                         // console.log ( sum )
                                         expect ( sum ).to.equal ( 1 )
                                 }, { timeout: 1000, interval: 12 })
-             }) // it Reveal and click
-      
+}) // it Reveal and click
+
+       
+        it ( 'Extra parameters to plugin options', async () => {
+                        short.enablePlugin ( pluginForm )
+                        const emit = [];
+                        const setupContext = {
+                                    'form:setup' : () => {
+                                          emit.push ( 'setup' )
+                                          return { wait: 100, customParam: 'test-value', emit }
+                                          },
+                                    'form:watch' : () => 'input',
+                                    'form:action' : ({options}) => {
+                                          expect ( options.wait ).to.equal ( 100 )
+                                          expect ( options.customParam ).to.equal ( 'test-value' )
+                                          options.emit.push ( 'action' )
+                                          return [{
+                                                  fn : ({ target }) => {
+                                                          // Action function that uses options
+                                                          expect ( options.wait ).to.equal ( 100 )
+                                                          expect ( options.customParam ).to.equal ( 'test-value' )
+                                                          options.emit.push ( 'executed' )
+                                                  }
+                                                , type : 'input'
+                                                , timing : 'instant'
+                                          }]
+                                          }
+                            } // setupContext
+                        
+                        short.load ({ setupContext })
+                        short.changeContext ( 'setupContext' )
+
+                        // Setup event execution is on change context:
+                        expect ( emit[0] ).to.equal ( 'setup' )
+                        
+                        let input = document.getElementById ( 'name' )
+                        input.focus ()
+                        await userEvent.keyboard ( 'hello' )
+                        await wait ( 50 )
+                        await waitFor ( () => {
+                                expect ( emit ).to.includes ( 'action' )
+                                expect ( emit ).to.includes ( 'executed' )
+                        }, { timeout: 1000, interval: 12 })
+        }) // it Extra parameters to plugin options
+       
 }) // describe
