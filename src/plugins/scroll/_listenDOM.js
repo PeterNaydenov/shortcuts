@@ -67,6 +67,7 @@ function listenForScroll ( event ) {
                         , context: currentContext.name
                         , note: currentContext.note
                         , dependencies: extra
+                        , options: state.listenOptions
                         , viewport : {                // Viewport scroll positions and sizes
                                   X: currentX
                                 , Y: currentY
