@@ -2,6 +2,28 @@
 
 This guide will walk you through creating a new plugin for the shortcuts library. We'll examine the existing plugins to understand the architecture and patterns, then create a step-by-step guide for building your own plugin.
 
+## 🚀 Important: Plugins are Independent Projects
+
+**Plugins are designed to be standalone projects**, not part of the main shortcuts library. This intentional architecture allows:
+
+- **Independent Distribution**: Publish plugins as separate npm packages
+- **Modular Usage**: Users only install the plugins they need
+- **Third-Party Development**: Anyone can create and distribute plugins
+- **Version Independence**: Plugins can have their own release cycles
+
+**Usage Pattern:**
+```javascript
+import { shortcuts } from '@peter.naydenov/shortcuts'
+import pluginTouch from 'shortcuts-touch-plugin'  // Separate package
+import pluginVoice from 'my-custom-voice-plugin'  // Your own plugin
+
+const short = shortcuts()
+short.enablePlugin(pluginTouch)
+short.enablePlugin(pluginVoice)
+```
+
+This guide shows you how to create such independent plugins by examining the existing plugins as reference implementations.
+
 ## Table of Contents
 
 1. [Plugin Architecture Overview](#plugin-architecture-overview)
@@ -15,9 +37,27 @@ This guide will walk you through creating a new plugin for the shortcuts library
 
 ## Plugin Architecture Overview
 
-Every plugin in the shortcuts library follows a consistent architecture:
+Every plugin for the shortcuts library follows a consistent architecture, whether it's bundled with the library or distributed as a standalone package:
 
 ```
+your-plugin-project/
+├── package.json                # Your plugin's package configuration
+├── README.md                   # Plugin documentation
+├── src/                        # Source code
+│   └── index.js                # Main plugin factory
+│   ├── _registerShortcutEvents.js   # Shortcut registration and setup
+│   ├── _listenDOM.js              # DOM event listeners
+│   ├── _normalizeShortcutName.js   # Shortcut name normalization
+│   └── [plugin-specific files]     # Additional helper files
+├── dist/                       # Built distribution files
+└── test/                       # Plugin tests
+```
+
+**Key Points:**
+- **Standalone Package**: Each plugin is its own npm package
+- **No Library Dependency**: Plugins don't need to be inside the shortcuts library
+- **Standard Interface**: All plugins use the same API contract
+- **Independent Development**: Create, test, and publish plugins separately
 src/plugins/[plugin-name]/
 ├── index.js                    # Main plugin factory
 ├── _registerShortcutEvents.js  # Shortcut registration and setup
@@ -329,11 +369,49 @@ const PLUGIN_PREFIX = 'touch'
 
 
 
-### Step 2: Create Directory Structure
+### Step 2: Create Your Plugin Project
+
+Since plugins are standalone projects, create a new package for your plugin:
 
 ```bash
-mkdir src/plugins/touch
-cd src/plugins/touch
+# Create your plugin project
+mkdir shortcuts-touch-plugin
+cd shortcuts-touch-plugin
+
+# Initialize as npm package
+npm init -y
+
+# Create source directory
+mkdir src
+
+# Install shortcuts as peer dependency (optional for development)
+npm install @peter.naydenov/shortcuts --save-dev
+
+# Create plugin files
+touch src/index.js
+touch src/_registerShortcutEvents.js
+touch src/_listenDOM.js
+touch src/_normalizeShortcutName.js
+```
+
+**package.json example:**
+```json
+{
+  "name": "shortcuts-touch-plugin",
+  "version": "1.0.0",
+  "description": "Touch gesture plugin for shortcuts library",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "peerDependencies": {
+    "@peter.naydenov/shortcuts": "^3.0.0"
+  },
+  "devDependencies": {
+    "@peter.naydenov/shortcuts": "^3.5.2",
+    "rollup": "^2.0.0",
+    "typescript": "^4.0.0"
+  }
+}
 ```
 
 
@@ -380,18 +458,47 @@ Write the DOM event handling logic in `_listenDOM.js`.
 
 
 
-### Step 6: Add Plugin to Main Export
+### Step 6: Build and Publish Your Plugin
 
-Update `src/main.js` to include your new plugin:
+Since plugins are standalone packages, build and publish them independently:
+
+```bash
+# Build your plugin (using rollup, webpack, etc.)
+npm run build
+
+# Test your plugin
+npm test
+
+# Publish to npm
+npm publish
+```
+
+**Example build configuration (rollup.config.js):**
+```javascript
+import { nodeResolve } from '@rollup/plugin-node-resolve'
+
+export default {
+  input: 'src/index.js',
+  output: [
+    { file: 'dist/index.js', format: 'cjs' },
+    { file: 'dist/index.esm.js', format: 'esm' },
+    { file: 'dist/index.umd.js', format: 'umd', name: 'ShortcutsTouchPlugin' }
+  ],
+  plugins: [nodeResolve()]
+}
+```
+
+**Users will then install and use your plugin:**
+```bash
+npm install shortcuts-touch-plugin
+```
 
 ```javascript
-import pluginTouch from './plugins/touch/index.js'
+import { shortcuts } from '@peter.naydenov/shortcuts'
+import pluginTouch from 'shortcuts-touch-plugin'
 
-// Add to exports
-export {
-    // ... existing exports
-    pluginTouch
-}
+const short = shortcuts()
+short.enablePlugin(pluginTouch)
 ```
 
 
@@ -439,7 +546,15 @@ const plugin = {
 
 ## Best Practices and Patterns
 
-### 1. Consistent Naming
+### 1. Plugin Distribution
+
+- **Standalone Packages**: Always distribute plugins as separate npm packages
+- **Naming Convention**: Use `shortcuts-[plugin-name]-plugin` format
+- **Peer Dependencies**: Declare shortcuts as peer dependency, not direct dependency
+- **Version Compatibility**: Specify compatible shortcuts library versions
+- **Documentation**: Include comprehensive README with usage examples
+
+### 2. Consistent Naming
 
 - Use lowercase prefixes: `click`, `key`, `form`, `hover`, `scroll`
 - Use consistent shortcut naming: `[PREFIX]:ACTION`
@@ -447,7 +562,15 @@ const plugin = {
 
 
 
-### 2. State Management
+### 2. Development Workflow
+
+- **Local Testing**: Test your plugin with local shortcuts installation
+- **Multiple Environments**: Test in browsers, Node.js (if applicable)
+- **Version Management**: Use semantic versioning for releases
+- **CI/CD**: Set up automated testing and publishing
+- **Examples**: Provide working examples in documentation
+
+### 3. State Management
 
 - Always provide a `resetState()` function
 - Clean up timers and listeners in `stop()` methods
@@ -699,8 +822,11 @@ export {
 
 ### Usage Example
 
+**For users installing your standalone plugin:**
+
 ```javascript
-import { shortcuts, pluginTouch } from '@peter.naydenov/shortcuts'
+import { shortcuts } from '@peter.naydenov/shortcuts'
+import pluginTouch from 'shortcuts-touch-plugin'  // Your published plugin
 
 const short = shortcuts()
 
@@ -780,13 +906,24 @@ describe('[Name] plugin', () => {
 
 ## Conclusion
 
-Creating a plugin for shortcuts follows a consistent pattern:
+Creating a **standalone plugin** for shortcuts follows a consistent pattern:
 
-1. **Structure**: Use the standard file structure
-2. **Integration**: Follow the setupPlugin pattern
-3. **State Management**: Maintain clean, isolated state
-4. **Events**: Emit consistent event data
-5. **API**: Provide standard plugin methods
-6. **Testing**: Test thoroughly following existing patterns
+1. **Independent Project**: Create as separate npm package, not part of library
+2. **Structure**: Use the standard file structure in your own project
+3. **Integration**: Follow the setupPlugin pattern for library compatibility
+4. **State Management**: Maintain clean, isolated state
+5. **Events**: Emit consistent event data
+6. **API**: Provide standard plugin methods
+7. **Distribution**: Publish as independent package with proper dependencies
+8. **Testing**: Test thoroughly following existing patterns
 
-By following this guide and studying the existing plugins, you can create robust, well-integrated plugins that extend the shortcuts library with new input types and capabilities.
+## 🎯 Key Takeaway
+
+**Plugins are designed to be independent, distributable packages** - not part of the core shortcuts library. This modular architecture allows:
+
+- **Third-party developers** to create and publish plugins
+- **Users** to install only the plugins they need
+- **Independent versioning** and development cycles
+- **Community ecosystem** of specialized input handlers
+
+By following this guide and studying the existing plugins, you can create robust, standalone plugins that extend the shortcuts library with new input types and capabilities, and share them with the community as independent packages.
