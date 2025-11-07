@@ -53,7 +53,8 @@ export default [
       'no-debugger': 'warn',
       'no-eval': 'warn',
       'no-duplicate-imports': 'error',
-      'object-shorthand': 'error'
+      'object-shorthand': 'error',
+      'prefer-const': 'error'
     },
     ignores: [
       'dist/**',
