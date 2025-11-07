@@ -58,7 +58,7 @@ return function _setupPlugin ( settings ) {
     inAPI._normalizeWithPlugins ( _normalizeShortcutName )
 
     let countShortcuts = _registerShortcutEvents ( plugDeps, pluginState );
-    const listener       = _listenDOM ( plugDeps, pluginState )   // DOM listener object with 'start' and 'stop' methods
+    const listener     = _listenDOM ( plugDeps, pluginState )   // DOM listener object with 'start' and 'stop' methods
     if ( countShortcuts > 0 )   listener.start ()
 
     const pluginAPI = {
