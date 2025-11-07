@@ -32,11 +32,11 @@ function pluginHover ( setupPlugin, options={} ) {
                                 , lastEvent  : ''         // 'on' or 'off'. Last executed hover event 
                                 , lastHoverTarget : null  // Last hovered HTML element or null
                                 , defaultOptions : {
-                                                hoverTarget : 'hover',
+                                                hoverTarget : [ 'data-hover' ],
                                                 wait : 320  // 320 ms
                                                 }
                                 , listenOptions  : {
-                                                hoverTarget : 'hover',
+                                                hoverTarget : [ 'data-hover' ],
                                                 wait : 320  // 320 ms
                                         }
                             } // pluginState
