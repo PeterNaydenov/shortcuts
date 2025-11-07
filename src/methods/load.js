@@ -32,10 +32,9 @@ return function load ( shortcutsUpdate ) {
                     shortcuts [ contextName ] = {}
 
                     Object.entries ( contextShortcuts ).forEach ( ([ title, payload ]) => {
-                                    const 
+                                    let 
                                           name = title
-                                        , test = title.toUpperCase().trim()
-                                        ;
+                                        ; const test = title.toUpperCase().trim()
                                         
                                     const pluginIndexList = pluginPrefixList.map ( (prefix,i) => test.startsWith ( prefix ) ? i : null ).filter ( i => i !== null );
                                     if ( pluginIndexList.length ) {

@@ -54,7 +54,9 @@ export default [
       'no-eval': 'warn',
       'no-duplicate-imports': 'error',
       'object-shorthand': 'error',
-      'prefer-const': 'error'
+      'prefer-const': 'error',
+      'no-console': 'warn',
+      'no-var': 'error'
     },
     ignores: [
       'dist/**',

@@ -14,10 +14,10 @@ function _normalizeShortcutName ( name ) {
                 , mouseNames = [ 'LEFT', 'MIDDLE', 'RIGHT' ]
                 , modifiers = [ 'ALT', 'SHIFT', 'CTRL' ]
                 ;   
-            const
+            let
                   btn = null
-                , usedModifiers = []
                 , counter = 0
+                ; const usedModifiers = []
                 , sliceIndex = upperCase.indexOf ( ':' )
                 ;
 
