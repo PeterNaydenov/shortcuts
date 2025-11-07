@@ -109,7 +109,7 @@ function main ( options = {} ) {
                     , ERROR_EVENT_NAME : ( options.errorEventName ) ? options.errorEventName : '@shortcuts-error'
               } // state
         ;
-    let dependencies = { 
+    const dependencies = { 
                               ev
                             , inAPI
                             , API
@@ -127,7 +127,7 @@ function main ( options = {} ) {
     API.enablePlugin = ( plugin, options={}) => {
                 if ( typeof plugin !== 'function' ) return
                 const setupPlugin = inAPI._setupPlugin
-                let plugApp = plugin ( setupPlugin, options )
+                const plugApp = plugin ( setupPlugin, options )
                 const 
                       name = plugApp.getPrefix ()
                     , ix = inAPI._systemAction ( name, 'none' )
@@ -213,7 +213,7 @@ function main ( options = {} ) {
        * @returns {void}
        */
     API.pause = (name='*') => {
-                        let pausedEvent = inAPI._readShortcutWithPlugins ( name );
+                        const pausedEvent = inAPI._readShortcutWithPlugins ( name );
                         ev.stop ( pausedEvent )
                   }
 

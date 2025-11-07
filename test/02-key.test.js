@@ -64,7 +64,7 @@ const contextDefinition = {
                     }
       }
 
-let short = shortcuts ();
+const short = shortcuts ();
 
 
 
@@ -95,7 +95,7 @@ describe ( 'Key plugin', () => {
 
 
       it ( 'No "key" plugin installed', () => {
-                          let r = short.listShortcuts ('general');
+                          const r = short.listShortcuts ('general');
                           // Shortcut name is the same as it was set
                           expect ( r[0]).to.equal ( ' key : shift+a' ) 
           }) // it no 'key' plugin installed
@@ -151,7 +151,7 @@ describe ( 'Key plugin', () => {
                 short.load ({
                       'local': {
                                   'key: x,y,z' : ({ dependencies }) => {
-                                                    let { result } = dependencies;
+                                                    const { result } = dependencies;
                                                     result.push ( i++ )
                                                 }
                                 }
@@ -207,7 +207,7 @@ describe ( 'Key plugin', () => {
                 *            // Body of the handler. Do something...
                 *       }
                 */
-                let test = [];
+                const test = [];
                 let i = 0;
                 short.enablePlugin ( pluginKey )
                 short.setDependencies ({ test })
@@ -245,7 +245,7 @@ describe ( 'Key plugin', () => {
                 await wait ( 50 )  // Wait for key processing
                 await waitFor ( () => {
                             expect ( i ).to.be.equal ( 1 )
-                            let result = test[0];
+                            const result = test[0];
                             expect ( result.wait ).to.be.equal ( 'function' )
                             expect ( result.end ).to.be.equal ( 'function' )
                             expect ( result.ignore ).to.be.equal ( 'function' )
@@ -281,7 +281,7 @@ describe ( 'Key plugin', () => {
 
       
       it ( 'Wait and ignore in key sequence', async () => {
-                        let emitted = [];
+                        const emitted = [];
                         short.setDependencies ({ emitted })
                         short.load ({
                               'waittest' : {
@@ -333,7 +333,7 @@ describe ( 'Key plugin', () => {
 
       
       it ( 'Ignore keys after sequence', async () => {
-                        let emitted = [];
+                        const emitted = [];
                         short.setDependencies ({ emitted })
                         short.load ({
                               'waittest' : {
@@ -378,7 +378,7 @@ describe ( 'Key plugin', () => {
       
 
       it ( 'Stop a plugin durring a sequence', async () => {
-                        let emitted = [];
+                        const emitted = [];
                         short.setDependencies ({ emitted })
                         short.load ({
                               'waittest' : {
@@ -411,7 +411,7 @@ describe ( 'Key plugin', () => {
 
 
       it ( 'Key setup event', async () => {
-                        let emitted = [];
+                        const emitted = [];
                         short.setDependencies ({ emitted })
                         short.load ({
                               'local' : {
@@ -430,12 +430,12 @@ describe ( 'Key plugin', () => {
                          
                         short.enablePlugin ( pluginKey )
                         short.changeContext ( 'local' )
-                        let start = performance.now ()
+                        const start = performance.now ()
                         await userEvent.keyboard ( 'a' )
                         await wait ( 150 )
                         await userEvent.keyboard ( 'a' )
                         await waitFor ( () => {
-                              let end = performance.now ()
+                              const end = performance.now ()
                               expect ( end - start ).to.be.lessThan ( 200 )
                               expect ( emitted ).to.deep.equal ( [ 'setup', 'a', 'a' ] )
                         }, { timeout: 1000, interval: 12 })

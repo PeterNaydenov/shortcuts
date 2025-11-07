@@ -27,7 +27,7 @@ function _listenDOM ( dependencies, state ) {
         let timeout = null; 
 
         function setupData ( dependencies, state, event, type) {
-                let 
+                const 
                       { left, top, width, height } = event.target.getBoundingClientRect ()
                     , scrollX = window.scrollX
                     , scrollY = window.scrollY
@@ -89,7 +89,7 @@ function _listenDOM ( dependencies, state ) {
                         ev.emit ( key, prop, callbacks[key] )
                         return
                     }
-                let fn = () => ev.emit ( key, prop, callbacks[key] )
+                const fn = () => ev.emit ( key, prop, callbacks[key] )
                 clearTimeout ( timeout )
                 timeout = setTimeout ( fn, wait )
             } // input func.

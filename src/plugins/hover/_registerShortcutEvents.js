@@ -24,12 +24,12 @@ const
     ;
     if ( contextName == null )   return count   // No context
     Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {   
-                        let isHoverEv = regex.test ( shortcutName );
+                        const isHoverEv = regex.test ( shortcutName );
                         if ( !isHoverEv ) return
                         if ( shortcutName === 'HOVER:SETUP' ) {
                                         hasSetup = true
-                                        let updateOptions = list.reduce ( ( res, fn ) => {
-                                                        let r = fn ({ 
+                                        const updateOptions = list.reduce ( ( res, fn ) => {
+                                                        const r = fn ({ 
                                                                         dependencies : dependencies.extra, 
                                                                         defaults     : structuredClone ( pluginState.defaultOptions ),
                                                                         options      : pluginState.listenOptions

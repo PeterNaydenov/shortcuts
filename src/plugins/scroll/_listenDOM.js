@@ -51,7 +51,7 @@ function listenForScroll ( event ) {
         if ( !lastPosition ) return; // No previous position to compare
 
         let direction = null;
-        let
+        const
               currentX = window.scrollX
             , currentY = window.scrollY
             , verticalChange   = Math.abs ( currentY - lastPosition.y )

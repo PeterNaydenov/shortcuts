@@ -11,7 +11,7 @@
 function _findTarget ( dependencies, state, target ) {
     const { listenOptions : {clickTarget}} = state;
 
-    let t = target;
+    const t = target;
     if ( t === document.body )   return null
 
     const found = clickTarget.some ( attr => ( t.hasAttribute ( attr ) ) )

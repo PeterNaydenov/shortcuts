@@ -45,7 +45,7 @@ function listenForHover ( event ) {
           , y = event.clientY
           ;
         
-        let 
+        const 
               { 
                   hovered
                 , hoverRectangle
@@ -61,7 +61,7 @@ function listenForHover ( event ) {
         if ( inside ( hoverRectangle, x, y ) )   return
 
         function  getData (tg) {
-                    let 
+                    const 
                           { left, top, width, height } = tg.getBoundingClientRect ()
                         , scrollX = window.scrollX
                         , scrollY = window.scrollY

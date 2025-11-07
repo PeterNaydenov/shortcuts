@@ -11,7 +11,7 @@
 function _findTarget ( dependencies, state, target ) {
     const { listenOptions : {hoverTarget}} = state;
 
-    let t = target;
+    const t = target;
     if ( t === document.body )   return false
     if ( t === document      )   return false
     const found = hoverTarget.some ( attr => ( t.hasAttribute ( attr ) ) )

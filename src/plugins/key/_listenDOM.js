@@ -56,7 +56,7 @@ function _listenDOM ( dependencies, state ) {
 
 
     function keySequenceEnd () {   // Execute when key sequence ends
-                    let res =  r.map ( x => ([x.join('+')])   )
+                    const res =  r.map ( x => ([x.join('+')])   )
                     
                     const data = {
                                       wait: waitKeys
@@ -77,7 +77,7 @@ function _listenDOM ( dependencies, state ) {
                             };
 
                     if ( !sequence ) {
-                             let signal = `KEY:${res.at(-1).join('+')}`;
+                             const signal = `KEY:${res.at(-1).join('+')}`;
                              ev.emit ( signal, data )
                              if ( ignore ) {
                                          r = r.slice ( 0, -1 )
@@ -105,7 +105,7 @@ function _listenDOM ( dependencies, state ) {
     
     function listenForSpecialKeys ( event ) { // Listen for special keyboard keys
                 clearTimeout ( keyTimer )
-                let _sp = _specialChars ()
+                const _sp = _specialChars ()
                 if ( _sp.hasOwnProperty(event.code) )   r.push ( _readKeyEvent ( event, _specialChars ))
                 else                                    return
                 if ( streamKeys )   streamKeys ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })

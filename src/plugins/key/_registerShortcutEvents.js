@@ -26,12 +26,12 @@ const
 
 if ( contextName == null )   return 0
 Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {   // Enable new context shortcuts and set a listenOptions 'maxSequence'      
-                let isKeyboardEv = regex.test ( shortcutName );
+                const isKeyboardEv = regex.test ( shortcutName );
                 if ( !isKeyboardEv ) return
                 if ( shortcutName === 'KEY:SETUP' ) {
                                 hasSetup = true
-                                let updateOptions = list.reduce ( ( res, fn ) => {
-                                                let r = fn ({ 
+                                const updateOptions = list.reduce ( ( res, fn ) => {
+                                                const r = fn ({ 
                                                                 dependencies : dependencies.extra, 
                                                                 defaults     : structuredClone(pluginState.defaultOptions),
                                                                 options      : pluginState.listenOptions 
@@ -42,7 +42,7 @@ Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {
                                 return
                     }
                 count++
-                let sequenceArraySize = shortcutName.slice(4).split(',').length;
+                const sequenceArraySize = shortcutName.slice(4).split(',').length;
                 if ( pluginState.maxSequence < sequenceArraySize )   pluginState.maxSequence = sequenceArraySize
         })
 

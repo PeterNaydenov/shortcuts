@@ -66,7 +66,7 @@ const contextDefinition = {
 
 
                                     
-let short = shortcuts ();
+const short = shortcuts ();
 
 
 
@@ -74,7 +74,7 @@ describe ( "Shortcuts", () => {
 
         beforeEach ( async  () => {
                         short.load ( contextDefinition )
-                        let container = document.createElement ( 'div' )
+                        const container = document.createElement ( 'div' )
                         container.id = 'app'
                         document.body.appendChild ( container )
                         await html.publish ( Block, {}, 'app' )
@@ -119,7 +119,7 @@ describe ( "Shortcuts", () => {
         it ( 'List enabled plugins. Disable and enable plugins', async () => {
                      expect ( short.listPlugins () ).to.be.deep.equal ( [] )
                      // Enable list of plugins
-                     let myPlugins = [ pluginKey, pluginClick ]
+                     const myPlugins = [ pluginKey, pluginClick ]
                      myPlugins.forEach ( plugin =>  short.enablePlugin ( plugin )   )
                      expect ( short.listPlugins () ).to.be.deep.equal ( [ 'key', 'click' ] )
                      // Method disablePlugin require plugin name (prefix)
@@ -146,7 +146,7 @@ describe ( "Shortcuts", () => {
 
         it ( 'Unload non existing context', () => {
                       let change = false;
-                      let ls = short.listContexts ()
+                      const ls = short.listContexts ()
                       short.load ( {
                               local : {
                                       'click : leff-1' : () => console.log ( 'nothing' ),
@@ -233,12 +233,12 @@ describe ( "Shortcuts", () => {
         it ( 'List shortcuts', () => {
                       short.enablePlugin ( pluginKey )
 
-                      let general =  short.listShortcuts ('general');
+                      const general =  short.listShortcuts ('general');
                       expect ( general ).to.be.an ( 'array' )
                       expect ( general ).to.have.lengthOf ( 2 )
                       expect ( general ).to.include ( 'KEY:A+SHIFT' )
                       
-                       let fail = short.listShortcuts ( 'somethingNotExisting' );
+                       const fail = short.listShortcuts ( 'somethingNotExisting' );
                        expect ( fail ).to.be.null
 
                        // Edge cases for invalid context types
@@ -247,7 +247,7 @@ describe ( "Shortcuts", () => {
                        expect ( short.listShortcuts ( [] ) ).to.be.null
                        expect ( short.listShortcuts ( undefined ) ).to.be.an ( 'array' )  // undefined == null, so lists all
 
-                       let all = short.listShortcuts ();
+                       const all = short.listShortcuts ();
                       expect ( all ).to.be.an ( 'array' )
                    
                       expect ( all ).to.have.lengthOf ( 4 )

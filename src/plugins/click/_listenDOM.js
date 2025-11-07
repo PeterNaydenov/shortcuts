@@ -42,7 +42,7 @@ function _listenDOM ( dependencies, state ) {
 
         function mouseSequenceEnd () {   // Execute when mouse sequence ends
                         if ( !mouseTarget ) return  // No valid target found                        
-                        let 
+                        const 
                                 { left, top, width, height } = mouseTarget.getBoundingClientRect ()
                               , scrollX = window.scrollX
                               , scrollY = window.scrollY

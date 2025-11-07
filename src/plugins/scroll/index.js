@@ -18,7 +18,7 @@ import _registerShortcutEvents from "./_registerShortcutEvents"
  */
 function pluginScroll ( setupPlugin, options={} ) {
     // up, down, left, right
-        let 
+        const 
                  deps = {
                           regex : /SCROLL\s*\:/i
                         }

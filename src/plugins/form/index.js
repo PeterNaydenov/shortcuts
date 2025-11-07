@@ -19,7 +19,7 @@ import _defaults from './_defaults.js'
  */
 function pluginForm ( setupPlugin, options={} ) {
 
-    let 
+    const 
                  deps = {
                                _defaults
                              , regex : /FORM\s*\:/i

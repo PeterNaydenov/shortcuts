@@ -14,7 +14,7 @@ function _normalizeShortcutName ( name ) {
                 , mouseNames = [ 'LEFT', 'MIDDLE', 'RIGHT' ]
                 , modifiers = [ 'ALT', 'SHIFT', 'CTRL' ]
                 ;   
-            let
+            const
                   btn = null
                 , usedModifiers = []
                 , counter = 0
@@ -25,7 +25,7 @@ function _normalizeShortcutName ( name ) {
 
             if ( !isClickShortcut            )   return name
             if ( upperCase.includes('SETUP') )   return 'CLICK:SETUP'
-            let shortcutArray = upperCase.slice(sliceIndex+1).trim().split('-').map ( x => x.trim() );
+            const shortcutArray = upperCase.slice(sliceIndex+1).trim().split('-').map ( x => x.trim() );
             shortcutArray.forEach ( item => {
                         if ( mouseNames.includes ( item )) { 
                                 btn = item

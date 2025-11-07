@@ -17,7 +17,7 @@ import _registerShortcutEvents from "./_registerShortcutEvents"
  * @returns {PluginAPI} Plugin API
  */
 function pluginHover ( setupPlugin, options={} ) {
-        let 
+        const 
                  deps = {
                                _findTarget
                              , regex : /HOVER\s*\:/i

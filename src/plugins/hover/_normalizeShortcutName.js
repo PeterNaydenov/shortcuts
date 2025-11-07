@@ -7,10 +7,10 @@ function _normalizeShortcutName ( name ) {
                 , isHoverShortcut = regex.test ( upperCase )
                 ;   
                 
-            let sliceIndex = upperCase.indexOf ( ':' );
+            const sliceIndex = upperCase.indexOf ( ':' );
 
             if ( !isHoverShortcut )   return name
-            let shortcut = upperCase.slice(sliceIndex+1).trim ()                            
+            const shortcut = upperCase.slice(sliceIndex+1).trim ()                            
             return `HOVER:${shortcut}` 
 } // _normalizeShortcutName func.
 

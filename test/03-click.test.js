@@ -90,7 +90,7 @@ const contextDefinition = {
        }
 
 
-let short = shortcuts ();
+const short = shortcuts ();
 
 
 
@@ -100,7 +100,7 @@ describe ( 'Click plugin', () => {
 
       beforeEach ( async  () => {
                     short.load ( contextDefinition )
-                    let container = document.createElement ( 'div' );
+                    const container = document.createElement ( 'div' );
                     container.id = 'app'
                     document.body.appendChild ( container )
                     await html.publish ( Block, {}, 'app' )
@@ -126,7 +126,7 @@ describe ( 'Click plugin', () => {
 
 
       it ( 'No "click" plugin installed', async () => {
-                          let r = short.listShortcuts ('touch');
+                          const r = short.listShortcuts ('touch');
                           // Shortcuts are untouched if plugin is not installed
                           expect ( r[0]).to.equal ( ' click: left-1' )
           }) // it no 'click' plugin installed
@@ -135,7 +135,7 @@ describe ( 'Click plugin', () => {
 
       it ( 'Click plugin installed', async () => {
                           short.enablePlugin ( pluginClick )
-                          let r = short.listShortcuts ( 'touch' );
+                          const r = short.listShortcuts ( 'touch' );
                           // Shortcuts are normalized
                           expect ( r[0]).to.equal ( 'CLICK:LEFT-1' )
           }) // it click plugin installed
@@ -251,7 +251,7 @@ describe ( 'Click plugin', () => {
 
       it ( 'Ignore clicks on elements that are not a target', async () => {
                             short.enablePlugin ( pluginClick )
-                            let 
+                            const 
                                 hidden = document.getElementById ( 'hidden' )
                               , name = document.getElementById ( 'name' )
                               , hitItem = document.querySelector ( '#rspan' )
@@ -276,7 +276,7 @@ describe ( 'Click plugin', () => {
                             short.enablePlugin ( pluginClick )
                             // Reload because in testcase 'Double right click' context  'touch' was changed;
                             short.load ( contextDefinition )
-                            let hitItem = document.querySelector ( '#rspan' );
+                            const hitItem = document.querySelector ( '#rspan' );
                             short.changeContext ( 'touch' )
                             
                             await userEvent.click ( hitItem , { button:'right' })
@@ -299,7 +299,7 @@ describe ( 'Click plugin', () => {
          it ( 'Click with modifiers', async () => {
                             short.enablePlugin ( pluginClick )
                             short.changeContext ( 'touch' )
-                            let r = short.listShortcuts ('touch');
+                            const r = short.listShortcuts ('touch');
                             expect ( r ).to.include ( 'CLICK:LEFT-1-ALT' )
                             const hitItem = document.querySelector ( '.block' );
                             // Click with alt key - should trigger the alt shortcut
@@ -323,7 +323,7 @@ describe ( 'Click plugin', () => {
          it ( 'Click with ctrl modifier', async () => {
                             short.enablePlugin ( pluginClick )
                             short.changeContext ( 'touch' )
-                            let r = short.listShortcuts ('touch');
+                            const r = short.listShortcuts ('touch');
                             expect ( r ).to.include ( 'CLICK:LEFT-1-CTRL' )
                             const hitItem = document.querySelector ( '.block' );
                             // Click with ctrl key - should trigger the ctrl shortcut
@@ -337,7 +337,7 @@ describe ( 'Click plugin', () => {
          it ( 'Click with shift modifier', async () => {
                             short.enablePlugin ( pluginClick )
                             short.changeContext ( 'touch' )
-                            let r = short.listShortcuts ('touch');
+                            const r = short.listShortcuts ('touch');
                             expect ( r ).to.include ( 'CLICK:LEFT-1-SHIFT' )
                             const hitItem = document.querySelector ( '.block' );
                             // Click with shift key - should trigger the shift shortcut
@@ -366,8 +366,8 @@ describe ( 'Click plugin', () => {
                  *       }
                  */
                  // Ensure clean state for this test
-                 let megaBtn = document.querySelector ( '[data-click="mega"]' )
-                 let test = [];
+                 const megaBtn = document.querySelector ( '[data-click="mega"]' )
+                 const test = [];
                  let i = 0;
                 short.enablePlugin ( pluginClick )
                 short.setDependencies ({ test })
@@ -402,7 +402,7 @@ describe ( 'Click plugin', () => {
                  await wait ( 50 )  // Wait for click processing
                  await waitFor ( () => {
                               expect ( i ).to.be.equal ( 1 )      
-                              let result = test[0];
+                              const result = test[0];
                               expect ( result.target ).to.be.equal ( 'mega' )
                               expect ( result.context ).to.be.equal ( 'local' )
                         }, { timeout: 1000, interval: 12 })
@@ -424,7 +424,7 @@ describe ( 'Click plugin', () => {
                                                 } 
                                     })
                         short.changeContext ( 'extra' )
-                        let loc = document.querySelector ( '#anchor' )  || false;
+                        const loc = document.querySelector ( '#anchor' )  || false;
                         if ( loc )   await userEvent.click ( loc )
                         expect ( result ).to.be.equal ( 'A' )  
           }) // it click on anchor
@@ -444,7 +444,7 @@ describe ( 'Click plugin', () => {
                         short.load ({
                               'local' : {
                                     'click: left-1 ' : ({dependencies}) => {
-                                                let { result } = dependencies;
+                                                const { result } = dependencies;
                                                 result.push ( i++ )
                                           }
                                     }
@@ -485,7 +485,7 @@ describe ( 'Click plugin', () => {
 
 
       it ( 'Pause and resume', async () => {
-                        let target = document.querySelector ( '#rspan' )
+                        const target = document.querySelector ( '#rspan' )
                         short.enablePlugin ( pluginClick )
                         expect ( b ).to.be.equal ( false )
                         short.changeContext ( 'touch' )
@@ -534,7 +534,7 @@ describe ( 'Click plugin', () => {
                            short.changeContext ( 'clickSetup' )
                            expect ( emit[0] ).to.equal ( 'setup' )
                            
-                           let 
+                           const 
                                  target = document.querySelector ( '#rspan' )
                                , startTime = performance.now()
                                ;
@@ -584,7 +584,7 @@ describe ( 'Click plugin', () => {
                         // Setup event execution is on change context:
                         expect ( emit[0] ).to.equal ( 'setup' )
                         
-                        let target = document.querySelector ( '[data-hover="blue"]' );
+                        const target = document.querySelector ( '[data-hover="blue"]' );
                         
                         // Click and measure time
                         await userEvent.click ( target )                        

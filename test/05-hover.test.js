@@ -71,7 +71,7 @@ const contextDefinition = {
       }
 
 
-let short = shortcuts ();
+const short = shortcuts ();
 
 
 
@@ -81,7 +81,7 @@ describe ( 'Hover plugin', () => {
 
       beforeEach ( async  () => {
                     short.load ( contextDefinition )
-                    let container = document.createElement ( 'div' );
+                    const container = document.createElement ( 'div' );
                     container.id = 'app'
                     document.body.appendChild ( container )
                     await html.publish ( Block, {}, 'app' )
@@ -107,7 +107,7 @@ describe ( 'Hover plugin', () => {
 
 
       it ( 'No "hover" plugin installed', async () => {
-                          let r = short.listShortcuts ('touch');
+                          const r = short.listShortcuts ('touch');
                           // Shortcuts are untouched if plugin is not installed
                           expect ( r[0]).to.equal ( ' hover : on' )
           }) // it no 'hover' plugin installed
@@ -116,7 +116,7 @@ describe ( 'Hover plugin', () => {
 
       it ( 'Hover plugin installed', async () => {
                           short.enablePlugin ( pluginHover )
-                          let r = short.listShortcuts ( 'touch' );
+                          const r = short.listShortcuts ( 'touch' );
                           // Shortcuts are normalized
                           expect ( r[0]).to.equal ( 'HOVER:ON' )
           }) // it hover plugin installed
@@ -152,7 +152,7 @@ describe ( 'Hover plugin', () => {
                               }, { timeout: 1000, interval: 12 })
                           // Simulate off by hovering another element
                         //   await userEvent.hover ( document.body )
-                          let unhoverToInput = document.querySelector ( '#name' );
+                          const unhoverToInput = document.querySelector ( '#name' );
                           await userEvent.hover ( unhoverToInput )
                           await wait ( 320 )
                           await waitFor ( () => {
@@ -180,8 +180,8 @@ describe ( 'Hover plugin', () => {
                  *       }
                  */
                  // Ensure clean state for this test
-                 let megaBtn = document.querySelector ( '[data-click="mega"]' )
-                 let test = [];
+                 const megaBtn = document.querySelector ( '[data-click="mega"]' )
+                 const test = [];
                  let i = 0;
                 short.enablePlugin ( pluginHover )
                 short.setDependencies ({ test })
@@ -216,7 +216,7 @@ describe ( 'Hover plugin', () => {
                  await wait ( 340 )  // Wait for hover processing
                  await waitFor ( () => {
                               expect ( i ).to.be.equal ( 1 )      
-                              let result = test[0];
+                              const result = test[0];
                               expect ( result.target ).to.be.equal ( 'blue' )
                               expect ( result.context ).to.be.equal ( 'local' )
                         }, { timeout: 1000, interval: 12 })
@@ -237,7 +237,7 @@ describe ( 'Hover plugin', () => {
                                         }
                             })
                         short.changeContext ( 'extra' )
-                        let loc = document.querySelector ( '#rspan' )  || false;
+                        const loc = document.querySelector ( '#rspan' )  || false;
                         if ( loc )   await userEvent.hover ( loc )
                         await waitFor ( () => {
                                     expect ( result ).to.be.equal ( 'DIV' )        
@@ -261,7 +261,7 @@ describe ( 'Hover plugin', () => {
                         short.load ({
                               'local' : {
                                             'hover : on' : ({dependencies}) => {
-                                                            let { result } = dependencies;
+                                                            const { result } = dependencies;
                                                             result.push ( i++ )
                                                         }
                                     }
@@ -306,7 +306,7 @@ describe ( 'Hover plugin', () => {
 
 
       it ( 'Pause and resume', async () => {
-                        let 
+                        const 
                               target    = document.querySelector ( '#rspan' )
                             , targetOff = document.querySelector ( '#name' )
                             ;
@@ -338,7 +338,7 @@ describe ( 'Hover plugin', () => {
 
 
       it ( 'Fast move over hover target', async () => {
-                        let 
+                        const 
                               target    = document.querySelector ( '#rspan' )
                             , targetOff = document.querySelector ( '#name' )
                             ;
@@ -364,16 +364,16 @@ describe ( 'Hover plugin', () => {
             
       it ( 'Immediate hover switch between elements', async () => {
                         // Test lines 91-93: immediate hover switch without delay
-                        let events = [];
+                        const events = [];
                         short.setDependencies ({ events })
                         short.load ({
                               'immediate' : {
                                             'hover : on' : ({ target, dependencies }) => {
-                                                              let { events } = dependencies;
+                                                              const { events } = dependencies;
                                                               events.push ( { type: 'on', target: target.dataset.hover || target.id } )
                                                           }
                                           , 'hover: off' : ({ target, dependencies }) => {
-                                                              let { events } = dependencies;
+                                                              const { events } = dependencies;
                                                               events.push ( { type: 'off', target: target.dataset.hover || target.id } )
                                                           }
                                     }

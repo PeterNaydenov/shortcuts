@@ -1,7 +1,7 @@
 'use strict'
 
 function _readKeyEvent ( event, _specialChars ) {
-    let
+    const
           { shiftKey, altKey, ctrlKey } = event
         , falseKeys = [ 'ControlLeft','ControlRight', 'ShiftLeft', 'ShiftRight', 'AltLeft', 'AltRight', 'Meta' ]
         , _sp = _specialChars ()

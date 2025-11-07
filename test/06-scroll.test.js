@@ -53,7 +53,7 @@ const contextDefinition = {
       }
 
 
-let short = shortcuts ();
+const short = shortcuts ();
 
 
 
@@ -63,7 +63,7 @@ describe ( 'Scroll plugin', () => {
 
       beforeEach ( async  () => {
                     short.load ( contextDefinition )
-                    let container = document.createElement ( 'div' );
+                    const container = document.createElement ( 'div' );
                     container.id = 'app'
                     document.body.appendChild ( container )
                     // Make page scrollable both vertically and horizontally
@@ -88,7 +88,7 @@ describe ( 'Scroll plugin', () => {
 
 
        it ( 'No "scroll" plugin installed', async () => {
-                           let r = short.listShortcuts ('scroll');
+                           const r = short.listShortcuts ('scroll');
                            // Shortcuts are untouched if plugin is not installed
                            expect ( r[0]).to.equal ( ' scroll: up' )
                            expect ( r[1]).to.equal ( 'scroll : down' )
@@ -109,7 +109,7 @@ describe ( 'Scroll plugin', () => {
 
       it ( 'Scroll plugin installed', async () => {
                           short.enablePlugin ( pluginScroll )
-                          let r = short.listShortcuts ( 'scroll' );
+                          const r = short.listShortcuts ( 'scroll' );
                           // Shortcuts are normalized
                           expect ( r[0]).to.equal ( 'SCROLL:UP' )
                           expect ( r[1]).to.equal ( 'SCROLL:DOWN' )
@@ -191,7 +191,7 @@ describe ( 'Scroll plugin', () => {
 
 
         it ( 'Combined horizontal and vertical scroll', async () => {
-                             let scrollEvents = []
+                             const scrollEvents = []
                              short.setDependencies ({ scrollEvents })
                              short.changeContext ( 'scroll' )
                              short.enablePlugin ( pluginScroll )

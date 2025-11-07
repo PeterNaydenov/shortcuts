@@ -10,7 +10,7 @@ function _normalizeShortcutName ( name ) {
             
             if ( !isKeyboardShortcut          )   return name
             if ( upperCase.includes ( 'SETUP'))   return 'KEY:SETUP'
-            let shortcut = upperCase
+            const shortcut = upperCase
                                .slice(sliceIndex+1)
                                .split(',')
                                .map ( key => key.trim() )

@@ -22,7 +22,7 @@ import _registerShortcutEvents from "./_registerShortcutEvents"
  * @returns {PluginAPI} Plugin API
  */
 function pluginClick ( setupPlugin, options = {}) {
-        let 
+        const 
                   deps = {
                                 _findTarget
                              , _readClickEvent

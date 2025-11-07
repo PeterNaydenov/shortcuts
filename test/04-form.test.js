@@ -64,7 +64,7 @@ const contextDefinition = {
                     }
       }
 
-let short = shortcuts ();
+const short = shortcuts ();
 
 
 
@@ -72,7 +72,7 @@ describe ( 'Form plugin', () => {
 
       beforeEach ( async  () => {
                         short.load ( contextDefinition )
-                        let container = document.createElement ( 'div' )
+                        const container = document.createElement ( 'div' )
                         container.id = 'app'
                         document.body.appendChild ( container )
                         await html.publish ( Block, {}, 'app' )
@@ -125,7 +125,7 @@ describe ( 'Form plugin', () => {
                                 };
                         short.load ( contextExtension )
                         short.changeContext ( 'local' )
-                        let input = document.getElementById ( 'name' )
+                        const input = document.getElementById ( 'name' )
                         input.focus ()
                         await userEvent.keyboard ( 'hello' )
                         await wait ( 50 )
@@ -138,7 +138,7 @@ describe ( 'Form plugin', () => {
 
         it ( 'Arguments for action function', async () => {
                          short.enablePlugin ( pluginForm )
-                         let storage = [];
+                         const storage = [];
                          short.setDependencies ({ storage })
                          const contextExtension = {
                                          local: {
@@ -158,7 +158,7 @@ describe ( 'Form plugin', () => {
                                  } // contextExtension
                          short.load ( contextExtension )
                          short.changeContext ( 'local' )
-                         let input = document.getElementById ( 'name' )
+                         const input = document.getElementById ( 'name' )
                          input.focus ()
                          await userEvent.keyboard ( 'hello' )
                          await wait ( 50 )
@@ -174,7 +174,7 @@ describe ( 'Form plugin', () => {
         
         it ( 'Arguments for "form:watch"', async () => {
                          short.enablePlugin ( pluginForm )
-                         let storage = [];
+                         const storage = [];
                          short.setDependencies ({ storage })
                          const contextExtension = {
                                          local: {
@@ -195,7 +195,7 @@ describe ( 'Form plugin', () => {
                                  } // contextExtension
                          short.load ( contextExtension )
                          short.changeContext ( 'local' )
-                         let last = storage[storage.length - 1]
+                         const last = storage[storage.length - 1]
                          expect ( last ).to.equal ( 'watch' )
             }) // it arguments for "form:watch"
         
@@ -203,7 +203,7 @@ describe ( 'Form plugin', () => {
         
         it ( 'Arguments for "form:define"', async () => {
                          short.enablePlugin ( pluginForm )
-                         let storage = [];
+                         const storage = [];
                          short.setDependencies ({ storage })
                          const contextExtension = {
                                          local: {
@@ -224,7 +224,7 @@ describe ( 'Form plugin', () => {
                                  } // contextExtension
                          short.load ( contextExtension )
                          short.changeContext ( 'local' )
-                         let last = storage[storage.length - 1]
+                         const last = storage[storage.length - 1]
                          expect ( last ).to.equal ( 'define' )
             }) // it arguments for "form:watch"
 
@@ -233,7 +233,7 @@ describe ( 'Form plugin', () => {
         it ( 'Reveal and click', async () => {
                         // Clear any existing plugins first to ensure clean state
                         short.enablePlugin ( pluginForm )
-                        let x = short.enablePlugin ( pluginClick )
+                        const x = short.enablePlugin ( pluginClick )
 
                         let sum = 0;
                         const contextExtension = {
@@ -259,7 +259,7 @@ describe ( 'Form plugin', () => {
                                 };
                         short.load ( contextExtension )
                         short.changeContext ( 'reveal' )
-                        let 
+                        const 
                              input = document.getElementById ( 'name' )
                            , hidden = document.getElementById ( 'hidden' )
                            , red = document.getElementById ( 'rspan' )
@@ -314,7 +314,7 @@ describe ( 'Form plugin', () => {
                         // Setup event execution is on change context:
                         expect ( emit[0] ).to.equal ( 'setup' )
                         
-                        let input = document.getElementById ( 'name' )
+                        const input = document.getElementById ( 'name' )
                         input.focus ()
                         await userEvent.keyboard ( 'hello' )
                         await wait ( 50 )

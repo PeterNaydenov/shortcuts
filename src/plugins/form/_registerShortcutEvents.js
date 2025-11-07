@@ -42,11 +42,11 @@ const
         let watch=[], define=[], action=[], count = 0;
         if ( contextName == null )   return false
         Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {   
-                        let isFormEv = regex.test ( shortcutName );
+                        const isFormEv = regex.test ( shortcutName );
                         if ( !isFormEv ) return
                         if ( shortcutName.includes('SETUP' )) {
-                                        let updateOptions = list.reduce ( ( res, fn ) => {
-                                                        let r = fn ({ 
+                                        const updateOptions = list.reduce ( ( res, fn ) => {
+                                                        const r = fn ({ 
                                                                         dependencies : dependencies.extra, 
                                                                         defaults     : structuredClone ( pluginState.defaultOptions ),
                                                                         options      : pluginState.listenOptions
@@ -64,10 +64,10 @@ const
         
         if ( action.length === 0 )   return count
    
-        let setTypes = new Set ();
+        const setTypes = new Set ();
         if ( define.length === 0 )  define = [ _defaults.define ]
         if ( watch.length === 0  )  watch  = [ _defaults.watch ] 
-        let watchList = watch.map ( el => el ({ 
+        const watchList = watch.map ( el => el ({ 
                                                   dependencies : dependencies.extra 
                                                 , context : contextName 
                                                 , note
@@ -79,7 +79,7 @@ const
                                         }, [])
         pluginState.watchList = document.querySelectorAll ( watchList )
         pluginState.watchList.forEach ( el => {
-                                        let 
+                                        const 
                                                   { left, top, width, height } = el.getBoundingClientRect ()
                                                 , scrollX = window.scrollX
                                                 , scrollY = window.scrollY
@@ -111,7 +111,7 @@ const
                                 return false
                            }
                         
-                        let list = act ({ 
+                        const list = act ({ 
                                  dependencies : dependencies.extra,
                                  options      : pluginState.listenOptions
                          })
@@ -122,7 +122,7 @@ const
                            }
                         list.forEach ( ({fn, type, timing, wait=0 }) => {
                                         if ( setTypes.has ( type) && fn instanceof Function ) {
-                                                let key = `${type}/${timing}`
+                                                const key = `${type}/${timing}`
                                                 const hasProperty = callbacks.hasOwnProperty ( key );
                                                 hasProperty ? 
                                                                 callbacks[key].push ( fn ) :

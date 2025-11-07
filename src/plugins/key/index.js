@@ -21,7 +21,7 @@ import _specialChars           from './_specialChars.js'
  * @returns {PluginAPI} Plugin API
  */
 function pluginKey ( setupPlugin, options = {} ) {
-        let 
+        const 
                   deps = {
                                _specialChars
                              , _readKeyEvent
