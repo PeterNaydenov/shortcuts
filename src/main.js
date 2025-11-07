@@ -97,12 +97,10 @@ import pluginScroll from './plugins/scroll/index.js'
  * @returns {ShortcutsAPI} The shortcuts API
  */
 function main ( options = {} ) {
-    let  
+    const  
           inAPI = {}      // API for internal methods
         , API   = {}      // API for public methods
-        ;
-    const
-          ev = notice ()  // Event emitter instance
+        ,  ev = notice ()  // Event emitter instance
         , state = {
                       currentContext   : { name: null, note: null } // Context data container
                     , shortcuts        : {}   // shortcuts = { contextName : { shortcut :  callback[] } }
