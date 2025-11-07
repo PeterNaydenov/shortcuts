@@ -11,6 +11,9 @@
 - [x] Code: Plugin 'form' uses general app error event;
 - [x] Code: Plugin 'form'. Event 'form:watch' has named argument 'dependencies';
 - [x] Fix: Plugin 'form' on event 'form:define' - argument should be a named argument;
+- [x] Feature: Plugin 'click' parameter 'clickTarget' now accepts array of attribute names (default: ['data-click', 'href']);
+- [x] Feature: Plugin 'hover' parameter 'hoverTarget' now accepts array of attribute names (default: ['data-hover']);
+- [x] Documentation: Updated README.md and JSDoc comments to reflect array-based target attributes;
 
 
 

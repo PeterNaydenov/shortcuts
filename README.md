@@ -124,7 +124,7 @@ Target HTML elements for `hover` plugin are defined by `data-hover` attribute. T
 <!-- target name is 'menu' -->
 ```
 
-Attribute is customizable by setting `hoverTarget` hover plugin option. Read more in section `Options`.
+Attribute is customizable by setting `hoverTarget` hover plugin option. By default, it checks for `['data-hover']`. You can provide an array of attribute names. Read more in section `Options`.
 
 
 
@@ -163,7 +163,7 @@ const shortcutDefinition = {
             // Customize hover settings for this context only
             return {
                 wait: 200,           // Faster hover detection for navigation
-                hoverTarget: 'nav-item' // Custom attribute name
+                hoverTarget: ['data-nav-item', 'data-menu'] // Array of attribute names
             };
         },
         'hover:on': ({ target }) => {
@@ -178,7 +178,7 @@ const shortcutDefinition = {
             // Slower hover detection for tooltips
             return {
                 wait: 800,           // Slower hover detection
-                hoverTarget: 'tooltip' // Different attribute for tooltips
+                hoverTarget: ['data-tooltip', 'data-help'] // Different attributes for tooltips
             };
         },
         'hover:on': ({ target }) => {
@@ -411,7 +411,7 @@ const shortcutDefinition = {
             // Fast clicking for gaming or rapid interactions
             return {
                 mouseWait: 150,      // Very fast click detection
-                clickTarget: 'game-btn' // Custom attribute for game buttons
+                clickTarget: ['data-game-btn', 'data-action'] // Array of attributes for game buttons
             };
         },
         'click:left-1': ({ target }) => {
@@ -426,7 +426,7 @@ const shortcutDefinition = {
             // Slower clicking for form submissions or important actions
             return {
                 mouseWait: 600,      // Slower click detection
-                clickTarget: 'form-action' // Custom attribute for form actions
+                clickTarget: ['data-form-action', 'data-submit'] // Array of attributes for form actions
             };
         },
         'click:left-1': ({ target }) => {
@@ -456,7 +456,7 @@ Target HTML elements for `shortcuts` are defined by `data-click` attribute. The 
 <!-- target name is 'id' -->
 ```
 
-Attribute is customizable by setting `clickTarget` click plugin option. Read more in section `Options`.
+Attribute is customizable by setting `clickTarget` click plugin option. By default, it checks for `['data-click', 'href']`. You can provide an array of attribute names. Read more in section `Options`.
 
 If current shortcuts context contain definition for 2 or more clicks, this may slow down the execution of single shortcuts because `shortcuts` will wait for the time interval to detect multiple clicks. To avoid this for specific targets, you can set `data-quick-click` attribute to the target element. Example:
 
@@ -780,13 +780,13 @@ const short = shortcut ({onShortcut: (shortcut) => console.log(shortcut) }) // L
 ### Plugin 'click' options
 ```js
   mouseWait     : 'Timeout for entering multiple mouse events. Default value - 320.'
-, clickTarget   : 'Data attribute name to recognize click items in HTML. Default value - click' // data attribute 'click' means attribute ( data-click='someName' )
+, clickTarget   : 'Array of attribute names to recognize click items in HTML. Default value - ["data-click", "href"]' // checks for data-click='someName' or href attributes
 ```
 
 ### Plugin 'hover' options
 ```js
   wait          : 'Time to wait for hover sequence in ms. Default value - 320.'
-, hoverTarget   : 'Data attribute name to recognize hover items in HTML. Default value - hover' // data attribute 'hover' means attribute ( data-hover='someName' )
+, hoverTarget   : 'Array of attribute names to recognize hover items in HTML. Default value - ["data-hover"]' // checks for data-hover='someName' attribute
 ```
 
 ### Plugin 'scroll' options
@@ -806,12 +806,12 @@ Plugin options are provided as a second argument during the plugin enabling. It'
 
   short.enablePlugin ( pluginClick, {
                              mouseWait: 200     // set the interval between multiple clicks to 200ms
-                           , clickTarget: 'puk' // data attribute 'puk' means attribute ( data-puk='someName' )
+                           , clickTarget: ['data-puk', 'data-button'] // array of attribute names to check
                       })
 
   short.enablePlugin ( pluginHover, {
                              wait: 500         // set the hover delay to 500ms
-                           , hoverTarget: 'hover-me' // data attribute 'hover-me' means attribute ( data-hover-me='someName' )
+                           , hoverTarget: ['data-hover-me', 'data-interactive'] // array of attribute names to check
                       })
 
   short.enablePlugin ( pluginScroll, {
