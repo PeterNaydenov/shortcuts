@@ -34,11 +34,11 @@ function pluginClick ( setupPlugin, options = {}) {
                                 , maxRightClicks: 1  // How many right clicks can be pressed in a sequence. Controlled automatically by '_registerShortcutEvents' function.
                                 , defaultOptions : {
                                           mouseWait   : 320     // 320 ms
-                                        , clickTarget : 'click' // Data-attribute name for click target ( data-click )
+                                        , clickTarget : ['data-click', 'href' ]   // Attribute names as click targets
                                     }
                                 , listenOptions  : {
                                                       mouseWait     : 320   // 320 ms
-                                                    , clickTarget   : 'click' // Data-attribute name for click target ( data-click )
+                                                    , clickTarget   : [ 'data-click', 'href' ]  // Attribute names as click targets
                                                 }
                                 , streamKeys     : (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false   // Keyboard stream function
                             } // pluginState

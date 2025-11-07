@@ -14,8 +14,8 @@ function _findTarget ( dependencies, state, target ) {
     let t = target;
     if ( t === document.body )   return null
 
-    if ( t.dataset[clickTarget] ) return t
-    if ( t.nodeName === 'A'     ) return t
+    const found = clickTarget.some ( attr => ( t.hasAttribute ( attr ) ) )
+    if ( found ) return t
     return   _findTarget ( dependencies, state, t.parentNode ) 
 } // _findTarget func.
 
