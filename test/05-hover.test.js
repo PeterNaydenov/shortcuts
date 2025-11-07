@@ -1,5 +1,4 @@
-import { beforeEach, afterEach, describe, it, expect } from 'vitest'
-import { vi } from 'vitest'
+import { beforeEach, afterEach, describe, it, expect, vi } from 'vitest'
 import { userEvent } from 'vitest/browser'
 import {
   getByLabelText,
