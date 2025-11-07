@@ -24,7 +24,8 @@
     "test": "vitest",
     "test:ui": "vitest --ui --open",
     "cover": "vitest run --coverage",
-    "types": "tsc"
+    "types": "tsc",
+    "lint": "eslint src/ test/*.js"
   },
   "repository": {
     "type": "git",
