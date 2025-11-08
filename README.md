@@ -1,3 +1,5 @@
+<img src="shortcuts.png" width="100%" alt="Notice" align="center" />
+
 # Shortcuts (@peter.naydenov/shortcuts)
 
 ![version](https://img.shields.io/github/package-json/v/peterNaydenov/shortcuts)
