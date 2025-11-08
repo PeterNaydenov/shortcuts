@@ -1,5 +1,7 @@
 <img src="shortcuts.png" width="100%" alt="Notice" align="center" />
 
+
+
 # Shortcuts (@peter.naydenov/shortcuts)
 
 ![version](https://img.shields.io/github/package-json/v/peterNaydenov/shortcuts)
@@ -21,7 +23,7 @@ Currently existing plugins:
 
 
 ## Shortcut Description Rules
-The shortcuts definition includes a context name and a set of rules(object). The rules are a set of key-value pairs. The key is a shortcut name and the value is a function or array of functions, to be executed when the shortcut is triggered (action function).
+The shortcuts definition includes a context name and a set of rules(object). The rules are a set of key-value pairs. The key contains a plugin name and a shortcut name and the value is a function or array of functions, to be executed when the shortcut is triggered (action function).
 
 ### Per-Context Plugin Setup (Preferred Method)
 Every plugin supports a `setup` event (e.g., `key:setup`, `click:setup`, `hover:setup`, `scroll:setup`) that allows you to configure plugin settings specifically for that context. This is the **preferred method** for customizing plugins as it provides:
