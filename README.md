@@ -884,10 +884,11 @@ The `ShortcutsAPI` interface provides full type safety for all methods and their
 
 ## Links
 
-- [History of changes](https://github.com/PeterNaydenov/shortcuts/blob/main/Changelog.md)
-- [Migration guide](https://github.com/PeterNaydenov/shortcuts/blob/main/Migration.guide.md)
+- [API reference](https://github.com/PeterNaydenov/shortcuts/blob/main/API.md)
 - [How to make a plugin](https://github.com/PeterNaydenov/shortcuts/blob/main/How.to.make.plugins.md)
-
+- [ Build a SPA apps with shortcuts (@peter.naydenov/cuts)](https://github.com/PeterNaydenov/cuts )
+- [History of changes - changelog](https://github.com/PeterNaydenov/shortcuts/blob/main/Changelog.md)
+- [Migration guide](https://github.com/PeterNaydenov/shortcuts/blob/main/Migration.guide.md)
 
 
 ## Credits
