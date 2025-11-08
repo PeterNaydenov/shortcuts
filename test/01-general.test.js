@@ -56,7 +56,7 @@ const contextDefinition = {
                             , 'form : define' : () => 'input'
                             , 'form : action' : () => [
                                 {
-                                      fn : (e) => console.log ( e.target )
+                                      fn : (e) => e.target
                                     , type : 'input'
                                     , mode : 'in'
                                 }
@@ -149,7 +149,7 @@ describe ( "Shortcuts", () => {
                       const ls = short.listContexts ()
                       short.load ( {
                               local : {
-                                      'click : leff-1' : () => console.log ( 'nothing' ),
+                                      'click : leff-1' : () => 'nothing',
                                       '@shortcuts-error': () => change = true
                                   }
                           })
@@ -217,7 +217,7 @@ describe ( "Shortcuts", () => {
                             short.enablePlugin ( pluginClick )
                             const myAllContext = { 
                                                     myAll: {
-                                                            'click : leff-1' : () =>  console.log ( 'nothing' )
+                                                            'click : leff-1' : () => 'nothing'
                                                             , 'yo' : ({msg}) => result = msg
                                                         }}
                             short.load ( myAllContext )

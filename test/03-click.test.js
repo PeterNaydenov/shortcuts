@@ -81,7 +81,7 @@ const contextDefinition = {
                              , 'form : define' : () => 'input'
                              , 'form : action' : () => [
                                  {
-                                       fn : (e) => console.log ( e.target )
+                                       fn : (e) => e.target
                                      , type : 'input'
                                      , mode : 'in'
                                  }
