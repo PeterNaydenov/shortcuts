@@ -28,7 +28,9 @@ function pluginForm ( setupPlugin, options={} ) {
                                   callbacks      : {} // Functions callbacks arranged by 'type/timing' : [ callback, ...otherCallbacks ]
                                 , typeFn         : '' // Type definition function
                                 , watchList      : [] // list of watched elements
-                                , wait           : {} // wait time for 'instant' mode
+                                , wait           : {} // wait time for 'instant' mode. Define by 'type'. 
+                                                      // Example: { 'input': 200 }, will update from 'input' type every 200ms
+                                                      // where 'input' is type received by 'define' function
                                 , defaultOptions : {}
                                 , listenOptions  : {}
                             } // pluginState
