@@ -1,5 +1,12 @@
 'use strict'
 
+/**
+ * @function unload
+ * @description Unload a non-active context with shortcuts
+ * @param {dependencies} dependencies - Dependencies object containing ev
+ * @param {state} state - State object containing currentContext, shortcuts, ERROR_EVENT_NAME
+ * @returns {function} - Returns a function that unloads contexts
+ */
 function unload ( dependencies, state ) {
 const 
      { currentContext, shortcuts, ERROR_EVENT_NAME } = state
@@ -7,7 +14,7 @@ const
    ;
 /**
  * @function unload
- * @description Unload a non-active context with shortcuts.
+ * @description Unload a non-active context with shortcuts
  * @param {string} contextName - Context name to unload
  * @returns {void}
  */

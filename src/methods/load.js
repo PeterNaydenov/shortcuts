@@ -1,5 +1,12 @@
 'use strict'
 
+/**
+ * @function load
+ * @description Load a context with shortcuts object
+ * @param {dependencies} dependencies - Dependencies object containing API with changeContext and getContext
+ * @param {state} state - State object containing shortcuts and plugins
+ * @returns {function} - Returns a function that loads shortcuts
+ */
 function load ( dependencies, state ) {
 const 
           { shortcuts, plugins } = state
@@ -27,11 +34,11 @@ return function load ( shortcutsUpdate ) {
                     Object.entries ( contextShortcuts ).forEach ( ([ title, payload ]) => {
                                     let 
                                           name = title
-                                        , test = title.toUpperCase().trim()
-                                        ;
-                                    let pluginIndexList = pluginPrefixList.map ( (prefix,i) => test.startsWith ( prefix ) ? i : null ).filter ( i => i !== null );
+                                        ; const test = title.toUpperCase().trim()
+                                        
+                                    const pluginIndexList = pluginPrefixList.map ( (prefix,i) => test.startsWith ( prefix ) ? i : null ).filter ( i => i !== null );
                                     if ( pluginIndexList.length ) {
-                                                let id = pluginIndexList[0];
+                                                const id = pluginIndexList[0];
                                                 name = plugins[id].shortcutName ( title )
                                         }
                                     if ( payload instanceof Function ) payload = [ payload ]

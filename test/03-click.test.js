@@ -1,10 +1,11 @@
 import { beforeEach, afterEach, describe, it, expect } from 'vitest'
-import { userEvent } from '@vitest/browser/context'
+import { userEvent } from 'vitest/browser'
 import {
   getByLabelText,
   getByText,
   getByTestId,
   queryByTestId,
+  fireEvent,
   // Tip: all queries are also exposed on an object
   // called "queries" which you could import here as well
   waitFor
@@ -27,10 +28,11 @@ import {
 
 const html = new VisaulController ();
 let
-       a = false
-     , b = false
-     , c = null
-     ;
+        a = false
+      , b = false
+      , c = null
+      , d = null
+      ;
 
 const contextDefinition = {
                   general : {
@@ -51,27 +53,44 @@ const contextDefinition = {
                                                 b = true
                                                 c = target.dataset.click
                                           },
-                              // Single click with right button
-                              'click: right-1': () => c = 'right'
+                               // Just for have definition for more then 2 clicks
+                               'click: left-3': () => {},
+                               // Single click with right button
+                               'click: right-1': () => {
+                                                c = 'right'
+                                          },
+                              ' click: right-2': () => d = 'clicked',
+                               // Click with modifier
+                                'click: left-1-alt': () => d = 'alt-clicked',
+                                'click: left-1-ctrl': () => d = 'ctrl-clicked',
+                                'click: left-1-shift': () => d = 'shift-clicked'
                         }
-                , extra : {    
-                            'key : p,r,o,b,a': () => b = true                        
-                        }
-                , extend : {
-                              'form : watch' : () => 'input'
-                            , 'form : define' : () => 'input'
-                            , 'form : action' : () => [
-                                {
-                                      fn : (e) => console.log ( e.target )
-                                    , type : 'input'
-                                    , mode : 'in'
-                                }
-                            ]
-                    }
-      }
+                 , extra : {    
+                             'key : p,r,o,b,a': () => b = true                        
+                         }
+                 , clickSetup : {
+                               // Test CLICK:SETUP event to modify plugin options
+                               'click:setup': ({ dependencies, defaults }) => {
+                                                                   return {
+                                                                           mouseWait: 100  // Reduce wait time for faster test
+                                                                       }
+                                                               }
+                         }
+                 , extend : {
+                               'form : watch' : () => 'input'
+                             , 'form : define' : () => 'input'
+                             , 'form : action' : () => [
+                                 {
+                                       fn : (e) => e.target
+                                     , type : 'input'
+                                     , mode : 'in'
+                                 }
+                             ]
+                     }
+       }
 
 
-let short = shortcuts ();
+const short = shortcuts ();
 
 
 
@@ -81,24 +100,33 @@ describe ( 'Click plugin', () => {
 
       beforeEach ( async  () => {
                     short.load ( contextDefinition )
-                    let container = document.createElement ( 'div' );
+                    const container = document.createElement ( 'div' );
                     container.id = 'app'
                     document.body.appendChild ( container )
                     await html.publish ( Block, {}, 'app' )
-                    a = false, b = false
+                     a = false, b = false, c = null, d = null
           }) // beforeEach
+
+
+      afterEach ( async  () => {
+                  short.reset ();
+                  short.disablePlugin ( 'click' )
+                  html.destroy ();
+                   a = false, b = false, c = null, d = null;
+                  document.body.querySelector ( '#app' ).remove ()
+          }) // afterEach
 
 
 
       afterEach ( async  () => {
                   short.reset ();
-                  a = false, b = false, c = null;
+                   a = false, b = false, c = null, d = null;
           }) // afterEach
 
 
 
       it ( 'No "click" plugin installed', async () => {
-                          let r = short.listShortcuts ('touch');
+                          const r = short.listShortcuts ('touch');
                           // Shortcuts are untouched if plugin is not installed
                           expect ( r[0]).to.equal ( ' click: left-1' )
           }) // it no 'click' plugin installed
@@ -107,7 +135,7 @@ describe ( 'Click plugin', () => {
 
       it ( 'Click plugin installed', async () => {
                           short.enablePlugin ( pluginClick )
-                          let r = short.listShortcuts ( 'touch' );
+                          const r = short.listShortcuts ( 'touch' );
                           // Shortcuts are normalized
                           expect ( r[0]).to.equal ( 'CLICK:LEFT-1' )
           }) // it click plugin installed
@@ -166,11 +194,17 @@ describe ( 'Click plugin', () => {
                           await userEvent.tripleClick ( hitItem )
                           // Default wait mouse timeout is 320 ms, but maxClicks is set to 3, 
                           // so we don't need to wait for timeout
-                          await waitFor ( () => {
-                                    expect ( a ).to.equal ( true )
-                                    expect ( b ).to.equal ( false )
-                              }, { timeout: 1000, interval: 12 })
-          }) // it triple left click
+                           await waitFor ( () => {
+                                     expect ( a ).to.equal ( true )
+                                     expect ( b ).to.equal ( false )
+                               }, { timeout: 1000, interval: 12 })
+                           // Now click again during the ignore period - should be ignored
+                           await userEvent.click ( hitItem )
+                           await wait ( 50 )
+                           // Should still be a = true, b = false
+                           expect ( a ).to.equal ( true )
+                           expect ( b ).to.equal ( false )
+           }) // it triple left click
 
 
 
@@ -186,15 +220,136 @@ describe ( 'Click plugin', () => {
                               },{ timeout: 1000, interval: 12 })
                           if ( find ) await userEvent.click ( find , { button:'right' }) 
                           // Default wait mouse timeout is 320 ms
-                          await wait ( 320 )
+                        //   await wait ( 320 )
                           await waitFor ( () => {
                                     expect ( c ).to.equal ( 'right' )
                               }, { timeout: 1000, interval: 12 })
-          }) // it single right click
-        
+            }) // it single right click
+
+
+
+       it ( 'Double right click', async () => {
+                           short.enablePlugin ( pluginClick )
+                           short.changeContext ( 'touch' )
+                           // Load context with double right click
+                           short.load ({
+                                       'touch' : {
+                                                   'click: right-2' : () => d = 'double right'
+                                               }
+                                 })
+                           await wait ( 12 )
+                           const hitItem = document.querySelector ( '#rspan' );
+                           expect ( d ).to.equal ( null )
+                           // Simulate double right click
+                           await userEvent.dblClick ( hitItem , { button:'right' })
+                           await waitFor ( () => {
+                                     expect ( d ).to.equal ( 'double right' )
+                               }, { timeout: 1000, interval: 12 })
+           }) // it double right click
+
+
+
+      it ( 'Ignore clicks on elements that are not a target', async () => {
+                            short.enablePlugin ( pluginClick )
+                            const 
+                                hidden = document.getElementById ( 'hidden' )
+                              , name = document.getElementById ( 'name' )
+                              , hitItem = document.querySelector ( '#rspan' )
+                              ;
+                            hidden.classList.remove ( 'hide' )
+                            short.changeContext ( 'touch' )
+
+                            // Click on element without data-click property. Should be ignored
+                            await userEvent.click ( name , { button:'right' })
+                            // Click on element with data-click property
+                            await userEvent.click ( hitItem , { button:'right' })
+                            await wait ( 330 )
+                            await waitFor ( () => {
+                                      // Click should be read as single right click
+                                      expect ( c ).to.equal ( 'right' )                                    
+                              }, { timeout: 1000, interval: 12 })
+            }) // it ignore clicks on elements that are not a target
+
 
       
-       it ( 'Arguments of click handler', async () => {
+      it ( 'Multiple right clicks', async () => {
+                            short.enablePlugin ( pluginClick )
+                            // Reload because in testcase 'Double right click' context  'touch' was changed;
+                            short.load ( contextDefinition )
+                            const hitItem = document.querySelector ( '#rspan' );
+                            short.changeContext ( 'touch' )
+                            
+                            await userEvent.click ( hitItem , { button:'right' })
+                            await userEvent.click ( hitItem , { button:'right' })
+                            // This click should be ignored
+                            await userEvent.click ( hitItem , { button:'right' })
+                            await wait ( 330 )
+                            await userEvent.click ( hitItem , { button:'right' })
+                            
+                            await wait ( 500 )
+                            await waitFor ( () => {
+                                      // Click should be read as double right click, then single right click
+                                      expect ( c ).to.equal ( 'right' )
+                                      expect ( d ).to.equal ( 'clicked' )                                    
+                              }, { timeout: 1000, interval: 12 })
+            }) // it multiple right clicks
+
+
+
+         it ( 'Click with modifiers', async () => {
+                            short.enablePlugin ( pluginClick )
+                            short.changeContext ( 'touch' )
+                            const r = short.listShortcuts ('touch');
+                            expect ( r ).to.include ( 'CLICK:LEFT-1-ALT' )
+                            const hitItem = document.querySelector ( '.block' );
+                            // Click with alt key - should trigger the alt shortcut
+                            fireEvent.click ( hitItem , { altKey: true } )
+                            await wait ( 330 )
+                            // Callback should be triggered
+                            expect ( d ).to.equal ( 'alt-clicked' )
+            }) // it click with modifiers
+
+
+         it ( 'Click on document body - no target found', async () => {
+                            short.enablePlugin ( pluginClick )
+                            short.changeContext ( 'touch' )
+                            fireEvent.click ( document.body )
+                            await wait ( 330 )
+                            // No callback should be triggered since no target
+                            expect ( b ).to.equal ( false )
+            }) // it click on document body
+
+
+         it ( 'Click with ctrl modifier', async () => {
+                            short.enablePlugin ( pluginClick )
+                            short.changeContext ( 'touch' )
+                            const r = short.listShortcuts ('touch');
+                            expect ( r ).to.include ( 'CLICK:LEFT-1-CTRL' )
+                            const hitItem = document.querySelector ( '.block' );
+                            // Click with ctrl key - should trigger the ctrl shortcut
+                            fireEvent.click ( hitItem , { ctrlKey: true } )
+                            await wait ( 330 )
+                            // Callback should be triggered
+                            expect ( d ).to.equal ( 'ctrl-clicked' )
+            }) // it click with ctrl modifier
+
+
+         it ( 'Click with shift modifier', async () => {
+                            short.enablePlugin ( pluginClick )
+                            short.changeContext ( 'touch' )
+                            const r = short.listShortcuts ('touch');
+                            expect ( r ).to.include ( 'CLICK:LEFT-1-SHIFT' )
+                            const hitItem = document.querySelector ( '.block' );
+                            // Click with shift key - should trigger the shift shortcut
+                            fireEvent.click ( hitItem , { shiftKey: true } )
+                            await wait ( 330 )
+                            // Callback should be triggered
+                            expect ( d ).to.equal ( 'shift-clicked' )
+            }) // it click with shift modifier
+
+
+
+        it ( 'Arguments of click handler', async () => {
                  /**
                  *    Need to know arguments for 'click' handler
                  *    function myMouseHandler ({
@@ -211,8 +366,8 @@ describe ( 'Click plugin', () => {
                  *       }
                  */
                  // Ensure clean state for this test
-                 let megaBtn = document.querySelector ( '[data-click="mega"]' )
-                 let test = [];
+                 const megaBtn = document.querySelector ( '[data-click="mega"]' )
+                 const test = [];
                  let i = 0;
                 short.enablePlugin ( pluginClick )
                 short.setDependencies ({ test })
@@ -247,7 +402,7 @@ describe ( 'Click plugin', () => {
                  await wait ( 50 )  // Wait for click processing
                  await waitFor ( () => {
                               expect ( i ).to.be.equal ( 1 )      
-                              let result = test[0];
+                              const result = test[0];
                               expect ( result.target ).to.be.equal ( 'mega' )
                               expect ( result.context ).to.be.equal ( 'local' )
                         }, { timeout: 1000, interval: 12 })
@@ -269,7 +424,7 @@ describe ( 'Click plugin', () => {
                                                 } 
                                     })
                         short.changeContext ( 'extra' )
-                        let loc = document.querySelector ( '#anchor' )  || false;
+                        const loc = document.querySelector ( '#anchor' )  || false;
                         if ( loc )   await userEvent.click ( loc )
                         expect ( result ).to.be.equal ( 'A' )  
           }) // it click on anchor
@@ -289,7 +444,7 @@ describe ( 'Click plugin', () => {
                         short.load ({
                               'local' : {
                                     'click: left-1 ' : ({dependencies}) => {
-                                                let { result } = dependencies;
+                                                const { result } = dependencies;
                                                 result.push ( i++ )
                                           }
                                     }
@@ -330,7 +485,7 @@ describe ( 'Click plugin', () => {
 
 
       it ( 'Pause and resume', async () => {
-                        let target = document.querySelector ( '#rspan' )
+                        const target = document.querySelector ( '#rspan' )
                         short.enablePlugin ( pluginClick )
                         expect ( b ).to.be.equal ( false )
                         short.changeContext ( 'touch' )
@@ -348,5 +503,94 @@ describe ( 'Click plugin', () => {
                                     expect ( c ).to.be.equal ( 'red' )
                              }, { timeout: 1000, interval: 30 })
               }) // it pause and resume
-  
-}) // describe
+
+
+              
+      it ( 'Click setup event', async () => {
+                           // Test that CLICK:SETUP can modify plugin options
+                           short.enablePlugin ( pluginClick )
+                           const emit = [];
+                           short.setDependencies ( { emit } )
+                           
+                           // Create a context with CLICK:SETUP to modify mouseWait to 100ms
+                           const setupContext = {
+                                         clickSetup : {
+                                               // This should modify the plugin's mouseWait option from default 320ms to 100ms
+                                               ' click : setup ': ({ dependencies, defaults }) => {
+                                                                   dependencies.emit.push ( 'setup' )
+                                                                   return {
+                                                                           mouseWait: 100  // Reduce wait time for faster test
+                                                                       }
+                                                               }
+                                               // Add a click handler to test the modified timing
+                                             , 'click: left-1': () => {
+                                                                   b = true
+                                                                   c = 'setup-worked'
+                                                               }
+                                         }
+                                   }
+                           
+                           short.load ( setupContext )
+                           short.changeContext ( 'clickSetup' )
+                           expect ( emit[0] ).to.equal ( 'setup' )
+                           
+                           const 
+                                 target = document.querySelector ( '#rspan' )
+                               , startTime = performance.now()
+                               ;
+                           
+                           // Reset test variables
+                           b = false
+                           c = null
+                           
+                           // Click and measure time
+                           await userEvent.click ( target )
+                           
+                           await waitFor ( () => {
+                                       expect ( b ).to.equal ( true )
+                                       expect ( c ).to.equal ( 'setup-worked' )
+                                       // Verify that the setup was applied by checking that we got a response quickly
+                                       // If setup worked, mouseWait should be 100ms, so total time should be much less than default 320ms
+                                       const duration = performance.now() - startTime
+                                       expect ( duration ).to.be.lessThan ( 250 ) // Should be much less than default 320ms + test overhead
+                               }, { timeout: 1000, interval: 12 })
+            }) // it click setup event
+
+
+
+      it ( 'Extra parameters to plugin options', async () => {
+                        short.enablePlugin ( pluginClick )
+
+                        const emit = [];
+                        const setupContext = {
+                                      clickSetup : {
+                                            // This should modify the plugin's mouseWait and add an extra plugin option
+                                            ' click : setup ': ({ dependencies, defaults, options }) => {
+                                                                emit.push ( 'setup' )
+                                                                return {
+                                                                          mouseWait: 100  // Reduce wait time for faster test
+                                                                        , emit
+                                                                    }
+                                                            }
+                                            // Add a click handler 
+                                          , 'click: left-1': ( {options }) => {
+                                                                options.emit.push ( 'clicked' )
+                                                            }
+                                      }
+                                }
+                        
+                        short.load ( setupContext )
+                        short.changeContext ( 'clickSetup' )
+                        // Setup event execution is on change context:
+                        expect ( emit[0] ).to.equal ( 'setup' )
+                        
+                        const target = document.querySelector ( '[data-hover="blue"]' );
+                        
+                        // Click and measure time
+                        await userEvent.click ( target )                        
+                        await waitFor ( () => {
+                                    expect ( emit ).to.deep.equal ( [ 'setup', 'clicked' ] )
+                              }, { timeout: 1000, interval: 12 })
+            }) // it extra parameters to plugin options
+   
+ }) // describe

@@ -1,6 +1,54 @@
 # Migration Guides
 
 
+## From version 3.x.x to version 4.0.0 (Upcoming)
+
+### Plugin Target Attributes Changes
+
+**Breaking Changes:**
+- Plugin `click` parameter `clickTarget` now accepts an **array of attribute names** instead of a single string
+- Plugin `hover` parameter `hoverTarget` now accepts an **array of attribute names** instead of a single string
+
+**Migration Required:**
+
+```js
+// Version 3.x.x (old)
+short.enablePlugin(pluginClick, { clickTarget: 'data-button' })
+short.enablePlugin(pluginHover, { hoverTarget: 'data-menu' })
+
+// Version 4.0.0 (new)
+short.enablePlugin(pluginClick, { clickTarget: ['data-button'] })
+short.enablePlugin(pluginHover, { hoverTarget: ['data-menu'] })
+```
+
+**Default Values Updated:**
+- `clickTarget` default: `['data-click', 'href']` (was `'data-click'`)
+- `hoverTarget` default: `['data-hover']` (was `'data-hover'`)
+
+**Benefits:**
+- More flexible target detection
+- Support for multiple attribute patterns
+- Better compatibility with existing HTML patterns
+
+### Per-Context Setup Examples Updated
+
+All setup examples in the documentation have been updated to use arrays:
+
+```js
+// Version 4.0.0 per-context setup
+const shortcutDefinition = {
+    myContext: {
+        'click:setup': () => ({
+            clickTarget: ['data-action', 'data-button', 'href'] // Array format
+        }),
+        'hover:setup': () => ({
+            hoverTarget: ['data-interactive', 'data-hover'] // Array format
+        })
+    }
+};
+```
+
+
 ## From version 2.x.x to version 3.x.x
 
 Reason for significant refactoring of the code was my desire to make the library extensible with a plugins. Plugins role is to convert DOM events to shortcut strings, then the core part will trigger the action functions related to the shortcut. Now we have a core, plugin interface and plugins. All listener for `keyboard` and `mouse clicks` are moved to plugins. Mouse events are tracked by `click` plugin and keyboard events are tracked by `key` plugin. 

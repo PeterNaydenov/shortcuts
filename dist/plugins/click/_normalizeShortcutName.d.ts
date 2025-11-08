@@ -1,2 +1,8 @@
 export default _normalizeShortcutName;
-declare function _normalizeShortcutName(name: any): any;
+/**
+ * @function _normalizeShortcutName
+ * @description Normalize click shortcut name to standard format
+ * @param {string} name - Raw shortcut name
+ * @returns {string} - Normalized shortcut name
+ */
+declare function _normalizeShortcutName(name: string): string;

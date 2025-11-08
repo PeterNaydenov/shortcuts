@@ -1,3 +1,43 @@
+export type dependencies = {
+    /**
+     * - Event emitter instance
+     */
+    ev: any;
+    /**
+     * - Internal API object
+     */
+    inAPI: any;
+    /**
+     * - Public API object
+     */
+    API: any;
+    /**
+     * - Extra dependencies object
+     */
+    extra: any;
+};
+export type state = {
+    /**
+     * - Current context data container with name and note properties
+     */
+    currentContext: any;
+    /**
+     * - Shortcuts object: { contextName : { shortcut : callback[] } }
+     */
+    shortcuts: any;
+    /**
+     * - Array of active plugins
+     */
+    plugins: any[];
+    /**
+     * - Keyboard shortcut log function
+     */
+    exposeShortcut: Function | null;
+    /**
+     * - Name for error events
+     */
+    ERROR_EVENT_NAME: string;
+};
 export type PluginAPI = {
     /**
      * - Get plugin prefix
@@ -23,6 +63,16 @@ export type PluginAPI = {
      * - Destroy the plugin
      */
     destroy: () => void;
+};
+export type contextShortcuts = {
+    /**
+     * - Context name
+     */
+    context: string;
+    /**
+     * - List of shortcuts in a context
+     */
+    shortcuts: string[];
 };
 export type ShortcutsAPI = {
     /**
@@ -92,7 +142,7 @@ export type ShortcutsAPI = {
     /**
      * - List shortcuts
      */
-    listShortcuts: (arg0: string | null) => string[] | any[];
+    listShortcuts: (arg0: string | null) => string[] | contextShortcuts[] | null;
     /**
      * - Load shortcuts into contexts
      */
@@ -117,4 +167,6 @@ declare function main(options?: {
 import pluginKey from './plugins/key/index.js';
 import pluginClick from './plugins/click/index.js';
 import pluginForm from './plugins/form/index.js';
-export { main as shortcuts, pluginKey, pluginClick, pluginForm };
+import pluginHover from './plugins/hover/index.js';
+import pluginScroll from './plugins/scroll/index.js';
+export { main as shortcuts, pluginKey, pluginClick, pluginForm, pluginHover, pluginScroll };

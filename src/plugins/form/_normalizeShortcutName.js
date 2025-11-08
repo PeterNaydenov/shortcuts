@@ -9,9 +9,9 @@ function _normalizeShortcutName ( name ) {
                 ;
 
             if ( !isKeyboardShortcut )   return name
-            let shortcut = upperCase.slice(sliceIndex+1).trim ()
+            const shortcut = upperCase.slice(sliceIndex+1).trim ()
                               
-            return `FORM:${shortcut}`   
+            return `FORM:${shortcut}`
 } // _normalizeShortcutName func.
 
 

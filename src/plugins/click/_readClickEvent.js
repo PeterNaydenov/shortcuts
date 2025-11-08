@@ -1,7 +1,7 @@
 'use strict'
 
 function _readClickEvent ( event, count ) {
-    let
+    const
           { shiftKey, altKey, ctrlKey, key, button } = event
         , mouseNames = [ 'LEFT', 'MIDDLE', 'RIGHT' ]
         , mouseEvent = `CLICK:${mouseNames[button]}-${count}`

@@ -1,5 +1,12 @@
 'use strict'
 
+/**
+ * @function changeContext
+ * @description Change current context with shortcuts belonging to it
+ * @param {dependencies} dependencies - Dependencies object containing ev
+ * @param {state} state - State object containing shortcuts, currentContext, ERROR_EVENT_NAME
+ * @returns {function} - Returns a function that changes context
+ */
 function changeContext ( dependencies, state ) {
 const 
           { 
@@ -22,8 +29,8 @@ function expose () {
 
 /**
  * @function changeContext
- * @description Change current context with shortcuts belonging to it.
- * @param {string} [contextName=false] - Name of context to change to. Default 'false' will switch off all shortcuts.
+ * @description Change current context with shortcuts belonging to it
+ * @param {string|boolean} [contextName=false] - Name of context to change to. Default 'false' will switch off all shortcuts
  * @returns {void}
  */
 return function changeContext ( contextName = false ) {
@@ -45,9 +52,10 @@ return function changeContext ( contextName = false ) {
                         ev.reset ()   // Disable all shortcuts from current context
                 }
 
-        currentContext.name = contextName 
+        currentContext.name = contextName
         state.plugins.forEach ( plugin => plugin.contextChange ( contextName )    )        // Inform plugins for context change
         Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {   // Enable new context shortcuts
+                        if ( shortcutName.includes (':SETUP') )  return
                         list.forEach ( fn => ev.on ( shortcutName, fn )    )
                 })
         expose ()

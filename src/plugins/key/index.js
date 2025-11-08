@@ -1,14 +1,6 @@
 'use strict'
 
-/**
- * @typedef {Object} PluginAPI
- * @property {function(): string} getPrefix - Get plugin prefix
- * @property {function(string): string} shortcutName - Format shortcut name
- * @property {function(string): void} contextChange - Handle context change
- * @property {function(): void} mute - Mute the plugin
- * @property {function(): void} unmute - Unmute the plugin
- * @property {function(): void} destroy - Destroy the plugin
- */
+
 
 // import all plugin files here
 import _listenDOM              from './_listenDOM.js'
@@ -22,67 +14,50 @@ import _specialChars           from './_specialChars.js'
 /**
  * @function pluginKey
  * @description Plugin for keyboard shortcuts
- * @param {Object} dependencies - Internal dependencies
- * @param {Object} state - Library state
+ * @param {function} setupPlugin - Plugin setup function from the library
  * @param {Object} [options={}] - Plugin options
  * @param {number} [options.keyWait=480] - Time to wait for key sequence in ms
  * @param {function} [options.streamKeys] - Function to stream key presses
  * @returns {PluginAPI} Plugin API
  */
-function pluginKey ( dependencies, state, options={} ) {
-        let 
-                  { currentContext, shortcuts, exposeShortcut } = state
-                , { inAPI } = dependencies
-                , deps = {
-                             ev: dependencies.ev
-                             , _specialChars
+function pluginKey ( setupPlugin, options = {} ) {
+        const 
+                  deps = {
+                               _specialChars
                              , _readKeyEvent
-                             , mainDependencies : dependencies
                              , regex : /KEY\s*\:/i
                         }
                 , pluginState = {
-                            currentContext
-                          , shortcuts
-                          , active : false
+                            active : false
+                          , maxSequence   : 1  // How many keys can be pressed in a sequence. Controlled automatically by 'changeContext' function.
+                          , keyIgnore     : null   // Timer for ignoring key presses after max sequence or null. Not a public option.
+                          , defaultOptions : {
+                                        keyWait : 480 // 480 ms
+                                } 
                           , listenOptions  : {
-                                                  keyWait       : options.keyWait ? options.keyWait : 480   // 480 ms
-                                                , maxSequence   : 1  // How many keys can be pressed in a sequence. Controlled automatically by 'changeContext' function.
-                                                , keyIgnore     : null   // Timer for ignoring key presses after max sequence or null. Not a public option.
-                                        }
+                                        // Filled from 'key: setup' event in the context
+                                        // or getting from the plugin the defaults
+                                        keyWait : 480 // 480 ms // TODO: WHY is need initialization? Register function should fullfill it
+                                }
                           , streamKeys     : (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false   // Keyboard stream function
-                          , exposeShortcut
-                }; // state
-                
-        // Read shortcuts names from all context entities and normalize entries related to the plugin
-        inAPI._normalizeWithPlugins ( _normalizeShortcutName )
-                
-        let 
-             keysListener   = _listenDOM ( deps, pluginState )
-           , countShortcuts = _registerShortcutEvents ( deps, pluginState )
-           ;
-           
-        if ( countShortcuts > 0 )   keysListener.start ()
-       
-        let pluginAPI = {
-                               getPrefix      : () => 'key'
-                             , shortcutName  : key => {   // Format a key string according plugin needs
-                                                     return _normalizeShortcutName ( key )   
-                                                }
-                             , contextChange : contextName  => {
-                                                countShortcuts = _registerShortcutEvents ( deps, pluginState )
-                                                if ( countShortcuts < 1 ) {  // Remove DOM listener if there are no shortcuts in the current context
-                                                                keysListener.stop ()
-                                                        }
-                                                if ( countShortcuts > 0 ) { // Add DOM listener if there are shortcuts in the current context
-                                                                keysListener.start ()
-                                                        }
-                                        }
-                             , mute          : () => keysListener.stop ()
-                             , unmute        : () => keysListener.start ()
-                             , destroy       : () => keysListener.stop ()
-                        };
-        Object.freeze ( pluginAPI )
-        return pluginAPI
+                        } // state
+                ;
+        
+        function resetState () {
+                    pluginState.active = false
+                    pluginState.keyIgnore = null
+                    pluginState.maxSequence = 1
+            } // resetState func.
+        deps.resetState = resetState
+
+        return setupPlugin ( {
+                                prefix : 'key'
+                              , _normalizeShortcutName  
+                              , _registerShortcutEvents 
+                              , _listenDOM              
+                              , pluginState          
+                              , deps                    
+                        })
 } // pluginKey func.
 
 

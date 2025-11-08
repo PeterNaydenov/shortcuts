@@ -1,6 +1,23 @@
 'use strict'
 
 /**
+ * @typedef {Object} dependencies
+ * @property {Object} ev - Event emitter instance
+ * @property {Object} inAPI - Internal API object
+ * @property {Object} API - Public API object
+ * @property {Object} extra - Extra dependencies object
+ */
+
+/**
+ * @typedef {Object} state
+ * @property {Object} currentContext - Current context data container with name and note properties
+ * @property {Object} shortcuts - Shortcuts object: { contextName : { shortcut : callback[] } }
+ * @property {Array} plugins - Array of active plugins
+ * @property {Function|null} exposeShortcut - Keyboard shortcut log function
+ * @property {string} ERROR_EVENT_NAME - Name for error events
+ */
+
+/**
  * @typedef {Object} PluginAPI
  * @property {function(): string} getPrefix - Get plugin prefix
  * @property {function(string): string} shortcutName - Format shortcut name
@@ -11,8 +28,14 @@
  */
 
 /**
+ * @typedef {Object} contextShortcuts
+ * @property {string} context - Context name
+ * @property {string[]} shortcuts - List of shortcuts in a context
+ */
+
+/**
  * @typedef {Object} ShortcutsAPI
- * @property {function(function, Object): void} enablePlugin - Enable a plugin
+ * @property {function(Function, Object): void} enablePlugin - Enable a plugin
  * @property {function(string): void} disablePlugin - Disable a plugin
  * @property {function(string): number} mutePlugin - Mute a plugin
  * @property {function(string): number} unmutePlugin - Unmute a plugin
@@ -28,7 +51,7 @@
  * @property {function(): Object} getDependencies - Get external dependencies
  * @property {function(): void} reset - Reset the library instance
  * @property {function(string|boolean): void} changeContext - Change current context
- * @property {function(string|null): string[]|Object[]} listShortcuts - List shortcuts
+ * @property {function(string|null): string[]|contextShortcuts[]|null} listShortcuts - List shortcuts
  * @property {function(Object): void} load - Load shortcuts into contexts
  * @property {function(string): void} unload - Unload a context
  */
@@ -55,9 +78,11 @@ import notice  from '@peter.naydenov/notice'   // Docs: https://github.com/Peter
 import methods from './methods/index.js'
 
 // Plugins
-import pluginKey from './plugins/key/index.js'
-import pluginClick from './plugins/click/index.js'
-import pluginForm from './plugins/form/index.js'
+import pluginKey    from './plugins/key/index.js'
+import pluginClick  from './plugins/click/index.js'
+import pluginForm   from './plugins/form/index.js'
+import pluginHover  from './plugins/hover/index.js'
+import pluginScroll from './plugins/scroll/index.js'
 
 
 
@@ -72,12 +97,10 @@ import pluginForm from './plugins/form/index.js'
  * @returns {ShortcutsAPI} The shortcuts API
  */
 function main ( options = {} ) {
-    let  
+    const  
           inAPI = {}      // API for internal methods
         , API   = {}      // API for public methods
-        ;
-    const
-          ev = notice ()  // Event emitter instance
+        ,  ev = notice ()  // Event emitter instance
         , state = {
                       currentContext   : { name: null, note: null } // Context data container
                     , shortcuts        : {}   // shortcuts = { contextName : { shortcut :  callback[] } }
@@ -86,35 +109,37 @@ function main ( options = {} ) {
                     , ERROR_EVENT_NAME : ( options.errorEventName ) ? options.errorEventName : '@shortcuts-error'
               } // state
         ;
-    let dependencies = { 
+    const dependencies = { 
                               ev
                             , inAPI
                             , API
                             , extra : {}
                         };
 
-
-
     // ----------------------  > PLUGIN METHODS < ---------------------- //
     /**
      * @function enablePlugin
      * @description Enable a plugin
+     * @param {Function} plugin - Plugin function to enable
+     * @param {Object} [options={}] - Plugin configuration options
      * @returns {void}
      */
     API.enablePlugin = ( plugin, options={}) => {
                 if ( typeof plugin !== 'function' ) return
-                let plugApp = plugin ( dependencies, state, options )
+                const setupPlugin = inAPI._setupPlugin
+                const plugApp = plugin ( setupPlugin, options )
                 const 
                       name = plugApp.getPrefix ()
                     , ix = inAPI._systemAction ( name, 'none' )
                     ;
-
                 if ( ix === -1 ) {   // If plugin is not registered
                             // Started instance of the plugin
                             state.plugins.push ( plugApp )
+                            plugApp.unmute ()
                     }
                 else {
                             plugApp.destroy ()
+                            state.plugins[ix].unmute ()
                     }
       } // enable func.
 
@@ -123,25 +148,28 @@ function main ( options = {} ) {
     /**
      * @function disablePlugin
      * @description Disable a plugin
+     * @param {string} pluginName - Name of the plugin to disable
      * @returns {void}
      */
     API.disablePlugin = pluginName => { 
                 const ix = inAPI._systemAction ( pluginName, 'destroy' );
-                if ( ix !== -1 )   state.plugins = state.plugins.filter ( (plugin, i) => i !== ix )
+                if ( ix !== -1 )   state.plugins.splice ( ix, 1 )
       } // disable func.
 
 
     /**
      * @function mutePlugin
      * @description Mute a plugin
-     * @returns number - Index of the plugin in the plugins array ( -1 if not found ).
+     * @param {string} pluginName - Name of the plugin to mute
+     * @returns {number} - Index of the plugin in the plugins array ( -1 if not found )
      */
     API.mutePlugin = pluginName => inAPI._systemAction ( pluginName, 'mute'   )
 
     /**
-     * @function unmute
+     * @function unmutePlugin
      * @description Unmute a plugin
-     * @returns number - Index of the plugin in the plugins array ( -1 if not found ).
+     * @param {string} pluginName - Name of the plugin to unmute
+     * @returns {number} - Index of the plugin in the plugins array ( -1 if not found )
      */
     API.unmutePlugin = pluginName => inAPI._systemAction ( pluginName, 'unmute' )
 
@@ -185,7 +213,7 @@ function main ( options = {} ) {
        * @returns {void}
        */
     API.pause = (name='*') => {
-                        let pausedEvent = inAPI._readShortcutWithPlugins ( name );
+                        const pausedEvent = inAPI._readShortcutWithPlugins ( name );
                         ev.stop ( pausedEvent )
                   }
 
@@ -222,15 +250,15 @@ function main ( options = {} ) {
     /**
      * @function setDependencies
      * @description Set a dependency package that will be provided to each action function
-     * @param {object} deps - Enumerate external dependencies
+     * @param {Object} deps - Enumerate external dependencies
      * @returns {void}
      */
-    API.setDependencies = deps => dependencies.extra = { ...dependencies.extra, ...deps }
+    API.setDependencies = deps => Object.assign ( dependencies.extra, deps ) 
 
     /**
      * @function getDependencies
      * @description Get a dependency package that will be provided to each action function
-     * @returns {object} - Enumerate external dependencies
+     * @returns {Object} - Enumerate external dependencies
      **/
     API.getDependencies = () => dependencies.extra
 
@@ -267,6 +295,8 @@ export {
             pluginKey
           , pluginClick
           , pluginForm
+          , pluginHover
+          , pluginScroll
         }
 
 

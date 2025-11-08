@@ -1,15 +1,36 @@
 'use strict'
 
 
+/**
+ * @function _listenDOM
+ * @description Set up DOM event listeners for click events
+ * @param {Object} dependencies - Dependencies object containing ev, _findTarget, _readClickEvent, extra, resetState
+ * @param {Object} state - Plugin state containing listenOptions and currentContext
+ * @returns {Object} - Object containing start and stop methods
+ * 
+ * @typedef {Object} ClickEventData
+ * @property {Element} target - The DOM element that was clicked
+ * @property {number} x - X coordinate of the click event
+ * @property {number} y - Y coordinate of the click event
+ * @property {string} context - Current context name
+ * @property {string|null} note - Current context note
+ * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
+ * @property {Event} event - The original DOM event
+ * @property {Object} dependencies - Extra dependencies object
+ * @property {Object} viewport - Viewport information with X, Y, width, height
+ * @property {Object} sizes - Element dimensions with width, height
+ * @property {Object} position - Element position relative to viewport with x, y
+ * @property {Object} pagePosition - Element position relative to page with x, y
+ * @property {string} type - Event type ('click')
+ */
 function _listenDOM ( dependencies, state ) {
         const { 
                    ev
                 , _findTarget 
                 , _readClickEvent
-                , mainDependencies
+                , extra
                         } = dependencies
         const { listenOptions, currentContext } = state
-        const { mouseWait } = listenOptions
 
         let 
              mouseTarget = null // Dom element or null
@@ -20,17 +41,33 @@ function _listenDOM ( dependencies, state ) {
            ;
 
         function mouseSequenceEnd () {   // Execute when mouse sequence ends
+                        if ( !mouseTarget ) return  // No valid target found                        
                         const 
+                                { left, top, width, height } = mouseTarget.getBoundingClientRect ()
+                              , scrollX = window.scrollX
+                              , scrollY = window.scrollY
+                              ;
+                        
+                        const
                                   mouseEvent = _readClickEvent ( mouseDomEvent, count )
-                                , data = { 
+                                , data = {
                                           target : mouseTarget
-                                        , targetProps : mouseTarget ? mouseTarget.getBoundingClientRect() : null
                                         , x       : mouseDomEvent.clientX
                                         , y       : mouseDomEvent.clientY
                                         , context : currentContext.name
                                         , note    : currentContext.note
+                                        , options : state.listenOptions
                                         , event   : mouseDomEvent
-                                        , dependencies : mainDependencies.extra
+                                        , dependencies : extra
+                                        , viewport : {                                    // Viewport scroll positions and sizes
+                                                          X:scrollX
+                                                        , Y:scrollY 
+                                                        , width:window.innerWidth
+                                                        , height:window.innerHeight
+                                                }
+                                        , sizes    : { width, height }                     // Element sizes
+                                        , position : { x:left, y:top }                     // Position relative to viewport
+                                        , pagePosition : { x:left+scrollX, y:top+scrollY } // Position relative to page
                                         , type   : 'click'
                                 }
                                 ;
@@ -47,47 +84,49 @@ function _listenDOM ( dependencies, state ) {
 
 
         function listenLeftClick ( event ) {
-                        let targetMax = listenOptions.maxClicks;  // Maximum number of clicks per target
+                        let targetMax = state.maxLeftClicks;  // Maximum number of clicks per target
                         clearTimeout ( mouseTimer )
                         if ( mouseIgnore ) {
                                     clearTimeout ( mouseIgnore )
-                                    mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
+                                    mouseIgnore = setTimeout ( () => mouseIgnore=null, listenOptions.mouseWait )
                                     return
                             }
                         mouseTarget = _findTarget ( dependencies, state, event.target )
+                        if ( mouseTarget == null )   return
                         if ( mouseTarget && mouseTarget.dataset.hasOwnProperty('quickClick'))   targetMax = 1
                         if ( mouseTarget && mouseTarget.tagName === 'A'                     )   targetMax = 1
                         mouseDomEvent = event
                         count++
                         if ( count >= targetMax ) {
                                     mouseSequenceEnd ()
-                                    if ( targetMax > 1 )   mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
+                                    if ( targetMax > 1 )   mouseIgnore = setTimeout ( () => mouseIgnore=null, listenOptions.mouseWait )
                                     return
                             }
-                        mouseTimer = setTimeout ( mouseSequenceEnd, mouseWait )
+                        mouseTimer = setTimeout ( mouseSequenceEnd, listenOptions.mouseWait )
             } // listenLeftClick func.
 
 
 
         function listenRightClick ( event ) {
-                        let targetMax = listenOptions.maxClicks;  // Maximum number of clicks per target
+                        let targetMax = state.maxRightClicks;  // Maximum number of clicks per target
                         clearTimeout ( mouseTimer )
                         if ( mouseIgnore ) {
                                     clearTimeout ( mouseIgnore )
-                                    mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
+                                    mouseIgnore = setTimeout ( () => mouseIgnore=null, listenOptions.mouseWait )
                                     return
                             }
                         mouseTarget = _findTarget ( dependencies, state, event.target )
+                        if ( mouseTarget == null )   return
                         if ( mouseTarget && mouseTarget.dataset.hasOwnProperty('quickClick'))   targetMax = 1
                         if ( mouseTarget && mouseTarget.tagName === 'A'                     )   targetMax = 1
                         mouseDomEvent = event
                         count++
-                        if ( count >= targetMax ) {  
+                        if ( count >= targetMax ) {
                                     mouseSequenceEnd ()
-                                    if ( targetMax > 1 )   mouseIgnore = setTimeout ( () => mouseIgnore=null, mouseWait )
+                                    if ( targetMax > 1 )   mouseIgnore = setTimeout ( () => mouseIgnore=null, listenOptions.mouseWait )
                                     return
                             }
-                        mouseTimer = setTimeout ( mouseSequenceEnd, mouseWait )
+                        mouseTimer = setTimeout ( mouseSequenceEnd, listenOptions.mouseWait )
             } // listenRightClick func.
 
 
@@ -105,15 +144,14 @@ function _listenDOM ( dependencies, state ) {
                         window.removeEventListener  ( 'contextmenu', listenRightClick )
                         document.removeEventListener ( 'click'      , listenLeftClick  )
                         state.active = false
-                        // Clear any pending timers to prevent state pollution between tests
-                        if ( mouseTimer ) {
-                                clearTimeout ( mouseTimer )
-                                mouseTimer = null
-                        }
+                        
                         if ( mouseIgnore ) {
                                 clearTimeout ( mouseIgnore )
                                 mouseIgnore = null
-                        }
+                            }
+                        // Reset all state variables to prevent pollution between tests
+                        mouseTarget = null
+                        mouseDomEvent = null
                         count = 0
                 } // stop func.
                 

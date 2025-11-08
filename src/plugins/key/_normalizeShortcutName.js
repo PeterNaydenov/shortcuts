@@ -7,9 +7,10 @@ function _normalizeShortcutName ( name ) {
                 , isKeyboardShortcut = regex.test ( upperCase )
                 , sliceIndex = upperCase.indexOf ( ':' )
                 ;
-
-            if ( !isKeyboardShortcut )   return name
-            let shortcut = upperCase
+            
+            if ( !isKeyboardShortcut          )   return name
+            if ( upperCase.includes ( 'SETUP'))   return 'KEY:SETUP'
+            const shortcut = upperCase
                                .slice(sliceIndex+1)
                                .split(',')
                                .map ( key => key.trim() )

@@ -1,14 +1,6 @@
 'use strict'
 
-/**
- * @typedef {Object} PluginAPI
- * @property {function(): string} getPrefix - Get plugin prefix
- * @property {function(string): string} shortcutName - Format shortcut name
- * @property {function(string): void} contextChange - Handle context change
- * @property {function(): void} mute - Mute the plugin
- * @property {function(): void} unmute - Unmute the plugin
- * @property {function(): void} destroy - Destroy the plugin
- */
+
 
 import _findTarget              from "./_findTarget"
 import _listenDOM              from "./_listenDOM"
@@ -22,69 +14,50 @@ import _registerShortcutEvents from "./_registerShortcutEvents"
 /**
  * @function pluginClick
  * @description Plugin for mouse click shortcuts
- * @param {Object} dependencies - Internal dependencies
- * @param {Object} state - Library state
+ * @param {function} setupPlugin - Plugin setup function from the library
  * @param {Object} [options={}] - Plugin options
  * @param {number} [options.mouseWait=320] - Time to wait for click sequence in ms
- * @param {string} [options.clickTarget='click'] - Data attribute name for click targets
+ * @param {string[]} [options.clickTarget=['data-click', 'href']] - Array of attribute names for click targets
+ * @param {function} [options.streamKeys] - Function to stream key presses
  * @returns {PluginAPI} Plugin API
  */
-function pluginClick ( dependencies, state, options ) {
-        let 
-                  { currentContext, shortcuts } = state
-                , { inAPI } = dependencies
-                , deps = {
-                                ev: dependencies.ev
-                             , _findTarget
+function pluginClick ( setupPlugin, options = {}) {
+        const 
+                  deps = {
+                                _findTarget
                              , _readClickEvent
-                             , mainDependencies : dependencies
                              , regex : /CLICK\s*\:/i
                         }
                 , pluginState = {
-                                  currentContext
-                                , active : false
-                                , shortcuts
+                                  active : false
+                                , maxLeftClicks : 1  // How many clicks can be pressed in a sequence. Controlled automatically by '_registerShortcutEvents' function.
+                                , maxRightClicks: 1  // How many right clicks can be pressed in a sequence. Controlled automatically by '_registerShortcutEvents' function.
+                                , defaultOptions : {
+                                          mouseWait   : 320     // 320 ms
+                                        , clickTarget : ['data-click', 'href' ]   // Attribute names as click targets
+                                    }
                                 , listenOptions  : {
-                                                      mouseWait     : options.mouseWait ? options.mouseWait : 320   // 320 ms
-                                                    , maxClicks     : 1  // How many clicks can be pressed in a sequence. Controlled automatically by '_registerShortcutEvents' function.
-                                                    , clickTarget   : options.clickTarget ? options.clickTarget :  'click' // Data-attribute name for click target ( data-click )
+                                                      mouseWait     : 320   // 320 ms
+                                                    , clickTarget   : [ 'data-click', 'href' ]  // Attribute names as click targets
                                                 }
+                                , streamKeys     : (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false   // Keyboard stream function
                             } // pluginState
-                ; 
+                ;
 
-        // Read shortcuts names from all context entities and normalize entries related to the plugin
-        inAPI._normalizeWithPlugins ( _normalizeShortcutName )
-        
-        let 
-             mouseListener = _listenDOM ( deps, pluginState )
-           , countShortcuts = _registerShortcutEvents ( deps, pluginState )
-           ;
-      
-        if ( countShortcuts > 0 )   mouseListener.start ()
-       
-        let pluginAPI = {
-                               getPrefix      : () => 'click'
-                             , shortcutName  : key => {   // Format a key string according plugin needs
-                                                        return _normalizeShortcutName ( key )
-                                                }
-                             , contextChange : () => {
-                                                countShortcuts = _registerShortcutEvents ( deps, pluginState )
-                                                if ( countShortcuts < 1 ) {  // Remove DOM listener if there are no shortcuts in the current context
-                                                                mouseListener.stop ()
-                                                    } 
-                                                if ( countShortcuts > 0 ) {  // Add DOM listener if there are shortcuts in the current context
-                                                                mouseListener.start ()
-                                                    }
-                                        }
-                            , mute    : () => {
-                                          
-                                          mouseListener.stop ()
-                                      }
-                            , unmute  : () => mouseListener.start ()
-                            , destroy : () => mouseListener.stop ()
-                        }; // pluginAPI
-        Object.freeze ( pluginAPI )
-        return pluginAPI
+        function resetState () {
+                  // TODO: No reset available at the moment
+            } // resetState func.
+        deps.resetState = resetState
+                
+        return setupPlugin ({
+                                prefix: 'click'
+                              , _normalizeShortcutName
+                              , _registerShortcutEvents
+                              , _listenDOM
+
+                              , pluginState
+                              , deps
+                      })
 } // pluginClick func.
 
 

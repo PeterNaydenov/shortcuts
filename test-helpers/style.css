@@ -19,3 +19,8 @@
     background-color: skyblue;
     border-radius: 10px;
 }
+
+
+.hide {
+        display: none;
+    }

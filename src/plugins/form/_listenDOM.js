@@ -2,18 +2,52 @@
 
 
 
+/**
+ * @function _listenDOM
+ * @description Set up DOM event listeners for form events
+ * @param {Object} dependencies - Dependencies object containing ev
+ * @param {Object} state - Plugin state containing listenOptions and currentContext
+ * @returns {Object} - Object containing start and stop methods
+ * 
+ * @typedef {Object} FormEventData
+ * @property {Element} target - The DOM element that triggered the form event
+ * @property {string} context - Current context name
+ * @property {string|null} note - Current context note
+ * @property {Event} event - The original DOM event
+ * @property {Object} dependencies - Extra dependencies object
+ * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
+ * @property {Object} viewport - Viewport information with X, Y, width, height
+ * @property {Object} sizes - Element dimensions with width, height
+ * @property {Object} position - Element position relative to viewport with x, y
+ * @property {Object} pagePosition - Element position relative to page with x, y
+ * @property {string} type - Event type ('form-in', 'form-out', 'form-instant')
+ */
 function _listenDOM ( dependencies, state ) {
         const { ev } = dependencies;
         let timeout = null; 
 
         function setupData ( dependencies, state, event, type) {
+                const 
+                      { left, top, width, height } = event.target.getBoundingClientRect ()
+                    , scrollX = window.scrollX
+                    , scrollY = window.scrollY
+                    ;
                 return {
                           target : event.target
-                          // TODO: Find if is possible to add some size and positioning data
                         , context : state.currentContext.name
                         , note    : state.currentContext.note
                         , event   
-                        , dependencies : dependencies.mainDependencies.extra
+                        , dependencies : dependencies.extra
+                        , options : state.listenOptions
+                        , viewport : {                                     // Viewport scroll positions and sizes
+                                  X:scrollX
+                                , Y:scrollY 
+                                , width:window.innerWidth
+                                , height:window.innerHeight
+                            }
+                        , sizes : { width, height }                        // Element sizes
+                        , position : { x:left, y:top }                     // Position relative to viewport
+                        , pagePosition : { x:left+scrollX, y:top+scrollY } // Position relative to page
                         , type
                     }
         } // setupData func.
@@ -22,8 +56,8 @@ function _listenDOM ( dependencies, state ) {
                 const 
                       { callbacks, typeFn } = state
                     , target = event.target
-                    , type = typeFn ( target )
-                    , prop = setupData ( dependencies, state, event, type )
+                    , prop = setupData ( dependencies, state, event, "form-in" )
+                    , type = typeFn ( prop )
                     , key = `${type}/in`
                     ;
                 if ( callbacks[key] == null )  return
@@ -34,8 +68,7 @@ function _listenDOM ( dependencies, state ) {
                 const
                       { callbacks, typeFn } = state
                     , prop   = setupData ( dependencies, state, event, "form-out" )
-                    , target = event.target
-                    , type   = typeFn ( target )
+                    , type   = typeFn ( prop )
                     , key    = `${type}/out`
                     ;
                 if ( callbacks[key] == null )  return
@@ -47,8 +80,7 @@ function _listenDOM ( dependencies, state ) {
                 const 
                       { callbacks, typeFn } = state
                     , prop   = setupData ( dependencies, state, event, "form-instant" )
-                    , target = event.target
-                    , type   = typeFn ( target )
+                    , type   = typeFn ( prop )
                     , wait   = state.wait[`${type}`]
                     , key    = `${type}/instant`
                     ;
@@ -57,7 +89,7 @@ function _listenDOM ( dependencies, state ) {
                         ev.emit ( key, prop, callbacks[key] )
                         return
                     }
-                let fn = () => ev.emit ( key, prop, callbacks[key] )
+                const fn = () => ev.emit ( key, prop, callbacks[key] )
                 clearTimeout ( timeout )
                 timeout = setTimeout ( fn, wait )
             } // input func.
@@ -78,6 +110,11 @@ function _listenDOM ( dependencies, state ) {
                 document.removeEventListener ( 'focusout', listenFocusOut );
                 document.removeEventListener ( 'input', listenInput );
                 state.active = false
+                // Clear any pending timeout to prevent state pollution between tests
+                if ( timeout ) {
+                        clearTimeout ( timeout )
+                        timeout = null
+                }
             } // stop func.
 
         return { start, stop }
