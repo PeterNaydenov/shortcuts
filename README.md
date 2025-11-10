@@ -1,4 +1,4 @@
-<img src="shortcuts.png" width="100%" alt="Notice" align="center" />
+<img src="shortcuts.png" width="100%" alt="Shortcuts" align="center" />
 
 
 
