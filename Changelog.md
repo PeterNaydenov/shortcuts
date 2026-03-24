@@ -2,7 +2,13 @@
 
 
 
-### 4.0.0 ( 2025-11-?? )
+### 4.0.1 ( 2026-03-24 )
+- [x] Dev deps update. TypeScript to v.6.0.2;
+- [x] Types update according to TypeScript v.6.0.2;
+
+
+
+### 4.0.0 ( 2025-11-08 )
 - [x] New plugin 'hover';
 - [x] New plugin 'scroll';
 - [x] Refactoring on plugin API. New method for building plugin interface;
