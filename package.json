@@ -1,7 +1,7 @@
 {
   "name": "@peter.naydenov/shortcuts",
   "description": "Context control of shortcuts based on keyboard and mouse events",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "license": "MIT",
   "author": "Peter Naydenov",
   "main": "./src/main.js",
