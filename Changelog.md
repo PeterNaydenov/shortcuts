@@ -2,6 +2,11 @@
 
 
 
+### 4.0.2 ( 2026-04-02 )
+- [x] Dependencies update. @peter.naydenov/notice to 2.4.2
+
+
+
 ### 4.0.1 ( 2026-03-24 )
 - [x] Dev deps update. TypeScript to v.6.0.2;
 - [x] Types update according to TypeScript v.6.0.2;
