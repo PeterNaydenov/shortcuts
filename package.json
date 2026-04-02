@@ -32,7 +32,7 @@
     "url": "git+https://github.com/PeterNaydenov/shortcuts"
   },
   "dependencies": {
-    "@peter.naydenov/notice": "^2.4.1"
+    "@peter.naydenov/notice": "^2.4.2"
   },
   "devDependencies": {
     "@peter.naydenov/visual-controller-for-react": "^3.0.2",
