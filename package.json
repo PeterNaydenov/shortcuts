@@ -35,7 +35,7 @@
     "@peter.naydenov/notice": "^2.4.2"
   },
   "devDependencies": {
-    "@peter.naydenov/visual-controller-for-react": "^3.1.0",
+    "@peter.naydenov/visual-controller-for-react": "^3.1.1",
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
