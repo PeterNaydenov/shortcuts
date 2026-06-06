@@ -22,6 +22,7 @@
  * @property {Object} position - Element position relative to viewport with x, y
  * @property {Object} pagePosition - Element position relative to page with x, y
  * @property {string} type - Event type ('click')
+ * @property {Function} emit - Emit an event from inside the handler (alias for the library event emitter)
  */
 function _listenDOM ( dependencies, state ) {
         const { 
