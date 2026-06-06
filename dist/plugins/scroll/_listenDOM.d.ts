@@ -36,6 +36,10 @@ export type ScrollEventData = {
      * - Event type ('scroll')
      */
     type: string;
+    /**
+     * - Emit an event from inside the handler (alias for the library event emitter)
+     */
+    emit: Function;
 };
 /**
  * @function _listenDOM
@@ -54,5 +58,6 @@ export type ScrollEventData = {
  * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  * @property {Object} viewport - Viewport information with X, Y, width, height
  * @property {string} type - Event type ('scroll')
+ * @property {Function} emit - Emit an event from inside the handler (alias for the library event emitter)
  */
 declare function _listenDOM(dependencies: any, state: any): any;

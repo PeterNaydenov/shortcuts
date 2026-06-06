@@ -52,6 +52,10 @@ export type ClickEventData = {
      * - Event type ('click')
      */
     type: string;
+    /**
+     * - Emit an event from inside the handler (alias for the library event emitter)
+     */
+    emit: Function;
 };
 /**
  * @function _listenDOM
@@ -74,5 +78,6 @@ export type ClickEventData = {
  * @property {Object} position - Element position relative to viewport with x, y
  * @property {Object} pagePosition - Element position relative to page with x, y
  * @property {string} type - Event type ('click')
+ * @property {Function} emit - Emit an event from inside the handler (alias for the library event emitter)
  */
 declare function _listenDOM(dependencies: any, state: any): any;
