@@ -69,6 +69,7 @@ function _listenDOM ( dependencies, state ) {
                                         , position : { x:left, y:top }                     // Position relative to viewport
                                         , pagePosition : { x:left+scrollX, y:top+scrollY } // Position relative to page
                                         , type   : 'click'
+                                        , emit   : ev.emit
                                 }
                                 ;
 

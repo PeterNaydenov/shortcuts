@@ -74,6 +74,7 @@ function _listenDOM ( dependencies, state ) {
                                             , height:window.innerHeight 
                                         }
                                     , type : 'key'
+                                    , emit : ev.emit
                             };
 
                     if ( !sequence ) {

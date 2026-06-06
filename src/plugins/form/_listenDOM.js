@@ -49,6 +49,7 @@ function _listenDOM ( dependencies, state ) {
                         , position : { x:left, y:top }                     // Position relative to viewport
                         , pagePosition : { x:left+scrollX, y:top+scrollY } // Position relative to page
                         , type
+                        , emit   : ev.emit
                     }
         } // setupData func.
 
@@ -56,7 +57,7 @@ function _listenDOM ( dependencies, state ) {
                 const 
                       { callbacks, typeFn } = state
                     , target = event.target
-                    , prop = setupData ( dependencies, state, event, "form-in" )
+                    , prop = setupData ( dependencies, state, event, "form" )
                     , type = typeFn ( prop )
                     , key = `${type}/in`
                     ;
@@ -67,7 +68,7 @@ function _listenDOM ( dependencies, state ) {
         function listenFocusOut ( event ) {  // Timing: out
                 const
                       { callbacks, typeFn } = state
-                    , prop   = setupData ( dependencies, state, event, "form-out" )
+                    , prop   = setupData ( dependencies, state, event, "form" )
                     , type   = typeFn ( prop )
                     , key    = `${type}/out`
                     ;
@@ -79,7 +80,7 @@ function _listenDOM ( dependencies, state ) {
         function listenInput ( event ) {   // Timing: instant
                 const 
                       { callbacks, typeFn } = state
-                    , prop   = setupData ( dependencies, state, event, "form-instant" )
+                    , prop   = setupData ( dependencies, state, event, "form" )
                     , type   = typeFn ( prop )
                     , wait   = state.wait[`${type}`]
                     , key    = `${type}/instant`

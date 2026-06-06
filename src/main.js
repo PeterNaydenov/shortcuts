@@ -100,7 +100,7 @@ function main ( options = {} ) {
     const  
           inAPI = {}      // API for internal methods
         , API   = {}      // API for public methods
-        ,  ev = notice ()  // Event emitter instance
+        , ev    = notice ()  // Event emitter instance
         , state = {
                       currentContext   : { name: null, note: null } // Context data container
                     , shortcuts        : {}   // shortcuts = { contextName : { shortcut :  callback[] } }
@@ -235,7 +235,7 @@ function main ( options = {} ) {
      * @param {any} [args] - Arguments for callback function
      * @returns {void}
      **/
-    API.emit = (name,...args) =>  ev.emit ( inAPI._readShortcutWithPlugins ( name ), ...args )
+    API.emit = (name,...args) =>  ev.emit ( inAPI._readShortcutWithPlugins ( name ), { emit: ev.emit, type: 'custom' }, ...args )
       
 
     /**
