@@ -458,6 +458,54 @@ describe ( 'Hover plugin', () => {
                               }, { timeout: 1000, interval: 12 })
             }) // it extra parameters to plugin options
 
-      
-   
+
+
+      it ( 'Hover callback data contains emit property', async () => {
+                        let captured = null
+                        short.enablePlugin ( pluginHover )
+                        short.load ({
+                                        'local' : {
+                                                  'hover : on' : ( data ) => {
+                                                                        captured = data
+                                                                  }
+                                            }
+                                })
+                        short.changeContext ( 'local' )
+                        const megaBtn = document.querySelector ( '[data-click="mega"]' )
+                        expect ( megaBtn ).to.not.be.null
+                        await userEvent.hover ( megaBtn )
+                        await wait ( 340 )
+                        await waitFor ( () => {
+                                        expect ( captured ).toBeTruthy ()
+                                        expect ( typeof captured.emit ).toBe ( 'function' )
+                                }, { timeout: 1000, interval: 12 })
+                }) // it hover callback data contains emit property
+
+
+
+      it ( 'Hover callback can emit other events via data.emit (workflow)', async () => {
+                        const log = []
+                        short.enablePlugin ( pluginHover )
+                        short.load ({
+                                        'local' : {
+                                                  'hover : on' : ( data ) => {
+                                                                        log.push ( 'on-fired' )
+                                                                        data.emit ( 'HOVER:OFF' )
+                                                                  }
+                                                , 'hover : off' : () => {
+                                                                        log.push ( 'off-fired' )
+                                                                  }
+                                            }
+                                })
+                        short.changeContext ( 'local' )
+                        const megaBtn = document.querySelector ( '[data-click="mega"]' )
+                        expect ( megaBtn ).to.not.be.null
+                        await userEvent.hover ( megaBtn )
+                        await wait ( 340 )
+                        await waitFor ( () => {
+                                        expect ( log[0] ).toBe ( 'on-fired' )
+                                        expect ( log ).to.includes ( 'off-fired' )
+                                }, { timeout: 1000, interval: 12 })
+                }) // it hover callback workflow
+
  }) // describe

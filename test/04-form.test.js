@@ -323,5 +323,30 @@ describe ( 'Form plugin', () => {
                                 expect ( emit ).to.includes ( 'executed' )
                         }, { timeout: 1000, interval: 12 })
         }) // it Extra parameters to plugin options
-       
+
+
+
+        it ( 'Form action fn receives emit property on data', async () => {
+                        let captured = null
+                        short.enablePlugin ( pluginForm )
+                        short.load ({
+                                        'local' : {
+                                                  'form: action' : () => [{
+                                                                fn : ( data ) => { captured = data }
+                                                                , type : 'input'
+                                                                , timing : 'in'
+                                                        }]
+                                            }
+                                })
+                        short.changeContext ( 'local' )
+                        const input = document.getElementById ( 'name' )
+                        expect ( input ).to.not.be.null
+                        input.focus ()
+                        await wait ( 80 )
+                        await waitFor ( () => {
+                                        expect ( captured ).toBeTruthy ()
+                                        expect ( typeof captured.emit ).toBe ( 'function' )
+                                }, { timeout: 1000, interval: 12 })
+                }) // it form action fn data contains emit property
+
 }) // describe

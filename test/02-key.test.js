@@ -464,10 +464,53 @@ describe ( 'Key plugin', () => {
                               expect ( emit[0] ).to.equal ( 'setup' )
                               
                               // Click and measure time
-                              await userEvent.keyboard ( 'a')                       
+                              await userEvent.keyboard ( 'a' )
                               await waitFor ( () => {
                                           expect ( emit ).to.deep.equal ( [ 'setup', 'a' ] )
                                     }, { timeout: 1000, interval: 12 })
                   }) // it extra parameters to plugin options
+
+
+
+    it ( 'Key callback data contains emit property', async () => {
+                    let captured = null
+                    short.enablePlugin ( pluginKey )
+                    short.load ({
+                                'local' : {
+                                          'key: a' : ( data ) => captured = data
+                                    }
+                          })
+                    short.changeContext ( 'local' )
+                    await userEvent.keyboard ( 'a' )
+                    await wait ( 20 )
+                    await waitFor ( () => {
+                                expect ( captured ).toBeTruthy ()
+                                expect ( typeof captured.emit ).toBe ( 'function' )
+                          }, { timeout: 1000, interval: 12 })
+          }) // it key callback data contains emit property
+
+
+
+    it ( 'Key callback can emit other events via data.emit (workflow)', async () => {
+                    const log = []
+                    short.enablePlugin ( pluginKey )
+                    short.load ({
+                                'local' : {
+                                          'key: a' : ( data ) => {
+                                                          log.push ( 'a-fired' )
+                                                          data.emit ( '@hidden' )
+                                                  }
+                                        , '@hidden' : () => {
+                                                          log.push ( 'hidden-fired' )
+                                                  }
+                                    }
+                          })
+                    short.changeContext ( 'local' )
+                    await userEvent.keyboard ( 'a' )
+                    await wait ( 50 )
+                    await waitFor ( () => {
+                                expect ( log ).to.deep.equal ( [ 'a-fired', 'hidden-fired' ] )
+                          }, { timeout: 1000, interval: 12 })
+          }) // it key callback workflow
 
 })

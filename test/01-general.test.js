@@ -218,7 +218,7 @@ describe ( "Shortcuts", () => {
                             const myAllContext = { 
                                                     myAll: {
                                                             'click : leff-1' : () => 'nothing'
-                                                            , 'yo' : ({msg}) => result = msg
+                                                            , 'yo' : (x,{msg}) => result = msg
                                                         }}
                             short.load ( myAllContext )
                             short.changeContext ( 'myAll' )    

@@ -371,4 +371,25 @@ it ( 'Disable a plugin', () => {
                         expect ( scrollEvents.length ).to.be.greaterThan ( 0 )
             }) // it extra parameters to plugin options
 
+
+
+      it ( 'Scroll callback data contains emit property', async () => {
+                        let captured = null
+                        short.enablePlugin ( pluginScroll )
+                        short.load ({
+                                        'local' : {
+                                                  'scroll: down' : ( data ) => {
+                                                                        captured = data
+                                                                  }
+                                            }
+                                })
+                        short.changeContext ( 'local' )
+                        window.scrollTo ( 0, 100 )
+                        await wait ( 200 )
+                        await waitFor ( () => {
+                                        expect ( captured ).toBeTruthy ()
+                                        expect ( typeof captured.emit ).toBe ( 'function' )
+                                }, { timeout: 1000, interval: 12 })
+                }) // it scroll callback data contains emit property
+
  }) // describe Scroll plugin

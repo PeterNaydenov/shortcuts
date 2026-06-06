@@ -587,10 +587,59 @@ describe ( 'Click plugin', () => {
                         const target = document.querySelector ( '[data-hover="blue"]' );
                         
                         // Click and measure time
-                        await userEvent.click ( target )                        
+                        await userEvent.click ( target )
                         await waitFor ( () => {
                                     expect ( emit ).to.deep.equal ( [ 'setup', 'clicked' ] )
                               }, { timeout: 1000, interval: 12 })
             }) // it extra parameters to plugin options
-   
+
+
+
+        it ( 'Click callback data contains emit property', async () => {
+                        let captured = null
+                        short.enablePlugin ( pluginClick )
+                        short.load ({
+                                        'local' : {
+                                                  'click: left-1' : ( data ) => {
+                                                                        captured = data
+                                                                  }
+                                            }
+                                })
+                        short.changeContext ( 'local' )
+                        const megaBtn = document.querySelector ( '[data-click="mega"]' )
+                        expect ( megaBtn ).to.not.be.null
+                        await userEvent.click ( megaBtn )
+                        await wait ( 50 )
+                        await waitFor ( () => {
+                                        expect ( captured ).toBeTruthy ()
+                                        expect ( typeof captured.emit ).toBe ( 'function' )
+                                }, { timeout: 1000, interval: 12 })
+                }) // it click callback data contains emit property
+
+
+
+        it ( 'Click callback can emit other events via data.emit (workflow)', async () => {
+                        const log = []
+                        short.enablePlugin ( pluginClick )
+                        short.load ({
+                                        'local' : {
+                                                  'click: left-1' : ( data ) => {
+                                                                        log.push ( 'left-1-fired' )
+                                                                        data.emit ( 'CLICK:RIGHT-1' )
+                                                                  }
+                                                , 'click: right-1' : () => {
+                                                                        log.push ( 'right-1-fired' )
+                                                                  }
+                                            }
+                                })
+                        short.changeContext ( 'local' )
+                        const megaBtn = document.querySelector ( '[data-click="mega"]' )
+                        expect ( megaBtn ).to.not.be.null
+                        await userEvent.click ( megaBtn )
+                        await wait ( 50 )
+                        await waitFor ( () => {
+                                        expect ( log ).to.deep.equal ( [ 'left-1-fired', 'right-1-fired' ] )
+                                }, { timeout: 1000, interval: 12 })
+                }) // it click callback workflow
+
  }) // describe
