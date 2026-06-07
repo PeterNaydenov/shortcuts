@@ -484,21 +484,22 @@ describe ( 'Key plugin', () => {
                     await userEvent.keyboard ( 'a' )
                     await wait ( 20 )
                     await waitFor ( () => {
+                                const { emit } = captured.dependencies;
                                 expect ( captured ).toBeTruthy ()
-                                expect ( typeof captured.emit ).toBe ( 'function' )
+                                expect ( typeof emit ).toBe ( 'function' )
                           }, { timeout: 1000, interval: 12 })
           }) // it key callback data contains emit property
 
 
 
-    it ( 'Key callback can emit other events via data.emit (workflow)', async () => {
+    it ( 'Key callback can emit other events via data.dependencies.emit (workflow)', async () => {
                     const log = []
                     short.enablePlugin ( pluginKey )
                     short.load ({
                                 'local' : {
-                                          'key: a' : ( data ) => {
+                                          'key: a' : ( k ) => {
                                                           log.push ( 'a-fired' )
-                                                          data.emit ( '@hidden' )
+                                                          k.dependencies.emit ( '@hidden' )
                                                   }
                                         , '@hidden' : () => {
                                                           log.push ( 'hidden-fired' )

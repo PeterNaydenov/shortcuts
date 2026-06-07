@@ -388,7 +388,7 @@ it ( 'Disable a plugin', () => {
                         await wait ( 200 )
                         await waitFor ( () => {
                                         expect ( captured ).toBeTruthy ()
-                                        expect ( typeof captured.emit ).toBe ( 'function' )
+                                        expect ( typeof captured.dependencies.emit ).toBe ( 'function' )
                                 }, { timeout: 1000, interval: 12 })
                 }) // it scroll callback data contains emit property
 

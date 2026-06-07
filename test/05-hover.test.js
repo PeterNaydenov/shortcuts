@@ -477,20 +477,20 @@ describe ( 'Hover plugin', () => {
                         await wait ( 340 )
                         await waitFor ( () => {
                                         expect ( captured ).toBeTruthy ()
-                                        expect ( typeof captured.emit ).toBe ( 'function' )
+                                        expect ( typeof captured.dependencies.emit ).toBe ( 'function' )
                                 }, { timeout: 1000, interval: 12 })
                 }) // it hover callback data contains emit property
 
 
 
-      it ( 'Hover callback can emit other events via data.emit (workflow)', async () => {
+      it ( 'Hover callback can emit other events via data.dependencies.emit (workflow)', async () => {
                         const log = []
                         short.enablePlugin ( pluginHover )
                         short.load ({
                                         'local' : {
                                                   'hover : on' : ( data ) => {
                                                                         log.push ( 'on-fired' )
-                                                                        data.emit ( 'HOVER:OFF' )
+                                                                        data.dependencies.emit ( 'HOVER:OFF' )
                                                                   }
                                                 , 'hover : off' : () => {
                                                                         log.push ( 'off-fired' )

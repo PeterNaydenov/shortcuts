@@ -612,20 +612,20 @@ describe ( 'Click plugin', () => {
                         await wait ( 50 )
                         await waitFor ( () => {
                                         expect ( captured ).toBeTruthy ()
-                                        expect ( typeof captured.emit ).toBe ( 'function' )
+                                        expect ( typeof captured.dependencies.emit ).toBe ( 'function' )
                                 }, { timeout: 1000, interval: 12 })
                 }) // it click callback data contains emit property
 
 
 
-        it ( 'Click callback can emit other events via data.emit (workflow)', async () => {
+        it ( 'Click callback can emit other events via data.dependencies.emit (workflow)', async () => {
                         const log = []
                         short.enablePlugin ( pluginClick )
                         short.load ({
                                         'local' : {
                                                   'click: left-1' : ( data ) => {
                                                                         log.push ( 'left-1-fired' )
-                                                                        data.emit ( 'CLICK:RIGHT-1' )
+                                                                        data.dependencies.emit ( 'CLICK:RIGHT-1' )
                                                                   }
                                                 , 'click: right-1' : () => {
                                                                         log.push ( 'right-1-fired' )

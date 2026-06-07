@@ -345,7 +345,7 @@ describe ( 'Form plugin', () => {
                         await wait ( 80 )
                         await waitFor ( () => {
                                         expect ( captured ).toBeTruthy ()
-                                        expect ( typeof captured.emit ).toBe ( 'function' )
+                                        expect ( typeof captured.dependencies.emit ).toBe ( 'function' )
                                 }, { timeout: 1000, interval: 12 })
                 }) // it form action fn data contains emit property
 
