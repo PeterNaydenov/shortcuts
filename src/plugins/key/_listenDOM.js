@@ -16,7 +16,7 @@
  * @property {Function} isWaiting - Function to check if currently waiting for keys
  * @property {string|null} note - Current context note
  * @property {string} context - Current context name
- * @property {Object} dependencies - Extra dependencies merged with `emit` (the library event emitter)
+ * @property {Object} dependencies - Reference to the library's `extra` bag. Always includes `emit: ev.emit` plus any keys you set via `short.setDependencies({...})`
  * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  * @property {Object} viewport - Viewport information with X, Y, width, height
  * @property {string} type - Event type ('key')

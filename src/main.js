@@ -232,7 +232,7 @@ function main ( options = {} ) {
      * @function emit
      * @description Emit event for shortcut in current context
      * @param {string} name - Shortcut name
-     * @param {any} [args] - Arguments for callback function
+     * @param {...any} [args] - Arguments forwarded to the shortcut callback as additional positional parameters
      * @returns {void}
      **/
     API.emit = (name,...args) =>  ev.emit ( inAPI._readShortcutWithPlugins ( name ), { dependencies: dependencies.extra, type: 'custom' }, ...args )

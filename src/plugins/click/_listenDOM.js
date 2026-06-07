@@ -16,7 +16,7 @@
  * @property {string|null} note - Current context note
  * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  * @property {Event} event - The original DOM event
- * @property {Object} dependencies - Extra dependencies merged with `emit` (the library event emitter)
+ * @property {Object} dependencies - Reference to the library's `extra` bag. Always includes `emit: ev.emit` plus any keys you set via `short.setDependencies({...})`
  * @property {Object} viewport - Viewport information with X, Y, width, height
  * @property {Object} sizes - Element dimensions with width, height
  * @property {Object} position - Element position relative to viewport with x, y
