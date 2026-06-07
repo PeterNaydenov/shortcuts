@@ -29,7 +29,7 @@ export type ClickEventData = {
      */
     event: Event;
     /**
-     * - Extra dependencies object
+     * - Extra dependencies merged with `emit` (the library event emitter)
      */
     dependencies: any;
     /**
@@ -52,10 +52,6 @@ export type ClickEventData = {
      * - Event type ('click')
      */
     type: string;
-    /**
-     * - Emit an event from inside the handler (alias for the library event emitter)
-     */
-    emit: Function;
 };
 /**
  * @function _listenDOM
@@ -72,12 +68,11 @@ export type ClickEventData = {
  * @property {string|null} note - Current context note
  * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  * @property {Event} event - The original DOM event
- * @property {Object} dependencies - Extra dependencies object
+ * @property {Object} dependencies - Extra dependencies merged with `emit` (the library event emitter)
  * @property {Object} viewport - Viewport information with X, Y, width, height
  * @property {Object} sizes - Element dimensions with width, height
  * @property {Object} position - Element position relative to viewport with x, y
  * @property {Object} pagePosition - Element position relative to page with x, y
  * @property {string} type - Event type ('click')
- * @property {Function} emit - Emit an event from inside the handler (alias for the library event emitter)
  */
 declare function _listenDOM(dependencies: any, state: any): any;

@@ -25,7 +25,7 @@ export type KeyEventData = {
      */
     context: string;
     /**
-     * - Extra dependencies object
+     * - Extra dependencies merged with `emit` (the library event emitter)
      */
     dependencies: any;
     /**
@@ -40,10 +40,6 @@ export type KeyEventData = {
      * - Event type ('key')
      */
     type: string;
-    /**
-     * - Emit an event from inside the handler (alias for the library event emitter)
-     */
-    emit: Function;
 };
 /**
  * @function _listenDOM
@@ -59,10 +55,9 @@ export type KeyEventData = {
  * @property {Function} isWaiting - Function to check if currently waiting for keys
  * @property {string|null} note - Current context note
  * @property {string} context - Current context name
- * @property {Object} dependencies - Extra dependencies object
+ * @property {Object} dependencies - Extra dependencies merged with `emit` (the library event emitter)
  * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  * @property {Object} viewport - Viewport information with X, Y, width, height
  * @property {string} type - Event type ('key')
- * @property {Function} emit - Emit an event from inside the handler (alias for the library event emitter)
  */
 declare function _listenDOM(dependencies: any, state: any): any;
