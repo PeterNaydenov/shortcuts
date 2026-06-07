@@ -94,7 +94,6 @@ function listenForScroll ( event ) {
                                 , height: window.innerHeight
                             }
                         , type: 'scroll'
-                        , emit: ev.emit
                 })
 
         // Emit events for each direction detected

@@ -16,18 +16,17 @@
  * @property {string|null} note - Current context note
  * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  * @property {Event} event - The original DOM event
- * @property {Object} dependencies - Extra dependencies object
+ * @property {Object} dependencies - Extra dependencies merged with `emit` (the library event emitter)
  * @property {Object} viewport - Viewport information with X, Y, width, height
  * @property {Object} sizes - Element dimensions with width, height
  * @property {Object} position - Element position relative to viewport with x, y
  * @property {Object} pagePosition - Element position relative to page with x, y
  * @property {string} type - Event type ('click')
- * @property {Function} emit - Emit an event from inside the handler (alias for the library event emitter)
  */
 function _listenDOM ( dependencies, state ) {
-        const { 
+        const {
                    ev
-                , _findTarget 
+                , _findTarget
                 , _readClickEvent
                 , extra
                         } = dependencies
@@ -70,7 +69,6 @@ function _listenDOM ( dependencies, state ) {
                                         , position : { x:left, y:top }                     // Position relative to viewport
                                         , pagePosition : { x:left+scrollX, y:top+scrollY } // Position relative to page
                                         , type   : 'click'
-                                        , emit   : ev.emit
                                 }
                                 ;
 

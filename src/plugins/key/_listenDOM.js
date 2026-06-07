@@ -16,15 +16,14 @@
  * @property {Function} isWaiting - Function to check if currently waiting for keys
  * @property {string|null} note - Current context note
  * @property {string} context - Current context name
- * @property {Object} dependencies - Extra dependencies object
+ * @property {Object} dependencies - Extra dependencies merged with `emit` (the library event emitter)
  * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  * @property {Object} viewport - Viewport information with X, Y, width, height
  * @property {string} type - Event type ('key')
- * @property {Function} emit - Emit an event from inside the handler (alias for the library event emitter)
  */
 function _listenDOM ( dependencies, state ) {
 // Listen for input signals and generate event titles
-    const { 
+    const {
                   ev
                 , _specialChars
                 , _readKeyEvent
@@ -68,14 +67,13 @@ function _listenDOM ( dependencies, state ) {
                                     , context: currentContext.name
                                     , dependencies : extra
                                     , options : state.listenOptions
-                                    , viewport : { 
+                                    , viewport : {
                                               X : window.scrollX
                                             , Y : window.scrollY
                                             , width:window.innerWidth
-                                            , height:window.innerHeight 
+                                            , height:window.innerHeight
                                         }
                                     , type : 'key'
-                                    , emit : ev.emit
                             };
 
                     if ( !sequence ) {

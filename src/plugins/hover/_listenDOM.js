@@ -69,7 +69,7 @@ function listenForHover ( event ) {
                         ;
 
                     return {
-                                target : tg
+                                  target : tg
                                 , context: state.currentContext.name
                                 , note   : state.currentContext.note
                                 , event
@@ -85,7 +85,6 @@ function listenForHover ( event ) {
                                 , position : { x:left, y:top }                     // Position relative to viewport
                                 , pagePosition : { x:left+scrollX, y:top+scrollY } // Position relative to page
                                 , type: 'hover'
-                                , emit   : ev.emit
                         }
                 } // getData func.
         

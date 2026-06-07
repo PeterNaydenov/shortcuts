@@ -113,7 +113,7 @@ function main ( options = {} ) {
                               ev
                             , inAPI
                             , API
-                            , extra : {}
+                            , extra : { emit: ev.emit }
                         };
 
     // ----------------------  > PLUGIN METHODS < ---------------------- //
@@ -235,7 +235,7 @@ function main ( options = {} ) {
      * @param {any} [args] - Arguments for callback function
      * @returns {void}
      **/
-    API.emit = (name,...args) =>  ev.emit ( inAPI._readShortcutWithPlugins ( name ), { emit: ev.emit, type: 'custom' }, ...args )
+    API.emit = (name,...args) =>  ev.emit ( inAPI._readShortcutWithPlugins ( name ), { dependencies: dependencies.extra, type: 'custom' }, ...args )
       
 
     /**
@@ -273,7 +273,7 @@ function main ( options = {} ) {
                         API.changeContext ()
                         state.plugins.forEach ( plugin => plugin.destroy () )
                         API.listContexts ().map ( cx =>  API.unload ( cx ))
-                        dependencies.extra = {}
+                        dependencies.extra = { emit: ev.emit }
                         state.exposeShortcut = null
       } // reset func.
 

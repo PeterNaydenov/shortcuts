@@ -28,6 +28,7 @@ function _listenDOM ( dependencies, state ) {
         let timeout = null; 
 
         function setupData ( dependencies, state, event, type) {
+                const { extra } = dependencies;
                 const 
                       { left, top, width, height } = event.target.getBoundingClientRect ()
                     , scrollX = window.scrollX
@@ -38,7 +39,7 @@ function _listenDOM ( dependencies, state ) {
                         , context : state.currentContext.name
                         , note    : state.currentContext.note
                         , event   
-                        , dependencies : dependencies.extra
+                        , dependencies : extra
                         , options : state.listenOptions
                         , viewport : {                                     // Viewport scroll positions and sizes
                                   X:scrollX
@@ -50,7 +51,6 @@ function _listenDOM ( dependencies, state ) {
                         , position : { x:left, y:top }                     // Position relative to viewport
                         , pagePosition : { x:left+scrollX, y:top+scrollY } // Position relative to page
                         , type
-                        , emit   : ev.emit
                     }
         } // setupData func.
 
