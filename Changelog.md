@@ -2,11 +2,11 @@
 
 
 ### 4.1.0 ( 2026-06-07 )
-- [x] Feature: Added 'emit' property to event data of all plugins (key, click, hover, scroll, form). Allows a handler to trigger other events (including custom event names) from within another event handler, enabling pipelines and workflows;
-- [x] Feature: Custom event names. `data.emit` accepts any string as an event name, not just plugin shortcuts. Use a non-plugin prefix (e.g. `@`, `app:`) for application-level hooks that won't collide with library events;
+- [x] Feature: Added `dependencies.emit` to event data of all plugins (key, click, hover, scroll, form). The `emit` function lives on `data.dependencies` (the same bag populated by `setDependencies`), so a handler can trigger other events — including custom event names — from within another event handler, enabling pipelines and workflows;
+- [x] Feature: Custom event names. `data.dependencies.emit` accepts any string as an event name, not just plugin shortcuts. Use a non-plugin prefix (e.g. `@`, `app:`) for application-level hooks that won't collide with library events;
 - [x] Documentation: New section 'Custom Events & Workflows' in README.md with examples for chained gestures, multi-plugin workflows, and custom application event names;
-- [x] Types: Added 'emit' property to KeyEventData, ClickEventData, HoverEventData, ScrollEventData, and FormEventData typedefs (and their generated .d.ts files);
-- [x] Tests: Added 'emit' property tests for all 5 plugins. Added workflow tests for key, click, and hover that verify one handler can trigger another via `data.emit`;
+- [x] Types: Added `dependencies.emit` (function) to KeyEventData, ClickEventData, HoverEventData, ScrollEventData, and FormEventData typedefs (and their generated .d.ts files);
+- [x] Tests: Added `dependencies.emit` tests for all 5 plugins. Added workflow tests for key, click, and hover that verify one handler can trigger another via `data.dependencies.emit`;
 - [x] Dev deps update. @peter.naydenov/visual-controller-for-react to v.3.1.2 (fixes broken ESM build in test environment);
 
 
