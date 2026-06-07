@@ -17,7 +17,7 @@ export type HoverEventData = {
      */
     event: Event;
     /**
-     * - Extra dependencies object
+     * - Reference to the library's `extra` bag. Always includes `emit: ev.emit` plus any keys you set via `short.setDependencies({...})`
      */
     dependencies: any;
     /**
@@ -44,10 +44,6 @@ export type HoverEventData = {
      * - Event type ('hover')
      */
     type: string;
-    /**
-     * - Emit an event from inside the handler (alias for the library event emitter)
-     */
-    emit: Function;
 };
 /**
  * @function _listenDOM
@@ -61,13 +57,12 @@ export type HoverEventData = {
  * @property {string} context - Current context name
  * @property {string|null} note - Current context note
  * @property {Event} event - The original DOM event
- * @property {Object} dependencies - Extra dependencies object
+ * @property {Object} dependencies - Reference to the library's `extra` bag. Always includes `emit: ev.emit` plus any keys you set via `short.setDependencies({...})`
  * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  * @property {Object} viewport - Viewport information with X, Y, width, height
  * @property {Object} sizes - Element dimensions with width, height
  * @property {Object} position - Element position relative to viewport with x, y
  * @property {Object} pagePosition - Element position relative to page with x, y
  * @property {string} type - Event type ('hover')
- * @property {Function} emit - Emit an event from inside the handler (alias for the library event emitter)
  */
 declare function _listenDOM(dependencies: any, state: any): any;
