@@ -36,3 +36,19 @@ A graph of this codebase has been built. Artifacts live in `graphify-out/`:
 
 ### Staleness
 The graph reflects the code as of last `/graphify` run. If files change, the graph goes stale — re-run `/graphify` or `graphify --update` to refresh.
+
+## v4.1.0 architecture: `data.dependencies.emit`
+The 4.1.0 release moves the `emit` function off the event-data top level and onto `data.dependencies`:
+
+- `src/main.js:116-118` initializes `dependencies.extra = { emit: ev.emit }` so every plugin's `data.dependencies` carries the library's emitter by default.
+- `src/main.js:238` (the `API.emit` synthetic event) passes `data = { dependencies: dependencies.extra }`.
+- Each plugin's `_listenDOM.js` sets `dependencies: extra` (or `extra` destructured from `dependencies`) — no top-level `emit` field on event data.
+- `src/main.js:273-280` (the `API.reset()` function) re-affirms the default: `dependencies.extra = { emit: ev.emit }` (NOT `{}`), so plugins enabled after a `reset()` still get `data.dependencies.emit`.
+- User actions call `data.dependencies.emit(eventName, ...args)`. Custom keys still flow into `data.dependencies` via `setDependencies({...})` (merged, not replaced).
+- Tests verify at least these places still work:
+  - `test/02-key.test.js:475, 495` — `captured.dependencies.emit` exists, used for workflow
+  - `test/03-click.test.js:598, 621` — same
+  - `test/04-form.test.js:329` — same
+  - `test/05-hover.test.js:463, 486` — same
+  - `test/06-scroll.test.js:376` — same
+  - `test/01-general.test.js:215` — `short.emit('yo', { ... })` (public API, still works with the new data shape because variadic args pass through to listeners as positional args)
