@@ -1,7 +1,7 @@
 ## Release History
 
 
-### 4.1.0 ( 2026-06-06 )
+### 4.1.0 ( 2026-06-07 )
 - [x] Feature: Added 'emit' property to event data of all plugins (key, click, hover, scroll, form). Allows a handler to trigger other events (including custom event names) from within another event handler, enabling pipelines and workflows;
 - [x] Feature: Custom event names. `data.emit` accepts any string as an event name, not just plugin shortcuts. Use a non-plugin prefix (e.g. `@`, `app:`) for application-level hooks that won't collide with library events;
 - [x] Documentation: New section 'Custom Events & Workflows' in README.md with examples for chained gestures, multi-plugin workflows, and custom application event names;
