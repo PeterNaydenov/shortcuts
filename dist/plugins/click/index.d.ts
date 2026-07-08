@@ -1,4 +1,3 @@
-export default pluginClick;
 /**
  * @function pluginClick
  * @description Plugin for mouse click shortcuts
@@ -14,3 +13,4 @@ declare function pluginClick(setupPlugin: Function, options?: {
     clickTarget?: string[];
     streamKeys?: Function;
 }): PluginAPI;
+export default pluginClick;

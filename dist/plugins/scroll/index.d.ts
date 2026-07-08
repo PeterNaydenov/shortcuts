@@ -1,4 +1,3 @@
-export default pluginScroll;
 /**
  * @function pluginScroll
  * @description Plugin for scroll event shortcuts
@@ -14,3 +13,4 @@ declare function pluginScroll(setupPlugin: Function, options?: {
     endScrollWait?: number;
     minSpace?: number;
 }): PluginAPI;
+export default pluginScroll;

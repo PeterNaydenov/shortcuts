@@ -1,4 +1,3 @@
-export default _systemAction;
 /**
  * @function _systemAction
  * @description Call a specific plugin method.
@@ -6,4 +5,5 @@ export default _systemAction;
  * @param {state} state - State object containing plugins array
  * @returns {function} - Returns a function that executes plugin actions
  */
-declare function _systemAction(dependencies: any, state: any): Function;
+declare function _systemAction(dependencies: dependencies, state: state): Function;
+export default _systemAction;

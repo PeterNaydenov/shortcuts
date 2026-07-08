@@ -1,4 +1,3 @@
-export default _listenDOM;
 export type HoverEventData = {
     /**
      * - The DOM element that is being hovered
@@ -66,3 +65,4 @@ export type HoverEventData = {
  * @property {string} type - Event type ('hover')
  */
 declare function _listenDOM(dependencies: any, state: any): any;
+export default _listenDOM;

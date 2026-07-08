@@ -1,4 +1,3 @@
-export default _listenDOM;
 export type ClickEventData = {
     /**
      * - The DOM element that was clicked
@@ -76,3 +75,4 @@ export type ClickEventData = {
  * @property {string} type - Event type ('click')
  */
 declare function _listenDOM(dependencies: any, state: any): any;
+export default _listenDOM;

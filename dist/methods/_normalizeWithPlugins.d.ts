@@ -1,4 +1,10 @@
-export default _normalizeWithPlugins;
+/**
+ * @typedef {Object} dependencies
+ * @property {Object} ev - Event emitter instance
+ * @property {Object} inAPI - Internal API object
+ * @property {Object} API - Public API object
+ * @property {Object} extra - Extra dependencies object
+ */
 export type dependencies = {
     /**
      * - Event emitter instance
@@ -40,13 +46,6 @@ export type state = {
     ERROR_EVENT_NAME: string;
 };
 /**
- * @typedef {Object} dependencies
- * @property {Object} ev - Event emitter instance
- * @property {Object} inAPI - Internal API object
- * @property {Object} API - Public API object
- * @property {Object} extra - Extra dependencies object
- */
-/**
  * @typedef {Object} state
  * @property {Object} currentContext - Current context data container
  * @property {Object} shortcuts - Shortcuts object: { contextName : { shortcut : callback[] } }
@@ -62,3 +61,4 @@ export type state = {
  * @returns {function} - Returns a function that takes a normalize function
  */
 declare function _normalizeWithPlugins(dependencies: dependencies, state: state): Function;
+export default _normalizeWithPlugins;

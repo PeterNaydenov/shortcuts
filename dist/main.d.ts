@@ -40,29 +40,29 @@ export type state = {
 };
 export type PluginAPI = {
     /**
-     * - Get plugin prefix
+     * (): string} getPrefix - Get plugin prefix
      */
-    getPrefix: () => string;
+    : Function;
     /**
-     * - Format shortcut name
+     * (string): string} shortcutName - Format shortcut name
      */
-    shortcutName: (arg0: string) => string;
+    : Function;
     /**
-     * - Handle context change
+     * (string): void} contextChange - Handle context change
      */
-    contextChange: (arg0: string) => void;
+    : Function;
     /**
-     * - Mute the plugin
+     * (): void} mute - Mute the plugin
      */
-    mute: () => void;
+    : Function;
     /**
-     * - Unmute the plugin
+     * (): void} unmute - Unmute the plugin
      */
-    unmute: () => void;
+    : Function;
     /**
-     * - Destroy the plugin
+     * (): void} destroy - Destroy the plugin
      */
-    destroy: () => void;
+    : Function;
 };
 export type contextShortcuts = {
     /**
@@ -76,82 +76,87 @@ export type contextShortcuts = {
 };
 export type ShortcutsAPI = {
     /**
-     * - Enable a plugin
+     * (Function, Object): void} enablePlugin - Enable a plugin
      */
-    enablePlugin: (arg0: Function, arg1: any) => void;
+    : Function;
     /**
-     * - Disable a plugin
+     * (string): void} disablePlugin - Disable a plugin
      */
-    disablePlugin: (arg0: string) => void;
+    : Function;
     /**
-     * - Mute a plugin
+     * (string): number} mutePlugin - Mute a plugin
      */
-    mutePlugin: (arg0: string) => number;
+    : Function;
     /**
-     * - Unmute a plugin
+     * (string): number} unmutePlugin - Unmute a plugin
      */
-    unmutePlugin: (arg0: string) => number;
+    : Function;
     /**
-     * - List enabled plugins
+     * (): string[]} listPlugins - List enabled plugins
      */
-    listPlugins: () => string[];
+    : Function;
     /**
-     * - Get current context name
+     * (): string|null} getContext - Get current context name
      */
-    getContext: () => string | null;
+    : Function;
     /**
-     * - Get current context note
+     * (): string|null} getNote - Get current context note
      */
-    getNote: () => string | null;
+    : Function;
     /**
-     * - Set current context note
+     * (string|null): void} setNote - Set current context note
      */
-    setNote: (arg0: string | null) => void;
+    : Function;
     /**
-     * - Pause shortcuts in current context
+     * (string): void} pause - Pause shortcuts in current context
      */
-    pause: (arg0: string) => void;
+    : Function;
     /**
-     * - Resume shortcuts in current context
+     * (string): void} resume - Resume shortcuts in current context
      */
-    resume: (arg0: string) => void;
+    : Function;
     /**
-     * - Emit event for shortcut
+     * (string, ...any): void} emit - Emit event for shortcut
      */
-    emit: (arg0: string, ...args: any[]) => void;
+    : Function;
     /**
-     * - List all context names
+     * (): string[]} listContexts - List all context names
      */
-    listContexts: () => string[];
+    : Function;
     /**
-     * - Set external dependencies
+     * (Object): void} setDependencies - Set external dependencies
      */
-    setDependencies: (arg0: any) => void;
+    : Function;
     /**
-     * - Get external dependencies
+     * (): Object} getDependencies - Get external dependencies
      */
-    getDependencies: () => any;
+    : Function;
     /**
-     * - Reset the library instance
+     * (): void} reset - Reset the library instance
      */
-    reset: () => void;
+    : Function;
     /**
-     * - Change current context
+     * (string|boolean): void} changeContext - Change current context
      */
-    changeContext: (arg0: string | boolean) => void;
+    : Function;
     /**
-     * - List shortcuts
+     * (string|null): string[]|contextShortcuts[]|null} listShortcuts - List shortcuts
      */
-    listShortcuts: (arg0: string | null) => string[] | contextShortcuts[] | null;
+    : Function;
     /**
-     * - Load shortcuts into contexts
+     * (Object): void} load - Load shortcuts into contexts
      */
-    load: (arg0: any) => void;
+    : Function;
     /**
-     * - Unload a context
+     * (string): void} unload - Unload a context
      */
-    unload: (arg0: string) => void;
+    : Function;
 };
+import pluginKey from './plugins/key/index.js';
+import pluginClick from './plugins/click/index.js';
+import pluginForm from './plugins/form/index.js';
+import pluginHover from './plugins/hover/index.js';
+import pluginScroll from './plugins/scroll/index.js';
 /**
  * @function shortcuts
  * @description Create a shortcuts instance
@@ -164,9 +169,6 @@ declare function main(options?: {
     onShortcut?: Function;
     errorEventName?: string;
 }): ShortcutsAPI;
-import pluginKey from './plugins/key/index.js';
-import pluginClick from './plugins/click/index.js';
-import pluginForm from './plugins/form/index.js';
-import pluginHover from './plugins/hover/index.js';
-import pluginScroll from './plugins/scroll/index.js';
-export { main as shortcuts, pluginKey, pluginClick, pluginForm, pluginHover, pluginScroll };
+/** @type {function} */
+export { main as shortcuts };
+export { pluginKey, pluginClick, pluginForm, pluginHover, pluginScroll };

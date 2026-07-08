@@ -1,4 +1,3 @@
-export default pluginHover;
 /**
  * @function pluginHover
  * @description Plugin for mouse hover shortcuts
@@ -12,3 +11,4 @@ declare function pluginHover(setupPlugin: Function, options?: {
     hoverTarget?: string[];
     wait?: number;
 }): PluginAPI;
+export default pluginHover;

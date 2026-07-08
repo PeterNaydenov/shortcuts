@@ -1,4 +1,3 @@
-export default load;
 /**
  * @function load
  * @description Load a context with shortcuts object
@@ -6,4 +5,5 @@ export default load;
  * @param {state} state - State object containing shortcuts and plugins
  * @returns {function} - Returns a function that loads shortcuts
  */
-declare function load(dependencies: any, state: any): Function;
+declare function load(dependencies: dependencies, state: state): Function;
+export default load;

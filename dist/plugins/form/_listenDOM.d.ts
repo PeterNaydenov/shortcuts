@@ -1,4 +1,3 @@
-export default _listenDOM;
 export type FormEventData = {
     /**
      * - The DOM element that triggered the form event
@@ -66,3 +65,4 @@ export type FormEventData = {
  * @property {string} type - Event type ('form'). The timing (in/out/instant) lives in the emitted event name (e.g. `email/in`, `email/instant`)
  */
 declare function _listenDOM(dependencies: any, state: any): any;
+export default _listenDOM;

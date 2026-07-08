@@ -1,4 +1,8 @@
-export default _defaults;
+/**
+ * @typedef {Object} _defaults
+ * @property {function} watch - Function that returns CSS selector for form elements to watch
+ * @property {function} define - Function that determines the type of form element
+ */
 export type _defaults = {
     /**
      * - Function that returns CSS selector for form elements to watch
@@ -9,9 +13,14 @@ export type _defaults = {
      */
     define: Function;
 };
-declare namespace _defaults {
-    function watch(): string;
-    function define({ target }: {
+/**
+ * @const {_defaults}
+ * @description Default configuration for form plugin
+ */
+declare const _defaults: {
+    watch: () => string;
+    define: ({ target }: {
         target: any;
-    }): "input" | "checkbox" | "button";
-}
+    }) => "button" | "checkbox" | "input";
+};
+export default _defaults;

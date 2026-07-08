@@ -1,4 +1,3 @@
-export default _normalizeShortcutName;
 /**
  * @function _normalizeShortcutName
  * @description Normalize click shortcut name to standard format
@@ -6,3 +5,4 @@ export default _normalizeShortcutName;
  * @returns {string} - Normalized shortcut name
  */
 declare function _normalizeShortcutName(name: string): string;
+export default _normalizeShortcutName;

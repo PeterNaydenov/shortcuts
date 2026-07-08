@@ -1,4 +1,3 @@
-export default _listenDOM;
 export type KeyEventData = {
     /**
      * - Function to wait for keys (disables key sequence)
@@ -61,3 +60,4 @@ export type KeyEventData = {
  * @property {string} type - Event type ('key')
  */
 declare function _listenDOM(dependencies: any, state: any): any;
+export default _listenDOM;

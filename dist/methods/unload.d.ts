@@ -1,4 +1,3 @@
-export default unload;
 /**
  * @function unload
  * @description Unload a non-active context with shortcuts
@@ -6,4 +5,5 @@ export default unload;
  * @param {state} state - State object containing currentContext, shortcuts, ERROR_EVENT_NAME
  * @returns {function} - Returns a function that unloads contexts
  */
-declare function unload(dependencies: any, state: any): Function;
+declare function unload(dependencies: dependencies, state: state): Function;
+export default unload;

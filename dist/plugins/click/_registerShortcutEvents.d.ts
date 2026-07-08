@@ -1,4 +1,3 @@
-export default _registerShortcutEvents;
 export type ClickSetupData = {
     /**
      * - Extra dependencies object
@@ -26,3 +25,4 @@ export type ClickSetupData = {
  * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  */
 declare function _registerShortcutEvents(dependencies: any, pluginState: any): number;
+export default _registerShortcutEvents;

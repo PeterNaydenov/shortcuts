@@ -1,4 +1,3 @@
-export default pluginForm;
 /**
  * @function pluginForm
  * @description Plugin for form element shortcuts
@@ -7,3 +6,4 @@ export default pluginForm;
  * @returns {PluginAPI} Plugin API
  */
 declare function pluginForm(setupPlugin: Function, options?: any): PluginAPI;
+export default pluginForm;

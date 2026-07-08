@@ -1,4 +1,3 @@
-export default _listenDOM;
 export type ScrollEventData = {
     /**
      * - Current scroll X position
@@ -56,3 +55,4 @@ export type ScrollEventData = {
  * @property {string} type - Event type ('scroll')
  */
 declare function _listenDOM(dependencies: any, state: any): any;
+export default _listenDOM;

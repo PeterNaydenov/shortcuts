@@ -1,4 +1,3 @@
-export default pluginKey;
 /**
  * @function pluginKey
  * @description Plugin for keyboard shortcuts
@@ -12,3 +11,4 @@ declare function pluginKey(setupPlugin: Function, options?: {
     keyWait?: number;
     streamKeys?: Function;
 }): PluginAPI;
+export default pluginKey;
