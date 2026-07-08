@@ -1,6 +1,11 @@
 ## Release History
 
 
+### 4.1.1 ( 2026-07-08 )
+- [x] Dependency update. @peter.naydenov/notice - v.2.4.5;
+
+
+
 ### 4.1.0 ( 2026-06-07 )
 - [x] Feature: Added `dependencies.emit` to event data of all plugins (key, click, hover, scroll, form). The `emit` function lives on `data.dependencies` (the same bag populated by `setDependencies`), so a handler can trigger other events — including custom event names — from within another event handler, enabling pipelines and workflows;
 - [x] Feature: Custom event names. `data.dependencies.emit` accepts any string as an event name, not just plugin shortcuts. Use a non-plugin prefix (e.g. `@`, `app:`) for application-level hooks that won't collide with library events;
