@@ -19,12 +19,12 @@
 
 /**
  * @typedef {Object} PluginAPI
- * @property {function(): string} getPrefix - Get plugin prefix
- * @property {function(string): string} shortcutName - Format shortcut name
- * @property {function(string): void} contextChange - Handle context change
- * @property {function(): void} mute - Mute the plugin
- * @property {function(): void} unmute - Unmute the plugin
- * @property {function(): void} destroy - Destroy the plugin
+ * @property {() => string} getPrefix - Get plugin prefix
+ * @property {(arg: string) => string} shortcutName - Format shortcut name
+ * @property {(arg: string) => void} contextChange - Handle context change
+ * @property {() => void} mute - Mute the plugin
+ * @property {() => void} unmute - Unmute the plugin
+ * @property {() => void} destroy - Destroy the plugin
  */
 
 /**
@@ -35,25 +35,25 @@
 
 /**
  * @typedef {Object} ShortcutsAPI
- * @property {function(Function, Object): void} enablePlugin - Enable a plugin
- * @property {function(string): void} disablePlugin - Disable a plugin
- * @property {function(string): number} mutePlugin - Mute a plugin
- * @property {function(string): number} unmutePlugin - Unmute a plugin
- * @property {function(): string[]} listPlugins - List enabled plugins
- * @property {function(): string|null} getContext - Get current context name
- * @property {function(): string|null} getNote - Get current context note
- * @property {function(string|null): void} setNote - Set current context note
- * @property {function(string): void} pause - Pause shortcuts in current context
- * @property {function(string): void} resume - Resume shortcuts in current context
- * @property {function(string, ...any): void} emit - Emit event for shortcut
- * @property {function(): string[]} listContexts - List all context names
- * @property {function(Object): void} setDependencies - Set external dependencies
- * @property {function(): Object} getDependencies - Get external dependencies
- * @property {function(): void} reset - Reset the library instance
- * @property {function(string|boolean): void} changeContext - Change current context
- * @property {function(string|null): string[]|contextShortcuts[]|null} listShortcuts - List shortcuts
- * @property {function(Object): void} load - Load shortcuts into contexts
- * @property {function(string): void} unload - Unload a context
+ * @property {(plugin: Function, options?: Object) => void} enablePlugin - Enable a plugin
+ * @property {(pluginName: string) => void} disablePlugin - Disable a plugin
+ * @property {(pluginName: string) => number} mutePlugin - Mute a plugin
+ * @property {(pluginName: string) => number} unmutePlugin - Unmute a plugin
+ * @property {() => string[]} listPlugins - List enabled plugins
+ * @property {() => string|null} getContext - Get current context name
+ * @property {() => string|null} getNote - Get current context note
+ * @property {(note: string|null) => void} setNote - Set current context note
+ * @property {(name?: string) => void} pause - Pause shortcuts in current context
+ * @property {(name?: string) => void} resume - Resume shortcuts in current context
+ * @property {(name: string, ...args: any[]) => void} emit - Emit event for shortcut
+ * @property {() => string[]} listContexts - List all context names
+ * @property {(deps: Object) => void} setDependencies - Set external dependencies
+ * @property {() => Object} getDependencies - Get external dependencies
+ * @property {() => void} reset - Reset the library instance
+ * @property {(name?: string|boolean) => void} changeContext - Change current context
+ * @property {(contextName?: string|null) => string[]|contextShortcuts[]|null} listShortcuts - List shortcuts
+ * @property {(shortcutDefinition: Object) => void} load - Load shortcuts into contexts
+ * @property {(contextName: string) => void} unload - Unload a context
  */
 
 /**
