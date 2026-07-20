@@ -1,124 +1,642 @@
 {
-  "vite.config.js": 1760624990.2235215,
-  "vitest.config.js": 1762626779.994835,
-  "rollup.config.js": 1762010298.5433095,
-  "eslint.config.js": 1762626779.980723,
-  "test/02-key.test.js": 1762626779.9939554,
-  "test/04-form.test.js": 1762626779.9943032,
-  "test/06-scroll.test.js": 1762626779.9946907,
-  "test/01-general.test.js": 1762626779.9937785,
-  "test/03-click.test.js": 1762626779.9941316,
-  "test/05-hover.test.js": 1762626779.9944413,
-  "html/assets/index-DOkKC3NI.js": 1762626779.982642,
-  "test-helpers/wait.js": 1762536517.781056,
-  "test-helpers/Block.jsx": 1762626779.9933305,
-  "test-helpers/setup.js": 1762536517.780873,
-  "coverage/block-navigation.js": 1762625701.930784,
-  "coverage/prettify.js": 1762625701.9313045,
-  "coverage/sorter.js": 1762625701.9311275,
-  "coverage/lcov-report/block-navigation.js": 1762625701.9096892,
-  "coverage/lcov-report/prettify.js": 1762625701.911499,
-  "coverage/lcov-report/sorter.js": 1762625701.9107556,
-  "src/main.js": 1762626779.9854686,
-  "src/methods/listShortcuts.js": 1762626779.9870934,
-  "src/methods/unload.js": 1762626779.9875412,
-  "src/methods/_readShortcutWithPlugins.js": 1762626779.9860227,
-  "src/methods/index.js": 1762626779.986857,
-  "src/methods/_normalizeWithPlugins.js": 1762626779.9857414,
-  "src/methods/load.js": 1762626779.9873555,
-  "src/methods/_setupPlugin.js": 1762626779.9863315,
-  "src/methods/_systemAction.js": 1762626779.9865086,
-  "src/methods/changeContext.js": 1762626779.9866881,
-  "src/plugins/form/_listenDOM.js": 1762626779.9892912,
-  "src/plugins/form/index.js": 1762626779.9904203,
-  "src/plugins/form/_registerShortcutEvents.js": 1762626779.9902272,
-  "src/plugins/form/_normalizeShortcutName.js": 1762626779.9895978,
-  "src/plugins/form/_defaults.js": 1762626779.9890249,
-  "src/plugins/hover/_listenDOM.js": 1762626779.9908626,
-  "src/plugins/hover/_findTarget.js": 1762626779.9906108,
-  "src/plugins/hover/index.js": 1762626779.9912727,
-  "src/plugins/hover/_registerShortcutEvents.js": 1762626779.9911392,
-  "src/plugins/hover/_normalizeShortcutName.js": 1762626779.9910018,
-  "src/plugins/scroll/_listenDOM.js": 1762626779.9926744,
-  "src/plugins/scroll/index.js": 1762626779.993043,
-  "src/plugins/scroll/_registerShortcutEvents.js": 1762626779.9929318,
-  "src/plugins/scroll/_normalizeShortcutName.js": 1762626779.9928043,
-  "src/plugins/click/_listenDOM.js": 1762626779.9881291,
-  "src/plugins/click/_readClickEvent.js": 1762626779.988526,
-  "src/plugins/click/_findTarget.js": 1762626779.9878113,
-  "src/plugins/click/index.js": 1762626779.9888597,
-  "src/plugins/click/_registerShortcutEvents.js": 1762626779.9886897,
-  "src/plugins/click/_normalizeShortcutName.js": 1762626779.9882822,
-  "src/plugins/key/_listenDOM.js": 1762626779.9915516,
-  "src/plugins/key/_specialChars.js": 1762626779.9922228,
-  "src/plugins/key/index.js": 1762626779.992412,
-  "src/plugins/key/_registerShortcutEvents.js": 1762626779.992044,
-  "src/plugins/key/_readKeyEvent.js": 1762626779.9918733,
-  "src/plugins/key/_normalizeShortcutName.js": 1762626779.9917033,
-  "How.to.create.plugins.md": 1762626779.9717243,
-  "CODE_OF_CONDUCT.md": 1762626779.9710162,
-  "README-v.2.x.x.md": 1709667516.0466158,
-  "API.md": 1762626779.9707503,
-  "Changelog.md": 1775125798.9381425,
-  "Migration.guide.md": 1762626779.9719975,
-  "README.md": 1762812256.3854492,
-  "CONTRIBUTING.md": 1762626779.9713907,
-  "javascript.svg": 1702930882.0850813,
-  "shortcuts.png": 1762626779.9851072,
-  "test/__screenshots__/02-key.test.js/Key-plugin-Mute-and-unmute-key-plugin-1.png": 1762541413.8356225,
-  "test/__screenshots__/02-key.test.js/Key-plugin-Arguments-of-key-handler-1.png": 1762541413.9154105,
-  "test/__screenshots__/02-key.test.js/Key-plugin-Extra-parameters-to-plugin-options-1.png": 1762541416.7111533,
-  "test/__screenshots__/04-form.test.js/Form-plugin-Arguments-for--form-define--1.png": 1762541413.5854952,
-  "test/__screenshots__/04-form.test.js/Form-plugin-Reveal-and-click-1.png": 1762541545.7015018,
-  "test/__screenshots__/04-form.test.js/Form-plugin-Simpler-form-listener--Only--form-action--defined-1.png": 1762541413.3341146,
-  "test/__screenshots__/04-form.test.js/Form-plugin-Arguments-for-action-function-1.png": 1762541413.4192502,
-  "test/__screenshots__/04-form.test.js/Form-plugin-Extra-parameters-to-plugin-options-1.png": 1762541413.752406,
-  "test/__screenshots__/04-form.test.js/Form-plugin-Arguments-for--form-watch--1.png": 1762541413.5029793,
-  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Scroll-down-event-1.png": 1762541413.4125533,
-  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Scroll-up-event-1.png": 1762541413.4961684,
-  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Pause-and-resume-1.png": 1762541413.9116352,
-  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Enable-already-enabled-plugin-1.png": 1762541413.9959416,
-  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Combined-horizontal-and-vertical-scroll-1.png": 1762541413.7443113,
-  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Scroll-right-event-1.png": 1762541413.6625004,
-  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Mute-and-unmute-scroll-plugin-1.png": 1762541413.8286297,
-  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Disable-a-plugin-1.png": 1762541414.0783806,
-  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Extra-parameters-to-plugin-options-1.png": 1762541414.16196,
-  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Scroll-plugin-installed-1.png": 1762541413.3341079,
-  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Scroll-left-event-1.png": 1762541413.5788782,
-  "test/__screenshots__/01-general.test.js/Shortcuts-Switch-off-all-shortcuts-1.png": 1762541413.5029793,
-  "test/__screenshots__/01-general.test.js/Shortcuts-Emit-custom-event-1.png": 1762541545.6204863,
-  "test/__screenshots__/01-general.test.js/Shortcuts-Unload-non-existing-context-1.png": 1762541413.3341148,
-  "test/__screenshots__/01-general.test.js/Shortcuts-List-shortcuts-1.png": 1762541413.7524056,
-  "test/__screenshots__/01-general.test.js/Shortcuts-List-enabled-plugins--Disable-and-enable-plugins-1.png": 1762541545.5539684,
-  "test/__screenshots__/01-general.test.js/Shortcuts-Change-to-same-context-1.png": 1762541413.4194834,
-  "test/__screenshots__/01-general.test.js/Shortcuts-Set-note-with-invalid-types-1.png": 1762541413.5855863,
-  "test/__screenshots__/01-general.test.js/Shortcuts-Reset-1.png": 1762541413.835631,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Click-on-anchor-1.png": 1762541546.418588,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Single-left-click-1.png": 1762541545.6204827,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Single-right-click-1.png": 1762541545.8183572,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Mute-and-unmute-click-plugin-1.png": 1762541546.487516,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Click-plugin-installed-1.png": 1762541545.5539687,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Arguments-of-click-handler-1.png": 1762541546.3523574,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Click-with-ctrl-modifier-1.png": 1762541546.218994,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Ignore-clicks-on-elements-that-are-not-a-target-1.png": 1762541545.9521346,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Multiple-right-clicks-1.png": 1762541546.0201702,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Double-left-click-1.png": 1762541545.6847925,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Click-with-modifiers-1.png": 1762541546.085559,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Click-with-shift-modifier-1.png": 1762541546.2854245,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Click-setup-event-1.png": 1762541546.6181293,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Click-on-document-body---no-target-found-1.png": 1762541546.15373,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Extra-parameters-to-plugin-options-1.png": 1762541546.6837792,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Triple-left-click-1.png": 1762541545.7513435,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Pause-and-resume-1.png": 1762541546.5520775,
-  "test/__screenshots__/03-click.test.js/Click-plugin-Double-right-click-1.png": 1762541545.8840094,
-  "test/__screenshots__/05-hover.test.js/Hover-plugin-Extra-parameters-to-plugin-options-1.png": 1762541417.6811466,
-  "test/__screenshots__/05-hover.test.js/Hover-plugin-Hover-on-anchor-1.png": 1762541414.4758565,
-  "test/__screenshots__/05-hover.test.js/Hover-plugin-Arguments-of-hover-handler-1.png": 1762541414.4072058,
-  "html/favicon.svg": 1762626779.9835818,
-  "html/bg.png": 1762626779.983366,
-  "public/vite.svg": 1702930882.085823,
-  "coverage/favicon.png": 1762625701.9308677,
-  "coverage/sort-arrow-sprite.png": 1762625701.9309578,
-  "coverage/lcov-report/favicon.png": 1762625701.9101026,
-  "coverage/lcov-report/sort-arrow-sprite.png": 1762625701.910552
+  "vite.config.js": {
+    "mtime": 1760624990.2235215,
+    "ast_hash": "5ca84e33e842c16ac283f0e203f7131f",
+    "semantic_hash": ""
+  },
+  "vitest.config.js": {
+    "mtime": 1762626779.994835,
+    "ast_hash": "7a592fa8ea8d72a91bb74b100421bb9a",
+    "semantic_hash": ""
+  },
+  "rollup.config.js": {
+    "mtime": 1762010298.5433095,
+    "ast_hash": "4f258f45aaa86ea1a6173bb2816779e0",
+    "semantic_hash": ""
+  },
+  "eslint.config.js": {
+    "mtime": 1781427525.014333,
+    "ast_hash": "b506e3acff5f8dd82a9069cb31a5730d",
+    "semantic_hash": ""
+  },
+  "test/02-key.test.js": {
+    "mtime": 1781425246.1427596,
+    "ast_hash": "3405353fe239843751b76b278026a11c",
+    "semantic_hash": ""
+  },
+  "test/04-form.test.js": {
+    "mtime": 1781425246.143164,
+    "ast_hash": "f9abb7ba5653b5abec2b504bd37dfb8c",
+    "semantic_hash": ""
+  },
+  "test/06-scroll.test.js": {
+    "mtime": 1781425246.1435497,
+    "ast_hash": "5cbc794289207acd59d8510f6ce34d0d",
+    "semantic_hash": ""
+  },
+  "test/01-general.test.js": {
+    "mtime": 1781425246.1424274,
+    "ast_hash": "7ce1b6d997eebde4f7b65869bcf0af9f",
+    "semantic_hash": ""
+  },
+  "test/03-click.test.js": {
+    "mtime": 1781425246.1429899,
+    "ast_hash": "35a3db1f5c55c22390fe3dafb3f43bf7",
+    "semantic_hash": ""
+  },
+  "test/05-hover.test.js": {
+    "mtime": 1781425246.1433642,
+    "ast_hash": "9e649b80e4e98673f887e96978c4aee4",
+    "semantic_hash": ""
+  },
+  "html/assets/index-DOkKC3NI.js": {
+    "mtime": 1762626779.982642,
+    "ast_hash": "239f9fa7160381a93d2ef36feb764858",
+    "semantic_hash": ""
+  },
+  "test-helpers/wait.js": {
+    "mtime": 1762536517.781056,
+    "ast_hash": "c1e3440dd032fe9eb0bde032309fbb38",
+    "semantic_hash": ""
+  },
+  "test-helpers/Block.jsx": {
+    "mtime": 1762626779.9933305,
+    "ast_hash": "fe2ad83b0f9b240c5bf1187005ddd6dc",
+    "semantic_hash": ""
+  },
+  "test-helpers/setup.js": {
+    "mtime": 1762536517.780873,
+    "ast_hash": "a59125ff849f6ddbb61479f520d61981",
+    "semantic_hash": ""
+  },
+  "coverage/block-navigation.js": {
+    "mtime": 1762625701.930784,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "coverage/prettify.js": {
+    "mtime": 1762625701.9313045,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "coverage/sorter.js": {
+    "mtime": 1762625701.9311275,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "coverage/lcov-report/block-navigation.js": {
+    "mtime": 1762625701.9096892,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "coverage/lcov-report/prettify.js": {
+    "mtime": 1762625701.911499,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "coverage/lcov-report/sorter.js": {
+    "mtime": 1762625701.9107556,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "src/main.js": {
+    "mtime": 1783542392.751326,
+    "ast_hash": "d5ea89ad32dbb75170ecbd638ad1da7d",
+    "semantic_hash": ""
+  },
+  "src/methods/listShortcuts.js": {
+    "mtime": 1781425246.1375756,
+    "ast_hash": "23409fd32a120596346673300c3d67b9",
+    "semantic_hash": ""
+  },
+  "src/methods/unload.js": {
+    "mtime": 1781425246.1378496,
+    "ast_hash": "d0d6cae374ecae315c4f9b768db0cecd",
+    "semantic_hash": ""
+  },
+  "src/methods/_readShortcutWithPlugins.js": {
+    "mtime": 1781425246.136874,
+    "ast_hash": "2186852e543a83ff778458bfae571e1a",
+    "semantic_hash": ""
+  },
+  "src/methods/index.js": {
+    "mtime": 1781425246.13745,
+    "ast_hash": "e4e19d11b2271f20eb0b930b66a11e76",
+    "semantic_hash": ""
+  },
+  "src/methods/_normalizeWithPlugins.js": {
+    "mtime": 1781425246.1367261,
+    "ast_hash": "cddac75d3412698d0d29f642641f7e9d",
+    "semantic_hash": ""
+  },
+  "src/methods/load.js": {
+    "mtime": 1781425246.1377115,
+    "ast_hash": "98f9d2e554e6968bf473c2f25b325d70",
+    "semantic_hash": ""
+  },
+  "src/methods/_setupPlugin.js": {
+    "mtime": 1781425246.1370409,
+    "ast_hash": "630c51e1ee9f3eddd619df755e01accd",
+    "semantic_hash": ""
+  },
+  "src/methods/_systemAction.js": {
+    "mtime": 1781425246.1371787,
+    "ast_hash": "5171421c30697ddaea61e7d104f47e1d",
+    "semantic_hash": ""
+  },
+  "src/methods/changeContext.js": {
+    "mtime": 1781425246.137324,
+    "ast_hash": "256e88a6dcb61775b2e423d077573b33",
+    "semantic_hash": ""
+  },
+  "src/plugins/form/_listenDOM.js": {
+    "mtime": 1781425246.1392283,
+    "ast_hash": "108182de6fee27925d60c1c6e8ce5da4",
+    "semantic_hash": ""
+  },
+  "src/plugins/form/index.js": {
+    "mtime": 1781425246.1397161,
+    "ast_hash": "d834673dd8d64adef45fa44fa0de0d2f",
+    "semantic_hash": ""
+  },
+  "src/plugins/form/_registerShortcutEvents.js": {
+    "mtime": 1781425246.139555,
+    "ast_hash": "06ccffd22824a4d44038462bd2a7fc85",
+    "semantic_hash": ""
+  },
+  "src/plugins/form/_normalizeShortcutName.js": {
+    "mtime": 1781425246.139365,
+    "ast_hash": "2652bfd523c35405fdc5aeb427b037b1",
+    "semantic_hash": ""
+  },
+  "src/plugins/form/_defaults.js": {
+    "mtime": 1781425246.13905,
+    "ast_hash": "9808a32b2d67b8d6b31840c9c855d8d9",
+    "semantic_hash": ""
+  },
+  "src/plugins/hover/_listenDOM.js": {
+    "mtime": 1781425246.1400797,
+    "ast_hash": "0845cd454ab9b130cf40abc1d8af0796",
+    "semantic_hash": ""
+  },
+  "src/plugins/hover/_findTarget.js": {
+    "mtime": 1781425246.13988,
+    "ast_hash": "26a6d6cd25dd69a19b973779b72bd14f",
+    "semantic_hash": ""
+  },
+  "src/plugins/hover/index.js": {
+    "mtime": 1781425246.1405523,
+    "ast_hash": "d9d9e4f9f5d63c8076ccedf783a1f00b",
+    "semantic_hash": ""
+  },
+  "src/plugins/hover/_registerShortcutEvents.js": {
+    "mtime": 1781425246.1403832,
+    "ast_hash": "57b2f1adbab67f4283e9d91934e826c4",
+    "semantic_hash": ""
+  },
+  "src/plugins/hover/_normalizeShortcutName.js": {
+    "mtime": 1781425246.14024,
+    "ast_hash": "043af180f227f2a92fbaaa0a32357d6d",
+    "semantic_hash": ""
+  },
+  "src/plugins/scroll/_listenDOM.js": {
+    "mtime": 1781425246.1417894,
+    "ast_hash": "67637327338afd8375784bbee09cbbd4",
+    "semantic_hash": ""
+  },
+  "src/plugins/scroll/index.js": {
+    "mtime": 1781425246.1422243,
+    "ast_hash": "cb05b3f02ed4cfb0741fffd27c445ce1",
+    "semantic_hash": ""
+  },
+  "src/plugins/scroll/_registerShortcutEvents.js": {
+    "mtime": 1781425246.1420727,
+    "ast_hash": "f4573469da69c531fe2b126c2d7d93de",
+    "semantic_hash": ""
+  },
+  "src/plugins/scroll/_normalizeShortcutName.js": {
+    "mtime": 1781425246.141926,
+    "ast_hash": "3f74c6f8b374577f79837b117a566a5f",
+    "semantic_hash": ""
+  },
+  "src/plugins/click/_listenDOM.js": {
+    "mtime": 1781425246.1382325,
+    "ast_hash": "1c7bc133b2de3bc0b60e485b86b3c914",
+    "semantic_hash": ""
+  },
+  "src/plugins/click/_readClickEvent.js": {
+    "mtime": 1781425246.138578,
+    "ast_hash": "f4b4262ed1e22065fd7176b98704f444",
+    "semantic_hash": ""
+  },
+  "src/plugins/click/_findTarget.js": {
+    "mtime": 1781425246.1380382,
+    "ast_hash": "c197680c621a3ed42d5a1ee73f80c86f",
+    "semantic_hash": ""
+  },
+  "src/plugins/click/index.js": {
+    "mtime": 1781425246.1388907,
+    "ast_hash": "d54022ab644c765357ec0372b5433460",
+    "semantic_hash": ""
+  },
+  "src/plugins/click/_registerShortcutEvents.js": {
+    "mtime": 1781425246.1387398,
+    "ast_hash": "528a8470708f934506e698a3ca8f886f",
+    "semantic_hash": ""
+  },
+  "src/plugins/click/_normalizeShortcutName.js": {
+    "mtime": 1781425246.138419,
+    "ast_hash": "7825dae224127c9936395165bf25af0b",
+    "semantic_hash": ""
+  },
+  "src/plugins/key/_listenDOM.js": {
+    "mtime": 1781425246.140797,
+    "ast_hash": "a8f75eaa0bb29c90e513213956257a76",
+    "semantic_hash": ""
+  },
+  "src/plugins/key/_specialChars.js": {
+    "mtime": 1781425246.1414273,
+    "ast_hash": "65f9a2ae35cc95ed7d268c5fdfad5a53",
+    "semantic_hash": ""
+  },
+  "src/plugins/key/index.js": {
+    "mtime": 1781425246.1416,
+    "ast_hash": "e89805061c9b8ffe1fef99c22232025f",
+    "semantic_hash": ""
+  },
+  "src/plugins/key/_registerShortcutEvents.js": {
+    "mtime": 1781425246.1412966,
+    "ast_hash": "3e1fdf40761f614248ef889829c25e43",
+    "semantic_hash": ""
+  },
+  "src/plugins/key/_readKeyEvent.js": {
+    "mtime": 1781425246.1411448,
+    "ast_hash": "a6755e576d07cf4d54a304288e7bd2bd",
+    "semantic_hash": ""
+  },
+  "src/plugins/key/_normalizeShortcutName.js": {
+    "mtime": 1781425246.140976,
+    "ast_hash": "40e84572031dff008a58fe6068bb5e76",
+    "semantic_hash": ""
+  },
+  "CODE_OF_CONDUCT.md": {
+    "mtime": 1762626779.9710162,
+    "ast_hash": "0e63808f9ad6159e0596a83226250c2a",
+    "semantic_hash": ""
+  },
+  "README-v.2.x.x.md": {
+    "mtime": 1709667516.0466158,
+    "ast_hash": "8c0969409e3f467e760809d44a2c657d",
+    "semantic_hash": ""
+  },
+  "API.md": {
+    "mtime": 1762626779.9707503,
+    "ast_hash": "0a7bd808ee443e054703017688d41ddb",
+    "semantic_hash": ""
+  },
+  "Changelog.md": {
+    "mtime": 1783542428.1967716,
+    "ast_hash": "1cfccae15ab16279be293da53ab7ae3a",
+    "semantic_hash": ""
+  },
+  "Migration.guide.md": {
+    "mtime": 1762626779.9719975,
+    "ast_hash": "37fb3e132bab8c3f4904ed78e0ce1c04",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1780835928.6201713,
+    "ast_hash": "0275d509aea7b423707e2a0f0db6d586",
+    "semantic_hash": ""
+  },
+  "CONTRIBUTING.md": {
+    "mtime": 1762626779.9713907,
+    "ast_hash": "3a5d6c0bcb53dfb1bfee2c287f52e8b9",
+    "semantic_hash": ""
+  },
+  "javascript.svg": {
+    "mtime": 1702930882.0850813,
+    "ast_hash": "87d1d2083848d70316c69d521947e98e",
+    "semantic_hash": ""
+  },
+  "shortcuts.png": {
+    "mtime": 1762626779.9851072,
+    "ast_hash": "aeaca4ca45baedd270ad5623b133258f",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/02-key.test.js/Key-plugin-Mute-and-unmute-key-plugin-1.png": {
+    "mtime": 1762541413.8356225,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/02-key.test.js/Key-plugin-Arguments-of-key-handler-1.png": {
+    "mtime": 1762541413.9154105,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/02-key.test.js/Key-plugin-Extra-parameters-to-plugin-options-1.png": {
+    "mtime": 1762541416.7111533,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/04-form.test.js/Form-plugin-Arguments-for--form-define--1.png": {
+    "mtime": 1762541413.5854952,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/04-form.test.js/Form-plugin-Reveal-and-click-1.png": {
+    "mtime": 1762541545.7015018,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/04-form.test.js/Form-plugin-Simpler-form-listener--Only--form-action--defined-1.png": {
+    "mtime": 1762541413.3341146,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/04-form.test.js/Form-plugin-Arguments-for-action-function-1.png": {
+    "mtime": 1762541413.4192502,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/04-form.test.js/Form-plugin-Extra-parameters-to-plugin-options-1.png": {
+    "mtime": 1762541413.752406,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/04-form.test.js/Form-plugin-Arguments-for--form-watch--1.png": {
+    "mtime": 1762541413.5029793,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Scroll-down-event-1.png": {
+    "mtime": 1762541413.4125533,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Scroll-up-event-1.png": {
+    "mtime": 1762541413.4961684,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Pause-and-resume-1.png": {
+    "mtime": 1762541413.9116352,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Enable-already-enabled-plugin-1.png": {
+    "mtime": 1762541413.9959416,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Combined-horizontal-and-vertical-scroll-1.png": {
+    "mtime": 1762541413.7443113,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Scroll-right-event-1.png": {
+    "mtime": 1762541413.6625004,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Mute-and-unmute-scroll-plugin-1.png": {
+    "mtime": 1762541413.8286297,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Disable-a-plugin-1.png": {
+    "mtime": 1762541414.0783806,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Extra-parameters-to-plugin-options-1.png": {
+    "mtime": 1762541414.16196,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Scroll-plugin-installed-1.png": {
+    "mtime": 1762541413.3341079,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/06-scroll.test.js/Scroll-plugin-Scroll-left-event-1.png": {
+    "mtime": 1762541413.5788782,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/01-general.test.js/Shortcuts-Switch-off-all-shortcuts-1.png": {
+    "mtime": 1762541413.5029793,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/01-general.test.js/Shortcuts-Emit-custom-event-1.png": {
+    "mtime": 1762541545.6204863,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/01-general.test.js/Shortcuts-Unload-non-existing-context-1.png": {
+    "mtime": 1762541413.3341148,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/01-general.test.js/Shortcuts-List-shortcuts-1.png": {
+    "mtime": 1762541413.7524056,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/01-general.test.js/Shortcuts-List-enabled-plugins--Disable-and-enable-plugins-1.png": {
+    "mtime": 1762541545.5539684,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/01-general.test.js/Shortcuts-Change-to-same-context-1.png": {
+    "mtime": 1762541413.4194834,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/01-general.test.js/Shortcuts-Set-note-with-invalid-types-1.png": {
+    "mtime": 1762541413.5855863,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/01-general.test.js/Shortcuts-Reset-1.png": {
+    "mtime": 1762541413.835631,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Click-on-anchor-1.png": {
+    "mtime": 1762541546.418588,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Single-left-click-1.png": {
+    "mtime": 1762541545.6204827,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Single-right-click-1.png": {
+    "mtime": 1762541545.8183572,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Mute-and-unmute-click-plugin-1.png": {
+    "mtime": 1762541546.487516,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Click-plugin-installed-1.png": {
+    "mtime": 1762541545.5539687,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Arguments-of-click-handler-1.png": {
+    "mtime": 1762541546.3523574,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Click-with-ctrl-modifier-1.png": {
+    "mtime": 1762541546.218994,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Ignore-clicks-on-elements-that-are-not-a-target-1.png": {
+    "mtime": 1762541545.9521346,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Multiple-right-clicks-1.png": {
+    "mtime": 1762541546.0201702,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Double-left-click-1.png": {
+    "mtime": 1762541545.6847925,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Click-with-modifiers-1.png": {
+    "mtime": 1762541546.085559,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Click-with-shift-modifier-1.png": {
+    "mtime": 1762541546.2854245,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Click-setup-event-1.png": {
+    "mtime": 1762541546.6181293,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Click-on-document-body---no-target-found-1.png": {
+    "mtime": 1762541546.15373,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Extra-parameters-to-plugin-options-1.png": {
+    "mtime": 1762541546.6837792,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Triple-left-click-1.png": {
+    "mtime": 1762541545.7513435,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Pause-and-resume-1.png": {
+    "mtime": 1762541546.5520775,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/03-click.test.js/Click-plugin-Double-right-click-1.png": {
+    "mtime": 1762541545.8840094,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/05-hover.test.js/Hover-plugin-Extra-parameters-to-plugin-options-1.png": {
+    "mtime": 1762541417.6811466,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/05-hover.test.js/Hover-plugin-Hover-on-anchor-1.png": {
+    "mtime": 1762541414.4758565,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "test/__screenshots__/05-hover.test.js/Hover-plugin-Arguments-of-hover-handler-1.png": {
+    "mtime": 1762541414.4072058,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "html/favicon.svg": {
+    "mtime": 1762626779.9835818,
+    "ast_hash": "1f165cf0594db07d97ece3a42f24ab58",
+    "semantic_hash": ""
+  },
+  "html/bg.png": {
+    "mtime": 1762626779.983366,
+    "ast_hash": "af79c0ac5be0aa10466b3846dd6f6521",
+    "semantic_hash": ""
+  },
+  "public/vite.svg": {
+    "mtime": 1702930882.085823,
+    "ast_hash": "8e3a10e157f75ada21ab742c022d5430",
+    "semantic_hash": ""
+  },
+  "coverage/favicon.png": {
+    "mtime": 1762625701.9308677,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "coverage/sort-arrow-sprite.png": {
+    "mtime": 1762625701.9309578,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "coverage/lcov-report/favicon.png": {
+    "mtime": 1762625701.9101026,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "coverage/lcov-report/sort-arrow-sprite.png": {
+    "mtime": 1762625701.910552,
+    "ast_hash": "",
+    "semantic_hash": ""
+  },
+  "jsconfig.json": {
+    "mtime": 1760699282.3158247,
+    "ast_hash": "46df093a63170522812b6ce0beebd44d",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1783542431.132822,
+    "ast_hash": "8a25734df9624cd765c77213734e6ff9",
+    "semantic_hash": ""
+  },
+  "tsconfig.json": {
+    "mtime": 1774333549.5705183,
+    "ast_hash": "d0f1e84608648aec08af90366dbd02b5",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1780825434.032297,
+    "ast_hash": "76984dfc241a9b666163552a74668a7a",
+    "semantic_hash": ""
+  },
+  "how-to-create-a-plugin.md": {
+    "mtime": 1780834482.3228486,
+    "ast_hash": "082bd7b44a4a494fae797aa8127bd110",
+    "semantic_hash": ""
+  },
+  "html/index.html": {
+    "mtime": 1762626779.9838607,
+    "ast_hash": "7c161aa9a72f58ac6a5f4b72b8eb9452",
+    "semantic_hash": ""
+  },
+  "index.html": {
+    "mtime": 1760041568.1214473,
+    "ast_hash": "95d1aadd9664f96bfddb84595a5577e0",
+    "semantic_hash": ""
+  }
 }
