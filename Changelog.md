@@ -1,6 +1,11 @@
 ## Release History
 
 
+### 4.1.3 ( 2026-07-21 )
+- [x] Dependency update. @peter.naydenov/notice - v.2.5.0;
+
+
+
 ### 4.1.2 ( 2026-07-08 )
 - [x] Fix: TypeScript declaration emit for `PluginAPI` and `ShortcutsAPI`. TypeScript 7.0.2 dropped the property name when emitting `@property {function(...)}` JSDoc tags — switched the source annotations to TS-style arrow function types (`() => string`, `(arg: string) => void`, etc.) so the generated `dist/main.d.ts` is valid TS again.
 
