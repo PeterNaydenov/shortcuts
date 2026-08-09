@@ -1,6 +1,11 @@
 ## Release History
 
 
+### 4.1.4 ( 2026-08-09 )
+- [x] Dev deps update. `@peter.naydenov/visual-controller-for-react` to v.4.0.1 — region-based API (`set` + `publish` by alias) replaces the v2/v3 id-based API. All test files migrated to define a region with `html.set(({ start, end }) => ...; return 'app')` and publish by alias (`html.publish('app', Component, {})`);
+
+
+
 ### 4.1.3 ( 2026-07-21 )
 - [x] Dependency update. @peter.naydenov/notice - v.2.5.0;
 
