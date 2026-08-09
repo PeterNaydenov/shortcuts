@@ -5,12 +5,16 @@ async function setup () {
                     await waitFor ( () => {
                         expect ( document.head ).to.have.property ( 'style' )
                     })
-                    
+
 
                     let container = document.createElement ( 'div' )
                     container.id = 'app'
                     document.body.appendChild ( container )
-                    html.publish ( Block, {}, 'app' )
+                    html.set ( ({ start, end }) => {
+                                    container.append ( start, end )
+                                    return 'app'
+                            })
+                    html.publish ( 'app', Block, {} )
                     a = false, b = false
 } // setup func.
 

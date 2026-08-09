@@ -75,7 +75,11 @@ describe ( 'Form plugin', () => {
                         const container = document.createElement ( 'div' )
                         container.id = 'app'
                         document.body.appendChild ( container )
-                        await html.publish ( Block, {}, 'app' )
+                        html.set ( ({ start, end }) => {
+                                        container.append ( start, end )
+                                        return 'app'
+                                })
+                        await html.publish ( 'app', Block, {} )
                         a = false, b = false
                 }) // beforeEach
 

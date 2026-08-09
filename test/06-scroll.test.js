@@ -72,7 +72,11 @@ describe ( 'Scroll plugin', () => {
                     document.body.style.margin = '0'
                     document.documentElement.style.height = '2000px'
                     document.documentElement.style.width = '2000px'
-                    await html.publish ( Block, {}, 'app' )
+                    html.set ( ({ start, end }) => {
+                                    container.append ( start, end )
+                                    return 'app'
+                            })
+                    await html.publish ( 'app', Block, {} )
                     a = false, b = false, c = null
           }) // beforeEach
 
