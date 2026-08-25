@@ -47,7 +47,7 @@
     "@vitest/coverage-v8": "^4.1.11",
     "@vitest/ui": "^4.1.11",
     "ask-for-promise": "^3.2.0",
-    "eslint": "^10.9.0",
+    "eslint": "^10.9.1",
     "playwright": "^1.62.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
