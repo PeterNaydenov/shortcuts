@@ -42,10 +42,10 @@
     "@testing-library/dom": "^10.4.2",
     "@testing-library/user-event": "^14.6.7",
     "@vitejs/plugin-react": "^6.1.1",
-    "@vitest/browser": "^5.0.1",
-    "@vitest/browser-playwright": "^5.0.1",
-    "@vitest/coverage-v8": "^5.0.1",
-    "@vitest/ui": "^5.0.1",
+    "@vitest/browser": "^5.0.2",
+    "@vitest/browser-playwright": "^5.0.2",
+    "@vitest/coverage-v8": "^5.0.2",
+    "@vitest/ui": "^5.0.2",
     "ask-for-promise": "^3.2.0",
     "eslint": "^10.11.0",
     "playwright": "^1.63.0",
@@ -54,7 +54,7 @@
     "rollup": "^4.63.4",
     "typescript": "^7.0.2",
     "vite": "^8.3.0",
-    "vitest": "^5.0.1"
+    "vitest": "^5.0.2"
   },
   "keywords": [
     "shortcut",
