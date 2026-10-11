@@ -2,6 +2,12 @@
 
 
 
+### 4.1.6 ( 2026-10-11 )
+- [x] Fix: Click plugin threw `hasAttribute is not a function` on a click in empty space below short page content. The target search started at `<html>`, climbed to `document` and called `hasAttribute` on it. Target search in click and hover plugins now stops at `<body>`, at non-element nodes, and when there is no target;
+
+
+
+
 ### 4.1.5 ( 2026-10-08 )
 - [x] Dependency update. @peter.naydenov/notice - v.2.6.1
 
