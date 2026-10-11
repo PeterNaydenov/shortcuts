@@ -12,8 +12,7 @@ function _findTarget ( dependencies, state, target ) {
     const { listenOptions : {hoverTarget}} = state;
 
     const t = target;
-    if ( t === document.body )   return false
-    if ( t === document      )   return false
+    if ( !t || t === document.body || t.nodeType !== 1 )   return false   // Stop at <body>, <html> parent (document) or non-element nodes
     const found = hoverTarget.some ( attr => ( t.hasAttribute ( attr ) ) )
     if ( found ) return t
     return   _findTarget ( dependencies, state, t.parentNode ) 

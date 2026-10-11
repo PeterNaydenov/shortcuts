@@ -12,7 +12,7 @@ function _findTarget ( dependencies, state, target ) {
     const { listenOptions : {clickTarget}} = state;
 
     const t = target;
-    if ( t === document.body )   return null
+    if ( !t || t === document.body || t.nodeType !== 1 )   return null   // Stop at <body>, <html> parent (document) or non-element nodes
 
     const found = clickTarget.some ( attr => ( t.hasAttribute ( attr ) ) )
     if ( found ) return t
