@@ -17,6 +17,7 @@ import '../test-helpers/style.css'
 import Block            from '../test-helpers/Block.jsx'
 import VisaulController from '@peter.naydenov/visual-controller-for-react'
 import wait             from '../test-helpers/wait.js'
+import findHoverTarget  from '../src/plugins/hover/_findTarget.js'
 import { 
           shortcuts 
         , pluginKey
@@ -511,5 +512,14 @@ describe ( 'Hover plugin', () => {
                                         expect ( log ).to.includes ( 'off-fired' )
                                 }, { timeout: 1000, interval: 12 })
                 }) // it hover callback workflow
+
+
+        it ( 'Target search stops at <html> and non-element nodes', () => {
+                        const state = { listenOptions : { hoverTarget : [ 'data-hover' ] } }
+                        // Click/hover on empty space below short content targets <html>
+                        expect ( findHoverTarget ( {}, state, document.documentElement )).toBe ( false )
+                        expect ( findHoverTarget ( {}, state, document )).toBe ( false )
+                        expect ( findHoverTarget ( {}, state, null )).toBe ( false )
+                }) // it target search stops at html
 
  }) // describe

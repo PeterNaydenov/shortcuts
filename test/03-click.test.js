@@ -17,6 +17,7 @@ import '../test-helpers/style.css'
 import Block            from '../test-helpers/Block.jsx'
 import VisaulController from '@peter.naydenov/visual-controller-for-react'
 import wait             from '../test-helpers/wait.js'
+import findClickTarget  from '../src/plugins/click/_findTarget.js'
 import { 
           shortcuts 
         , pluginKey
@@ -645,5 +646,14 @@ describe ( 'Click plugin', () => {
                                         expect ( log ).to.deep.equal ( [ 'left-1-fired', 'right-1-fired' ] )
                                 }, { timeout: 1000, interval: 12 })
                 }) // it click callback workflow
+
+
+        it ( 'Target search stops at <html> and non-element nodes', () => {
+                        const state = { listenOptions : { clickTarget : [ 'data-click' ] } }
+                        // Click/hover on empty space below short content targets <html>
+                        expect ( findClickTarget ( {}, state, document.documentElement )).toBe ( null )
+                        expect ( findClickTarget ( {}, state, document )).toBe ( null )
+                        expect ( findClickTarget ( {}, state, null )).toBe ( null )
+                }) // it target search stops at html
 
  }) // describe
