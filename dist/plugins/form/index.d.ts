@@ -1,3 +1,5 @@
+export type PluginAPI = import('../../main.js').PluginAPI;
+/** @typedef {import('../../main.js').PluginAPI} PluginAPI */
 /**
  * @function pluginForm
  * @description Plugin for form element shortcuts
