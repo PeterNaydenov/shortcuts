@@ -2,8 +2,8 @@
 /**
  * @function _readShortcutWithPlugins
  * @description Searches for belonging plugin and call the plugin method to normalize the shortcut name.
- * @param {dependencies} dependencies - Dependencies object containing inAPI
- * @param {state} state - State object containing plugins
+ * @param {import('../types.js').LibDependencies} dependencies - Dependencies object containing inAPI
+ * @param {import('../types.js').LibState} state - State object containing plugins
  * @returns {function} - Returns a function that processes shortcut names
  */
 function _readShortcutWithPlugins ( dependencies, state ) {

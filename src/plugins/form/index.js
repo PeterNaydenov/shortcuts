@@ -8,13 +8,16 @@ import _normalizeShortcutName from './_normalizeShortcutName.js'
 import _registerShortcutEvents from './_registerShortcutEvents.js'
 import _defaults from './_defaults.js'
 
+/** @typedef {import('../../types.js').PluginAPI} PluginAPI */
+/** @typedef {import('../../types.js').SetupPlugin} SetupPlugin */
+
 
 
 /**
  * @function pluginForm
  * @description Plugin for form element shortcuts
- * @param {function} setupPlugin - Plugin setup function from the library
- * @param {Object} [options={}] - Plugin options
+ * @param {SetupPlugin} setupPlugin - Plugin setup function from the library
+ * @param {Record<string, any>} [options={}] - Not used. Set form options with 'form:setup'
  * @returns {PluginAPI} Plugin API
  */
 function pluginForm ( setupPlugin, options={} ) {

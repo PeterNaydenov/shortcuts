@@ -1,60 +1,11 @@
 'use strict'
 
-/**
- * @typedef {Object} dependencies
- * @property {Object} ev - Event emitter instance
- * @property {Object} inAPI - Internal API object
- * @property {Object} API - Public API object
- * @property {Object} extra - Extra dependencies object
- */
+/** @typedef {import('./types.js').LibDependencies} LibDependencies */
+/** @typedef {import('./types.js').LibState} LibState */
+/** @typedef {import('./types.js').ShortcutsOptions} ShortcutsOptions */
+/** @typedef {import('./types.js').ShortcutsAPI} ShortcutsAPI */
 
-/**
- * @typedef {Object} state
- * @property {Object} currentContext - Current context data container with name and note properties
- * @property {Object} shortcuts - Shortcuts object: { contextName : { shortcut : callback[] } }
- * @property {Array} plugins - Array of active plugins
- * @property {Function|null} exposeShortcut - Keyboard shortcut log function
- * @property {string} ERROR_EVENT_NAME - Name for error events
- */
 
-/**
- * @typedef {Object} PluginAPI
- * @property {() => string} getPrefix - Get plugin prefix
- * @property {(arg: string) => string} shortcutName - Format shortcut name
- * @property {(arg: string) => void} contextChange - Handle context change
- * @property {() => void} mute - Mute the plugin
- * @property {() => void} unmute - Unmute the plugin
- * @property {() => void} destroy - Destroy the plugin
- */
-
-/**
- * @typedef {Object} contextShortcuts
- * @property {string} context - Context name
- * @property {string[]} shortcuts - List of shortcuts in a context
- */
-
-/**
- * @typedef {Object} ShortcutsAPI
- * @property {(plugin: Function, options?: Object) => void} enablePlugin - Enable a plugin
- * @property {(pluginName: string) => void} disablePlugin - Disable a plugin
- * @property {(pluginName: string) => number} mutePlugin - Mute a plugin
- * @property {(pluginName: string) => number} unmutePlugin - Unmute a plugin
- * @property {() => string[]} listPlugins - List enabled plugins
- * @property {() => string|null} getContext - Get current context name
- * @property {() => string|null} getNote - Get current context note
- * @property {(note: string|null) => void} setNote - Set current context note
- * @property {(name?: string) => void} pause - Pause shortcuts in current context
- * @property {(name?: string) => void} resume - Resume shortcuts in current context
- * @property {(name: string, ...args: any[]) => void} emit - Emit event for shortcut
- * @property {() => string[]} listContexts - List all context names
- * @property {(deps: Object) => void} setDependencies - Set external dependencies
- * @property {() => Object} getDependencies - Get external dependencies
- * @property {() => void} reset - Reset the library instance
- * @property {(name?: string|boolean) => void} changeContext - Change current context
- * @property {(contextName?: string|null) => string[]|contextShortcuts[]|null} listShortcuts - List shortcuts
- * @property {(shortcutDefinition: Object) => void} load - Load shortcuts into contexts
- * @property {(contextName: string) => void} unload - Unload a context
- */
 
 /**
  * Shortcuts
@@ -91,24 +42,23 @@ import pluginScroll from './plugins/scroll/index.js'
 /**
  * @function shortcuts
  * @description Create a shortcuts instance
- * @param {Object} [options={}] - Configuration options
- * @param {function} [options.onShortcut] - Function to log shortcut events
- * @param {string} [options.errorEventName='@shortcuts-error'] - Name for error events
+ * @param {ShortcutsOptions} [options={}] - Configuration options
  * @returns {ShortcutsAPI} The shortcuts API
  */
 function main ( options = {} ) {
     const  
           inAPI = {}      // API for internal methods
-        , API   = {}      // API for public methods
+        , API   = /** @type {ShortcutsAPI} */ ({})      // API for public methods
         , ev    = notice ()  // Event emitter instance
-        , state = {
+        , state = /** @type {LibState} */ ({
                       currentContext   : { name: null, note: null } // Context data container
                     , shortcuts        : {}   // shortcuts = { contextName : { shortcut :  callback[] } }
                     , plugins          : [] // Array of active plugins
                     , exposeShortcut   : (options.onShortcut && ( typeof options.onShortcut === 'function')) ? options.onShortcut : false   // Keyboard shortcut log function
                     , ERROR_EVENT_NAME : ( options.errorEventName ) ? options.errorEventName : '@shortcuts-error'
-              } // state
+              }) // state
         ;
+    /** @type {LibDependencies} */
     const dependencies = { 
                               ev
                             , inAPI
@@ -120,7 +70,7 @@ function main ( options = {} ) {
     /**
      * @function enablePlugin
      * @description Enable a plugin
-     * @param {Function} plugin - Plugin function to enable
+     * @param {import('./types.js').Plugin} plugin - Plugin function to enable
      * @param {Object} [options={}] - Plugin configuration options
      * @returns {void}
      */
@@ -201,7 +151,7 @@ function main ( options = {} ) {
     /**
      * @function setNote
      * @description Set current context note
-     * @param {string|null} note - Context note
+     * @param {string|null} [note=null] - Context note. Values other than string or null are ignored
      * @returns {void}
      */
     API.setNote    = (note=null) => { if (typeof note === 'string' || note == null )   state.currentContext.note = note }
@@ -232,7 +182,7 @@ function main ( options = {} ) {
      * @function emit
      * @description Emit event for shortcut in current context
      * @param {string} name - Shortcut name
-     * @param {...any} [args] - Arguments forwarded to the shortcut callback as additional positional parameters
+     * @param {...any} args - Arguments forwarded to the shortcut callback as additional positional parameters
      * @returns {void}
      **/
     API.emit = (name,...args) =>  ev.emit ( inAPI._readShortcutWithPlugins ( name ), { dependencies: dependencies.extra, type: 'custom' }, ...args )
@@ -250,7 +200,7 @@ function main ( options = {} ) {
     /**
      * @function setDependencies
      * @description Set a dependency package that will be provided to each action function
-     * @param {Object} deps - Enumerate external dependencies
+     * @param {Record<string, any>} deps - Dependencies to add. Existing keys with the same name are replaced
      * @returns {void}
      */
     API.setDependencies = deps => Object.assign ( dependencies.extra, deps ) 
@@ -258,7 +208,7 @@ function main ( options = {} ) {
     /**
      * @function getDependencies
      * @description Get a dependency package that will be provided to each action function
-     * @returns {Object} - Enumerate external dependencies
+     * @returns {import('./types.js').Dependencies} - Dependency bag
      **/
     API.getDependencies = () => dependencies.extra
 
@@ -289,7 +239,7 @@ function main ( options = {} ) {
 
 
 
-/** @type {function} */
+export * from './types.js'
 export { main as shortcuts }
 export { 
             pluginKey

@@ -7,19 +7,7 @@
  * @description Set up DOM event listeners for keyboard events
  * @param {Object} dependencies - Dependencies object containing ev, _specialChars, _readKeyEvent, extra, resetState
  * @param {Object} state - Plugin state containing listenOptions and currentContext
- * @returns {Object} - Object containing start and stop methods
- * 
- * @typedef {Object} KeyEventData
- * @property {Function} wait - Function to wait for keys (disables key sequence)
- * @property {Function} end - Function to end waiting for keys (enables key sequence)
- * @property {Function} ignore - Function to ignore the last key in sequence
- * @property {Function} isWaiting - Function to check if currently waiting for keys
- * @property {string|null} note - Current context note
- * @property {string} context - Current context name
- * @property {Object} dependencies - Reference to the library's `extra` bag. Always includes `emit: ev.emit` plus any keys you set via `short.setDependencies({...})`
- * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
- * @property {Object} viewport - Viewport information with X, Y, width, height
- * @property {string} type - Event type ('key')
+ * @returns {import('../../types.js').PluginListener} - Object containing start and stop methods
  */
 function _listenDOM ( dependencies, state ) {
 // Listen for input signals and generate event titles
@@ -103,12 +91,20 @@ function _listenDOM ( dependencies, state ) {
 
 
     
+    function streamKey ( event ) {   // Send the pressed key to the 'streamKeys' function
+                // 'key:setup' can set or switch off (false) 'streamKeys' for the current context
+                const fn = ( listenOptions.streamKeys !== undefined ) ? listenOptions.streamKeys : streamKeys;
+                if ( typeof fn === 'function' )   fn ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
+        } // streamKey func.
+
+
+
     function listenForSpecialKeys ( event ) { // Listen for special keyboard keys
                 clearTimeout ( keyTimer )
                 const _sp = _specialChars ()
                 if ( _sp.hasOwnProperty(event.code) )   r.push ( _readKeyEvent ( event, _specialChars ))
                 else                                    return
-                if ( streamKeys )   streamKeys ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
+                streamKey ( event )
                 if ( state.keyIgnore ) {
                             clearTimeout ( state.keyIgnore )
                             state.keyIgnore = setTimeout ( () => state.keyIgnore=null, listenOptions.keyWait )
@@ -129,7 +125,7 @@ function _listenDOM ( dependencies, state ) {
     function listenForRegularKeys ( event ) {  // Listen for regular keyboard keys
                 if ( _specialChars().hasOwnProperty ( event.code ))   return            
                 clearTimeout ( keyTimer )
-                if ( streamKeys )   streamKeys ({ key:event.key, context:currentContext.name, note:currentContext.note, dependencies:dependencies.extra })
+                streamKey ( event )
                 if ( state.keyIgnore ) {
                             clearTimeout ( state.keyIgnore )
                             state.keyIgnore = setTimeout ( () => state.keyIgnore=null, listenOptions.keyWait )

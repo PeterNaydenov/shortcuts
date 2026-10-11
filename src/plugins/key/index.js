@@ -9,15 +9,18 @@ import _readKeyEvent           from './_readKeyEvent.js'
 import _registerShortcutEvents from './_registerShortcutEvents.js'
 import _specialChars           from './_specialChars.js'
 
+/** @typedef {import('../../types.js').PluginAPI} PluginAPI */
+/** @typedef {import('../../types.js').SetupPlugin} SetupPlugin */
+
 
 
 /**
  * @function pluginKey
  * @description Plugin for keyboard shortcuts
- * @param {function} setupPlugin - Plugin setup function from the library
+ * @param {SetupPlugin} setupPlugin - Plugin setup function from the library
  * @param {Object} [options={}] - Plugin options
  * @param {number} [options.keyWait=480] - Time to wait for key sequence in ms
- * @param {function} [options.streamKeys] - Function to stream key presses
+ * @param {(data: import('../../types.js').KeyStreamData) => void} [options.streamKeys] - Function called on every key press. 'key:setup' can override it for a context
  * @returns {PluginAPI} Plugin API
  */
 function pluginKey ( setupPlugin, options = {} ) {
@@ -31,14 +34,10 @@ function pluginKey ( setupPlugin, options = {} ) {
                             active : false
                           , maxSequence   : 1  // How many keys can be pressed in a sequence. Controlled automatically by 'changeContext' function.
                           , keyIgnore     : null   // Timer for ignoring key presses after max sequence or null. Not a public option.
-                          , defaultOptions : {
-                                        keyWait : 480 // 480 ms
+                          , defaultOptions : {   // Plugin options. Can be changed by 'enablePlugin' options
+                                        keyWait : ( typeof options.keyWait === 'number' ) ? options.keyWait : 480 // 480 ms
                                 } 
-                          , listenOptions  : {
-                                        // Filled from 'key: setup' event in the context
-                                        // or getting from the plugin the defaults
-                                        keyWait : 480 // 480 ms // TODO: WHY is need initialization? Register function should fullfill it
-                                }
+                          , listenOptions  : {}  // Options for the current context: defaultOptions + result of 'key:setup'
                           , streamKeys     : (options.streamKeys && ( typeof options.streamKeys === 'function')) ? options.streamKeys : false   // Keyboard stream function
                         } // state
                 ;

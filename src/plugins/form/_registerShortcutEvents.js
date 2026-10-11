@@ -6,27 +6,6 @@
  * @param {Object} dependencies - Dependencies object containing regex, _defaults, ev
  * @param {Object} pluginState - Plugin state containing currentContext, shortcuts, callbacks, etc.
  * @returns {number|false} - Number of registered shortcuts or false if no actions
- * 
- * @typedef {Object} FormWatchData
- * @property {Object} dependencies - Extra dependencies object
- * @property {string} context - Current context name
- * @property {string|null} note - Current context note
- * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
- * 
- * @typedef {Object} FormDefineData
- * @property {Element} target - The DOM element being watched
- * @property {string} context - Current context name
- * @property {string|null} note - Current context note
- * @property {Object} dependencies - Extra dependencies object
- * @property {Object} viewport - Viewport information with X, Y, width, height
- * @property {Object} sizes - Element dimensions with width, height
- * @property {Object} position - Element position relative to viewport with x, y
- * @property {Object} pagePosition - Element position relative to page with x, y
- * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
- * 
- * @typedef {Object} FormActionData
- * @property {Object} dependencies - Extra dependencies object
- * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  */
 function _registerShortcutEvents ( dependencies, pluginState ) {
 const 
@@ -36,10 +15,12 @@ const
                 , shortcuts 
                 , callbacks
                 , ERROR_EVENT_NAME
-                , defaultOptions 
            } = pluginState
         ;
         let watch=[], define=[], action=[], count = 0;
+        // Options are per context. Start from the plugin defaults
+        Object.keys ( pluginState.listenOptions ).forEach ( k => delete pluginState.listenOptions[k] )
+        Object.assign ( pluginState.listenOptions, structuredClone ( pluginState.defaultOptions ))
         if ( contextName == null )   return false
         Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {   
                         const isFormEv = regex.test ( shortcutName );
@@ -52,7 +33,7 @@ const
                                                                         options      : pluginState.listenOptions
                                                                 })
                                                         return Object.assign ( res, r )
-                                                }, defaultOptions )
+                                                }, {} )
                                         Object.assign ( pluginState.listenOptions, updateOptions )
                                         return
                                 } 

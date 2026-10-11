@@ -1,12 +1,19 @@
 'use strict'
 
+/**
+ * @function listShortcuts
+ * @description List shortcuts in all contexts or in a specific context
+ * @param {import('../types.js').LibDependencies} dependencies - Library dependencies
+ * @param {import('../types.js').LibState} state - State object containing shortcuts
+ * @returns {function} - Returns a function that lists shortcuts
+ */
 function listShortcuts ( dependencies, state ) {
 const shortcuts = state.shortcuts;
 /**
  *  @function listShortcuts
  *  @description List all shortcuts in all contexts or in a specific context
  *  @param {string|null} [contextName=null] - List of shortcuts for provided context name (optional)
- *  @returns {string[]|contextShortcuts[]|null} - List of shortcuts for a specified context, list of contextShortcuts for all contexts, or null if context doesn't exist
+ *  @returns {string[]|import('../types.js').ContextShortcuts[]|null} - List of shortcuts for a specified context, list of contextShortcuts for all contexts, or null if context doesn't exist
  */
 return function listShortcuts ( contextName=null ) {
     

@@ -3,8 +3,8 @@
 /**
  * @function load
  * @description Load a context with shortcuts object
- * @param {dependencies} dependencies - Dependencies object containing API with changeContext and getContext
- * @param {state} state - State object containing shortcuts and plugins
+ * @param {import('../types.js').LibDependencies} dependencies - Dependencies object containing API with changeContext and getContext
+ * @param {import('../types.js').LibState} state - State object containing shortcuts and plugins
  * @returns {function} - Returns a function that loads shortcuts
  */
 function load ( dependencies, state ) {

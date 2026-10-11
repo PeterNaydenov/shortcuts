@@ -6,16 +6,9 @@
  * @param {Object} dependencies - Dependencies object containing regex
  * @param {Object} pluginState - Plugin state containing currentContext, shortcuts
  * @returns {number} - Number of registered shortcuts
- * 
- * @typedef {Object} KeySetupData
- * @property {Object} dependencies - Extra dependencies object
- * @property {Object} defaults - Default options (clone of pluginState.defaultOptions)
- * @property {Object} options - Plugin state listenOptions (reference to pluginState.listenOptions)
  */
 function _registerShortcutEvents ( dependencies, pluginState ) {
 let count = 0;
-let hasSetup = false
-const df = pluginState.defaultOptions;
 const 
           { regex } = dependencies
         , { 
@@ -24,12 +17,14 @@ const
            } = pluginState
         ;
 
+// Options are per context. Start from the plugin defaults
+Object.keys ( pluginState.listenOptions ).forEach ( k => delete pluginState.listenOptions[k] )
+Object.assign ( pluginState.listenOptions, structuredClone ( pluginState.defaultOptions ))
 if ( contextName == null )   return 0
 Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {   // Enable new context shortcuts and set a listenOptions 'maxSequence'      
                 const isKeyboardEv = regex.test ( shortcutName );
                 if ( !isKeyboardEv ) return
                 if ( shortcutName === 'KEY:SETUP' ) {
-                                hasSetup = true
                                 const updateOptions = list.reduce ( ( res, fn ) => {
                                                 const r = fn ({ 
                                                                 dependencies : dependencies.extra, 
@@ -37,7 +32,7 @@ Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {
                                                                 options      : pluginState.listenOptions 
                                                         })
                                                 return Object.assign ( res, r )
-                                        }, df )
+                                        }, {} )
                                 Object.assign ( pluginState.listenOptions, updateOptions )
                                 return
                     }
@@ -46,7 +41,6 @@ Object.entries ( shortcuts[contextName] ).forEach ( ([shortcutName, list ]) => {
                 if ( pluginState.maxSequence < sequenceArraySize )   pluginState.maxSequence = sequenceArraySize
         })
 
-if ( !hasSetup )   Object.assign ( pluginState.listenOptions, df )
 return count
 } // _registerShortcutEvents func.
 
