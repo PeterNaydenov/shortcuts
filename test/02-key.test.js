@@ -518,4 +518,75 @@ describe ( 'Key plugin', () => {
                           }, { timeout: 1000, interval: 12 })
           }) // it key callback workflow
 
+
+
+    it ( 'Plugin options from enablePlugin are the plugin defaults', async () => {
+                    let setupDefaults = null, actionOptions = null
+                    short.enablePlugin ( pluginKey, { keyWait: 300 })
+                    short.load ({
+                                'local' : {
+                                          'key: setup' : ({ defaults }) => { setupDefaults = defaults }
+                                        , 'key: a'     : ({ options }) => { actionOptions = options }
+                                    }
+                          })
+                    short.changeContext ( 'local' )
+                    expect ( setupDefaults.keyWait ).to.equal ( 300 )
+                    await userEvent.keyboard ( 'a' )
+                    await waitFor ( () => {
+                                expect ( actionOptions.keyWait ).to.equal ( 300 )
+                          }, { timeout: 1000, interval: 12 })
+          }) // it plugin options from enablePlugin
+
+
+
+    it ( 'Setup options apply to their own context only', async () => {
+                    const waits = []
+                    short.enablePlugin ( pluginKey )
+                    short.load ({
+                                  'fast'  : {
+                                              'key: setup' : () => ({ keyWait: 100 })
+                                            , 'key: a'     : ({ options }) => waits.push ( options.keyWait )
+                                        }
+                                , 'plain' : {
+                                              'key: a'     : ({ options }) => waits.push ( options.keyWait )
+                                        }
+                          })
+                    short.changeContext ( 'fast' )
+                    await userEvent.keyboard ( 'a' )
+                    await waitFor ( () => expect ( waits ).to.have.lengthOf ( 1 ), { timeout: 1000, interval: 12 })
+                    short.changeContext ( 'plain' )
+                    await userEvent.keyboard ( 'a' )
+                    await waitFor ( () => expect ( waits ).to.deep.equal ( [ 100, 480 ] ), { timeout: 1000, interval: 12 })
+          }) // it setup options per context
+
+
+
+    it ( 'Stream keys from enablePlugin options and from key:setup', async () => {
+                    const pluginStream = [], setupStream = []
+                    short.enablePlugin ( pluginKey, { streamKeys: ({ key, context }) => pluginStream.push ( `${context}:${key}` ) })
+                    short.load ({
+                                  'streamed' : {
+                                              'key: setup' : () => ({ streamKeys: ({ key }) => setupStream.push ( key ) })
+                                            , 'key: a'     : () => {}
+                                        }
+                                , 'silent'   : {
+                                              'key: setup' : () => ({ streamKeys: false })
+                                            , 'key: a'     : () => {}
+                                        }
+                                , 'default'  : {
+                                              'key: a'     : () => {}
+                                        }
+                          })
+                    short.changeContext ( 'streamed' )
+                    await userEvent.keyboard ( 'a' )
+                    short.changeContext ( 'silent' )
+                    await userEvent.keyboard ( 'a' )
+                    short.changeContext ( 'default' )
+                    await userEvent.keyboard ( 'a' )
+                    await waitFor ( () => {
+                                expect ( setupStream  ).to.deep.equal ( [ 'a' ] )
+                                expect ( pluginStream ).to.deep.equal ( [ 'default:a' ] )
+                          }, { timeout: 1000, interval: 12 })
+          }) // it stream keys
+
 })

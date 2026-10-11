@@ -273,7 +273,22 @@ describe ( "Shortcuts", () => {
                       expect ( short.listShortcuts () ).to.have.lengthOf ( 0 )
                       expect ( short.getContext () ).to.be.null
             }) // it Reset
-        
+
+
+
+        it ( 'onShortcut receives the shortcut name and the action arguments', () => {
+                      const calls = []
+                      const logged = shortcuts ({ onShortcut : ( shortcut, ...args ) => calls.push ({ shortcut, args }) })
+                      logged.load ({ 'logContext' : { 'yo' : () => {} } })
+                      logged.changeContext ( 'logContext' )
+                      logged.emit ( 'yo', 42 )
+                      expect ( calls ).to.have.lengthOf ( 1 )
+                      const [{ shortcut, args }] = calls
+                      expect ( shortcut ).to.equal ( 'yo' )
+                      expect ( args[0].type ).to.equal ( 'custom' )
+                      expect ( typeof args[0].dependencies.emit ).to.equal ( 'function' )
+                      expect ( args[1] ).to.equal ( 42 )
+            }) // it onShortcut
 
 }) // describe
 
