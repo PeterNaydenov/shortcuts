@@ -1,0 +1,10 @@
+.DS_Store
+
+/node_modules
+/.next
+/coverage
+/test/__screenshots__
+.vitest-attachments
+graphify-out/
+
+.vitest/
