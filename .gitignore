@@ -6,3 +6,4 @@
 /test/__screenshots__
 .vitest-attachments
 graphify-out/
+.vitest/
