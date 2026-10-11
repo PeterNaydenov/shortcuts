@@ -41,7 +41,8 @@ Currently existing plugins:
 11. [Errors and the `errorEventName` Channel](#errors-and-the-erroreventname-channel)
 12. [Custom Events & Workflows](#custom-events--workflows)
 13. [TypeScript Support](#typescript-support)
-14. [Links](#links)
+14. [AI Agent Skill](#ai-agent-skill)
+15. [Links](#links)
 
 
 
@@ -93,26 +94,26 @@ See [Shortcut Description Rules](#shortcut-description-rules) for the shape of `
 |---|---|---|---|
 | `onShortcut` | `function` | `false` | Called for every triggered shortcut in the current context (including programmatically emitted events). |
 | `errorEventName` | `string` | `'@shortcuts-error'` | Name of the event on which the library publishes error messages. See [Errors and the `errorEventName` Channel](#errors-and-the-erroreventname-channel). |
-| `streamKeys` | `function` | `false` | Called on every key press while the `key` plugin is active. Equivalent to passing `streamKeys` to `enablePlugin(pluginKey, …)`. |
 
 ```js
 const short = shortcuts ({
-        onShortcut   : ({ shortcut, context }) => console.log ( shortcut, 'in', context )
+        onShortcut   : ( shortcut, data ) => console.log ( shortcut, 'in', data.context )
       , errorEventName : '@my-app-shortcut-errors'
 });
 ```
 
-### `onShortcut({ shortcut, context, note, dependencies })`
+### `onShortcut( shortcut, ...args )`
 ```js
-function onShortcut ({ shortcut, context, note, dependencies }) {
+function onShortcut ( shortcut, ...args ) {
     // shortcut      - (string) Triggered shortcut name (e.g. 'KEY:CTRL+S')
-    // context       - (string) Name of the current context
-    // note          - (string) Name of the note or null if note isn't set
-    // dependencies  - (object) Object with dependencies that you have set by calling `setDependencies` method
+    // args          - The arguments received by the shortcut actions. For plugin events `args[0]` is the event data
+    //                 object with `context`, `note`, `dependencies`, etc. For `emit()` - `{ dependencies, type: 'custom' }`
+    //                 followed by the emit arguments. For the error event - the error message
 }
 ```
 
 ### `streamKeys({ key, context, note, dependencies })`
+Key plugin option. Set it with `enablePlugin(pluginKey, { streamKeys })` or per context with `key:setup`.
 ```js
 function streamKeys ({ key, context, note, dependencies }) {
     // key           - (string) Pressed key name
@@ -1385,6 +1386,26 @@ short.changeContext('myContext');
 ```
 
 The `ShortcutsAPI` interface provides full type safety for all methods and their parameters.
+
+
+
+## AI Agent Skill
+
+The package ships an [Agent Skill](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) in `skills/shortcuts/`. It teaches AI coding agents (Claude Code and other agents that support skills) how to use this library: contexts, plugins, shortcut names, setup, custom events, and common mistakes.
+
+Install it for a project:
+
+```bash
+mkdir -p .claude/skills && cp -r node_modules/@peter.naydenov/shortcuts/skills/shortcuts .claude/skills/
+```
+
+Or for all your projects:
+
+```bash
+mkdir -p ~/.claude/skills && cp -r node_modules/@peter.naydenov/shortcuts/skills/shortcuts ~/.claude/skills/
+```
+
+The skill matches the version of the package it ships with. Copy it again after upgrading.
 
 
 
