@@ -2,6 +2,25 @@
 
 
 
+
+
+
+### 4.2.0 ( 2026-10-11 )
+- [x] AI Agent Skill in `skills/shortcuts/` - teaches AI coding agents how to use the library. See README section 'AI Agent Skill';
+- [x] Fix: Plugin options from `enablePlugin(plugin, options)` were ignored (`keyWait`, `mouseWait`, `clickTarget`, `wait`, `hoverTarget`, `scrollWait`, `endScrollWait`, `minSpace`). They are now the plugin defaults - available as `defaults` in `plugin:setup` and used in every context without setup;
+- [x] Fix: `plugin:setup` results overwrote the plugin defaults, so options from one context leaked into other contexts. Setup options now apply to their own context only;
+- [x] Docs: `onShortcut` signature is `onShortcut ( shortcutName, ...args )` - the arguments received by the triggered actions follow the shortcut name. README and API.md described an object argument;
+- [x] `key:setup` can set `streamKeys` for its context, or switch it off with `streamKeys: false`;
+- [x] Docs: `streamKeys` is a key plugin option, not a `shortcuts()` option. Click plugin option `streamKeys` is deprecated - it was never used;
+- [x] Fix: Plugin type declarations (`dist/plugins/*/index.d.ts`) referenced `PluginAPI` without importing it — errors with `skipLibCheck: false`, silent `any` otherwise;
+- [x] Removed outdated `dist/src/` type declarations left over from an older build;
+- [x] Types: All type definitions are collected in `src/types.js` and exported from the package (`import type { ClickEventData, ShortcutsAPI, ... } from '@peter.naydenov/shortcuts'`);
+- [x] Types: `load` checks the shortcut definition. Action data is typed by the shortcut name — `'key: ...'` receives `KeyEventData`, `'click: ...'` receives `ClickEventData`, setup actions receive `SetupData` and must return plugin options, `'form: action'` must return `FormAction[]`. Names that don't belong to a plugin stay free (custom events);
+- [x] Types: `enablePlugin` checks plugin options against the plugin. `listShortcuts` returns `ContextShortcuts[]` without arguments and `string[] | null` for a context name. `getDependencies` returns typed `Dependencies` with `emit`;
+- [x] Types: Event data has precise types - `target: HTMLElement`, `event: MouseEvent`, `viewport`, `sizes`, `position`, literal `type`, typed `options` per plugin;
+
+
+
 ### 4.1.6 ( 2026-10-11 )
 - [x] Fix: Click plugin threw `hasAttribute is not a function` on a click in empty space below short page content. The target search started at `<html>`, climbed to `document` and called `hasAttribute` on it. Target search in click and hover plugins now stops at `<body>`, at non-element nodes, and when there is no target;
 
