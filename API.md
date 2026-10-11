@@ -30,8 +30,8 @@ Creates a new shortcuts instance with optional configuration.
 import { shortcuts } from '@peter.naydenov/shortcuts'
 
 const short = shortcuts({
-    onShortcut: ({ shortcut, context, note }) => {
-        console.log(`Shortcut triggered: ${shortcut} in context: ${context}`)
+    onShortcut: (shortcut, data) => {
+        console.log(`Shortcut triggered: ${shortcut} in context: ${data.context}`)
     }
 })
 ```
@@ -394,7 +394,6 @@ Handles mouse click events.
 interface ClickPluginOptions {
     mouseWait?: number;           // Timeout for multiple clicks (default: 320ms)
     clickTarget?: string[];       // Target attributes (default: ['data-click', 'href'])
-    streamKeys?: Function;        // Keyboard stream function
 }
 ```
 
@@ -678,19 +677,20 @@ interface FormActionData {
 
 ```typescript
 interface GlobalOptions {
-    onShortcut?: Function;    // Global shortcut callback
+    onShortcut?: (shortcut: string, ...args: any[]) => void;    // Global shortcut callback
 }
 ```
 
 #### onShortcut Callback
 
 ```typescript
-function onShortcut({ 
-    shortcut,      // string: Triggered shortcut name
-    context,       // string: Current context
-    note,          // string | null: Current note
-    dependencies   // Object: External dependencies
-}) {
+function onShortcut(
+    shortcut: string,   // Triggered shortcut name (e.g. 'KEY:CTRL+S')
+    ...args: any[]      // Arguments received by the shortcut actions.
+                        // Plugin events: args[0] is the event data ({ context, note, dependencies, ... })
+                        // emit(): { dependencies, type: 'custom' } followed by the emit arguments
+                        // Error event: the error message
+) {
     // Handle shortcut trigger
 }
 ```
@@ -759,13 +759,12 @@ declare function shortcuts(options?: GlobalOptions): ShortcutsAPI;
 ```typescript
 interface KeyPluginOptions {
     keyWait?: number;
-    streamKeys?: ((key: string) => void) | false;
+    streamKeys?: ((data: { key: string, context: string, note: string | null, dependencies: object }) => void) | false;
 }
 
 interface ClickPluginOptions {
     mouseWait?: number;
     clickTarget?: string[];
-    streamKeys?: ((key: string) => void) | false;
 }
 
 interface HoverPluginOptions {
@@ -817,8 +816,8 @@ short.changeContext('editor')
 
 ```javascript
 const short = shortcuts({
-    onShortcut: ({ shortcut, context }) => {
-        console.log(`${shortcut} triggered in ${context}`)
+    onShortcut: (shortcut, data) => {
+        console.log(`${shortcut} triggered in ${data.context}`)
     }
 })
 
